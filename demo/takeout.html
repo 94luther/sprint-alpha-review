@@ -1,0 +1,280 @@
+<title>Sprint Takeout</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+  /* Sprint OS theme, lifted from Sprint-OS/apps/shared/sprint-theme.css: deep green into amber with
+     soft glows, smoky glass panels, bone text, white pill buttons with dark green type. */
+  :root{
+    --bone:#F4F7F5; --dim:#A7B5AE; --green:#3AAA35; --orange:#F7941D; --red:#FF6B61;
+    --glass:rgba(8,28,20,.40); --glass2:rgba(255,255,255,.07); --edge:rgba(255,255,255,.26);
+    --shadow:0 22px 54px -24px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.12);
+    --r:22px;
+  }
+  *{box-sizing:border-box}
+  html{background:#0B3D2E}
+  body{margin:0;color:var(--bone);min-height:100vh;
+    font:15px/1.4 Inter,"Segoe UI",system-ui,-apple-system,Arial,sans-serif;-webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(520px 440px at 16% 10%, rgba(140,235,150,.42), transparent 62%),
+      radial-gradient(420px 420px at 84% 26%, rgba(255,255,255,.26), transparent 60%),
+      radial-gradient(760px 640px at 90% 94%, rgba(247,148,29,.85), transparent 58%),
+      radial-gradient(400px 400px at 26% 80%, rgba(255,176,70,.30), transparent 60%),
+      linear-gradient(155deg,#0B3D2E 0%,#176B45 36%,#2A9257 56%,#8A5A1E 82%,#B8671A 100%);
+    background-attachment:fixed}
+
+  .hd{max-width:1180px;margin:0 auto;padding:26px 18px 0;text-align:center}
+  .hd .mk{font-weight:900;letter-spacing:.16em;font-size:12px;color:#BFF0B8}
+  .hd h1{margin:8px 0 0;font-size:30px;font-weight:900;letter-spacing:-.7px}
+  .hd p{margin:9px auto 0;max-width:58ch;color:var(--dim);font-size:14px}
+
+  .stage{max-width:1180px;margin:0 auto;padding:26px 18px 60px;
+         display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:36px;align-items:start}
+  @media (max-width:900px){ .stage{grid-template-columns:minmax(0,1fr);gap:22px} }
+
+  /* ---------- the device, glass ---------- */
+  .device{background:rgba(0,0,0,.55);border-radius:44px;padding:10px;box-shadow:0 34px 70px rgba(0,0,0,.5);
+          position:sticky;top:22px;width:100%;max-width:400px;margin:0 auto;min-width:0;border:1px solid var(--edge)}
+  .app{border-radius:36px;overflow:hidden;height:794px;display:flex;flex-direction:column;min-width:0;
+       background:linear-gradient(170deg,rgba(11,61,46,.92),rgba(23,107,69,.88) 45%,rgba(138,90,30,.86));
+       backdrop-filter:blur(22px) saturate(150%)}
+  .sysbar{display:flex;justify-content:space-between;padding:12px 24px 4px;font-size:12px;font-weight:600;color:var(--dim)}
+  .scroll{flex:1;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden}
+  .scroll::-webkit-scrollbar{width:0}
+
+  .topbar{display:flex;align-items:center;gap:10px;padding:6px 16px 12px}
+  .addr{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px}
+  .addr svg{width:13px;height:13px}
+  .seg{margin-left:auto;background:var(--glass);border:1px solid var(--edge);border-radius:22px;padding:3px;display:flex}
+  .seg button{border:none;background:none;border-radius:20px;padding:7px 14px;font:700 13px Inter;color:var(--dim);cursor:pointer}
+  .seg button.on{background:#fff;color:#0E2F22}
+
+  .searchbar{margin:0 16px 12px;background:var(--glass);border:1px solid var(--edge);border-radius:26px;
+             padding:12px 16px;display:flex;align-items:center;gap:10px;color:var(--dim);font-size:14.5px}
+  .searchbar svg{width:17px;height:17px;flex:none}
+
+  .rail{display:flex;min-width:0;gap:9px;overflow-x:auto;padding:0 16px 14px;scrollbar-width:none}
+  .rail::-webkit-scrollbar{height:0}
+  .chip{flex:none;background:var(--glass2);border:1px solid var(--edge);border-radius:22px;padding:9px 15px;
+        font:700 13px Inter;color:var(--bone);white-space:nowrap;cursor:pointer}
+  .chip.on{background:#fff;color:#0E2F22;border-color:#fff}
+
+  /* ---------- brand tiles: colour and wordmark, never a fabricated logo ---------- */
+  .brands{display:flex;min-width:0;gap:12px;overflow-x:auto;padding:2px 16px 6px;scrollbar-width:none}
+  .brands::-webkit-scrollbar{height:0}
+  .brand{flex:none;width:82px;text-align:center;cursor:pointer}
+  .brand i{display:grid;place-items:center;width:82px;height:82px;border-radius:20px;margin-bottom:6px;
+           font-style:normal;font-weight:900;letter-spacing:-.5px;box-shadow:0 10px 24px rgba(0,0,0,.35);
+           border:1px solid rgba(255,255,255,.18);line-height:1.05;padding:6px;text-align:center}
+  .brand span{display:block;font-size:11.5px;font-weight:600;color:var(--bone)}
+  .brand small{display:block;font-size:10px;color:var(--dim)}
+  .brandnote{padding:0 16px 14px;font-size:11.5px;color:var(--dim);line-height:1.45}
+
+  .sec{padding:6px 16px 8px;display:flex;align-items:center;gap:10px}
+  .sec h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.5px}
+  .sec .go{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--glass2);
+           border:1px solid var(--edge);display:grid;place-items:center;flex:none}
+  .sec .go svg{width:15px;height:15px}
+
+  .cards{display:flex;min-width:0;gap:14px;overflow-x:auto;padding:4px 16px 20px;scrollbar-width:none}
+  .cards::-webkit-scrollbar{height:0}
+  .shop{flex:none;width:250px;background:var(--glass);border:1px solid var(--edge);border-radius:var(--r);
+        box-shadow:var(--shadow);overflow:hidden;cursor:pointer}
+  .shot{height:120px;display:grid;place-items:center;font-size:30px;font-weight:900;letter-spacing:-.6px;
+        position:relative;padding:10px;text-align:center;line-height:1.05}
+  .promo{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.92);color:#0E2F22;
+         border-radius:7px;padding:5px 9px;font:700 11px Inter}
+  .shopbody{padding:11px 13px 13px}
+  .shopbody b{display:block;font-size:15px;font-weight:800;letter-spacing:-.25px}
+  .meta{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:3px}
+  .badge{width:15px;height:15px;border-radius:50%;background:var(--green);display:grid;place-items:center;
+         color:#fff;font:800 9px Inter;flex:none}
+  .tbc{color:var(--orange);font-style:italic}
+  .row2{font-size:12.5px;color:var(--dim);margin-top:3px}
+
+  .cta{margin:14px 16px;background:#fff;color:#0E2F22;border-radius:30px;padding:15px;text-align:center;
+       font:800 15px Inter;cursor:pointer;box-shadow:0 12px 26px rgba(0,0,0,.35)}
+  .cta.ghost{background:var(--glass2);color:var(--bone);border:1px solid var(--edge);box-shadow:none}
+
+  .tabbar{display:flex;border-top:1px solid var(--edge);background:rgba(0,0,0,.28);padding:9px 0 13px}
+  .tab{flex:1;text-align:center;font-size:10.5px;font-weight:700;color:var(--dim)}
+  .tab.on{color:#fff}
+  .tab i{display:block;font-size:19px;font-style:normal;margin-bottom:2px;opacity:.55}
+  .tab.on i{opacity:1}
+
+  /* ---------- the rail ---------- */
+  .side{display:flex;flex-direction:column;gap:14px}
+  .panel{background:var(--glass);border:1px solid var(--edge);border-radius:var(--r);padding:18px 20px;
+         box-shadow:var(--shadow);backdrop-filter:blur(22px) saturate(150%)}
+  .panel h3{margin:0 0 7px;font-size:16px;font-weight:800;letter-spacing:-.3px}
+  .panel p{margin:0 0 9px;font-size:13.5px;color:var(--dim);line-height:1.6}
+  .panel p:last-child{margin-bottom:0}
+  .panel b{color:var(--bone);font-weight:700}
+  .tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;
+       color:#0E2F22;background:#BFF0B8;border-radius:20px;padding:4px 10px;margin-bottom:9px}
+  .tag.amber{background:#FFD9A8;color:#5A3305}
+  cite{font-style:normal;border-bottom:1px dotted rgba(255,255,255,.45);cursor:help}
+</style>
+
+<div class="hd">
+  <div class="mk">SPRINT COURIERS</div>
+  <h1>Takeout, in the Sprint OS colours</h1>
+  <p>The same engine and the same rules, dressed the way the office already sees Sprint OS. Brands
+    below are the ones on Gaborone's streets, drawn in their own colours until each supplies its logo.</p>
+</div>
+
+<div class="stage">
+
+  <div class="device">
+   <div class="app">
+    <div class="sysbar"><span id="clock">19:12</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+    <div class="scroll">
+
+      <div class="topbar">
+        <div class="addr">Plot 22418, Block 9
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4F7F5" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="seg"><button class="on">Deliver</button><button>Collect</button></div>
+      </div>
+
+      <div class="searchbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#A7B5AE" stroke-width="2.4">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        Seswaa, magwinya, a braai pack
+      </div>
+
+      <div class="rail" id="chips"></div>
+
+      <div class="sec"><h2>Kitchens with no app</h2>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#F4F7F5" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="brands" id="brands"></div>
+      <div class="brandnote">The chains and the sit down places are already on other apps. <b style="color:var(--bone)">These are the
+        kitchens nobody has put online</b>, and none has signed yet, so no real business is named until it does.</div>
+
+      <div class="sec"><h2>Open now near you</h2>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#F4F7F5" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="cards" id="shops"></div>
+
+      <div class="cta" id="runorder">Watch a real order run</div>
+      <div class="cta ghost" id="seehome">See the plain home screen</div>
+      <div style="height:8px"></div>
+    </div>
+
+    <div class="tabbar">
+      <div class="tab on"><i>&#127828;</i>Takeout</div>
+      <div class="tab"><i>&#128722;</i>Shops</div>
+      <div class="tab"><i>&#128230;</i>Send</div>
+      <div class="tab"><i>&#128220;</i>Orders</div>
+      <div class="tab"><i>&#128100;</i>Account</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="side">
+    <div class="panel">
+      <span class="tag amber">The market that matters</span>
+      <h3>Spur, Bull and Bush, The Pond are already online.</h3>
+      <p>The chains and the sit down restaurants are on Wanzy and Zebras already. Fighting for them is
+        fighting for the part of the market somebody else has built. <b>The braai spot, the home kitchen,
+        the tuckshop and the lunch counter have no app at all</b>, and a printer at the fire plus a rider
+        network is exactly what they cannot build for themselves.</p>
+      <p>No real business is named until it signs. Each tile is a kind of kitchen, in a colour, and the
+        real name and logo drop in the day the first one does.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag">The Sprint OS theme</span>
+      <h3>Same colours the office already lives in.</h3>
+      <p>Deep green into amber, glass panels, white pill buttons with dark green type. Lifted directly from
+        <b>Sprint OS</b> so the customer app and the office console read as one company.</p>
+      <p>The plain white version is one link away if the IT department prefers it.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag">Real numbers only</span>
+      <h3>Every fee says to confirm.</h3>
+      <p>No takeout delivery fee has been set anywhere. Parcels have a signed rate card,
+        <cite title="0.5 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10">P87.00</cite> for half a kilo,
+        but a hot meal across town is a different price and it is <b>Barbara's cost lines</b> that set it.
+        Until then the screen refuses to guess.</p>
+      <p>The time promise is real: <cite title="Brick 20 and the MD pack, nine in ten inside 45 minutes">45 minutes</cite>,
+        and the shop must accept within <cite title="ACCEPT_WITHIN_SECONDS in api/src/orders/till.ts">two minutes</cite>.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag amber">Still missing</span>
+      <h3>Ratings, photos, and a single signed restaurant.</h3>
+      <p>No star ratings, because Sprint has never collected one. No food photographs, because there are
+        none on file. And no restaurant has agreed to anything yet, so <b>every card here is a brand on the
+        street, not a merchant on the platform.</b> Signing the first five is brick 39.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  var CHIPS = [['Open now', true], ['Under 45 min', false], ['Chicken', false], ['Burgers', false],
+               ['Pizza', false], ['Halal', false], ['Braai', false]];
+  $('chips').innerHTML = CHIPS.map(function(c){
+    return '<button class="chip' + (c[1] ? ' on' : '') + '">' + c[0] + '</button>';
+  }).join('');
+  $('chips').onclick = function(e){ var b = e.target.closest('.chip'); if (b) b.classList.toggle('on'); };
+
+  /* The chains and the sit down places (Spur, Bull and Bush, The Pond, and the like) are already on
+     other apps. Luther, spoken 13 Sep 2026. Showing them is showing the wrong market. These are the
+     KINDS of kitchen with no app at all, named by what they are, because none has signed yet and no
+     real business is named until it does. */
+  var BRANDS = [
+    {name:'Braai',      bg:'#7A2E12', fg:'#FFD9A8', tag:'Seswaa, chops'},
+    {name:'Home kitchen', bg:'#2F6B3A', fg:'#E8F5E9', tag:'Plated lunches'},
+    {name:'Tuckshop',   bg:'#F7941D', fg:'#1A1A1A', tag:'Magwinya, drinks'},
+    {name:'Bakery',     bg:'#C9A063', fg:'#3A2410', tag:'Bread, pies'},
+    {name:'Lunch counter', bg:'#1F4E79', fg:'#fff', tag:'Main Mall'},
+    {name:'Caterer',    bg:'#5B2A86', fg:'#F3E3FF', tag:'Office orders'},
+    {name:'Fish & chips', bg:'#0E6E8C', fg:'#fff', tag:'Friday'},
+    {name:'Butchery',   bg:'#A3121E', fg:'#fff', tag:'Braai packs'}
+  ];
+  $('brands').innerHTML = BRANDS.map(function(b){
+    var size = b.name.length > 10 ? 12 : (b.name.length > 6 ? 14 : 17);
+    return '<div class="brand"><i style="background:' + b.bg + ';color:' + b.fg + ';font-size:' + size + 'px">' +
+      b.name + '</i><span>' + b.name + '</span><small>' + b.tag + '</small></div>';
+  }).join('');
+
+  var SHOPS = [
+    {bg:'#7A2E12', fg:'#FFD9A8', name:'A braai spot', where:'Mogoditshane', mins:'45 min', promo:'No app of their own',
+     extra:'Orders arrive on a printer at the fire, accepted in two minutes'},
+    {bg:'#2F6B3A', fg:'#E8F5E9', name:'A home kitchen', where:'Block 8', mins:'45 min', promo:null,
+     extra:'Plated lunches for offices, ordered before ten'},
+    {bg:'#F7941D', fg:'#1A1A1A', name:'A tuckshop', where:'Old Naledi', mins:'45 min', promo:null,
+     extra:'Cash at the door, counted by the rider app'},
+    {bg:'#1F4E79', fg:'#fff', name:'A lunch counter', where:'Main Mall', mins:'45 min', promo:null,
+     extra:'Photographed at your door, every time'}
+  ];
+  $('shops').innerHTML = SHOPS.map(function(s){
+    return '<div class="shop">' +
+      '<div class="shot" style="background:' + s.bg + ';color:' + s.fg + '">' + s.name +
+        (s.promo ? '<span class="promo">' + s.promo + '</span>' : '') + '</div>' +
+      '<div class="shopbody"><b>' + s.name + ', ' + s.where + '</b>' +
+      '<div class="meta"><span class="badge">S</span><span class="tbc">fee to confirm</span> &#183; ' + s.mins + '</div>' +
+      '<div class="row2">' + s.extra + '</div></div></div>';
+  }).join('');
+
+  $('runorder').onclick = function(){ window.open('order.html', '_blank'); };
+  $('seehome').onclick  = function(){ window.open('home.html', '_blank'); };
+
+  var seg = document.querySelector('.seg');
+  seg.onclick = function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    Array.prototype.forEach.call(seg.querySelectorAll('button'), function(x){ x.className = ''; });
+    b.className = 'on';
+  };
+
+  function tick(){
+    var d = new Date();
+    $('clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  tick(); setInterval(tick, 20000);
+})();
+</script>

@@ -1,0 +1,709 @@
+<title>Sprint Delivery Engine</title>
+<style>
+  :root{
+    --ink:#131311; --ink2:#1c1c19; --line:#2e2e28; --bone:#F4F4F1; --dim:#8b8b82;
+    --green:#3AAA35; --green-d:#2A7D27; --orange:#F7941D; --red:#c8102e; --blue:#4a86c7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--bone);
+       font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px 80px}
+  header{padding:34px 0 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0;font-size:30px;letter-spacing:-.5px}
+  h1 em{font-style:normal;color:var(--green)}
+  .sub{color:var(--dim);margin-top:8px;font-size:14px}
+  .real{display:inline-block;margin-top:14px;border:1px solid var(--green-d);color:var(--green);
+        padding:7px 13px;border-radius:4px;font-size:12.5px;letter-spacing:.4px}
+  section{margin-top:44px;border-top:1px solid var(--line);padding-top:26px}
+  section:first-of-type{border-top:0}
+  h2{font-size:19px;margin:0 0 4px}
+  h2 span{color:var(--dim);font-weight:400;font-size:13px;margin-left:9px}
+  .why{color:var(--dim);margin:0 0 18px;max-width:74ch;font-size:14px}
+  .row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  button{background:var(--ink2);color:var(--bone);border:1px solid var(--line);
+         padding:8px 13px;border-radius:4px;cursor:pointer;font:inherit;font-size:13.5px}
+  button:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+  button.warn:hover:not(:disabled){border-color:var(--orange);color:var(--orange)}
+  button:disabled{opacity:.32;cursor:not-allowed}
+  /* must out rank the hover rule above, or a selected button you are hovering goes green on green */
+  button.on, button.on:hover:not(:disabled){background:var(--green);color:#08210a;
+    border-color:var(--green);font-weight:600}
+  .out{background:var(--ink2);border-left:3px solid var(--green);padding:12px 15px;
+       border-radius:0 4px 4px 0;margin-top:12px;font-size:14px}
+  .out.bad{border-left-color:var(--red)}
+  .out.warn{border-left-color:var(--orange)}
+  .muted{color:var(--dim);font-size:13px}
+  .meters{display:flex;gap:22px;flex-wrap:wrap;margin:14px 0 4px}
+  .meter b{display:block;font-size:23px;color:var(--green);line-height:1.1}
+  .meter.zero b{color:var(--green)}
+  .meter span{color:var(--dim);font-size:12px}
+  svg{width:100%;height:auto;display:block;margin:10px 0 4px}
+  .node rect{fill:var(--ink2);stroke:var(--line);stroke-width:1.5}
+  .node.now rect{fill:var(--green);stroke:var(--green)}
+  .node.now text{fill:#08210a;font-weight:700}
+  .node.next rect{stroke:var(--orange);stroke-width:2}
+  .node.end rect{stroke-dasharray:4 3}
+  .node text{fill:var(--bone);font-size:10.5px;text-anchor:middle;pointer-events:none}
+  .node.next text{fill:var(--orange)}
+  .edge{stroke:var(--orange);stroke-width:1.6;fill:none;marker-end:url(#a)}
+  .lane{fill:var(--dim);font-size:10px;letter-spacing:1px}
+  label{display:block;color:var(--dim);font-size:12.5px;margin:10px 0 3px}
+  input[type=range]{width:230px;vertical-align:middle;accent-color:var(--green)}
+  input[type=number],select{background:var(--ink2);color:var(--bone);border:1px solid var(--line);
+    padding:7px 9px;border-radius:4px;font:inherit;width:130px}
+  .bar{height:24px;background:#232320;border-radius:3px;overflow:hidden;margin:6px 0}
+  .bar i{display:block;height:100%;background:var(--green)}
+  .bar i.over{background:var(--red)}
+  .bar i.short{background:var(--orange)}
+  table{border-collapse:collapse;width:100%;margin-top:10px;font-size:13.5px}
+  th{text-align:left;color:var(--dim);font-weight:500;border-bottom:1px solid var(--line);padding:7px 9px;font-size:12px}
+  td{border-bottom:1px solid #202019;padding:8px 9px}
+  td.n{text-align:right;font-variant-numeric:tabular-nums}
+  .stack{display:flex;height:26px;border-radius:3px;overflow:hidden;margin:10px 0 4px}
+  .stack i{display:block;height:100%}
+  .key{display:flex;gap:16px;flex-wrap:wrap;color:var(--dim);font-size:12px;margin-top:6px}
+  .key b{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  code{background:#232320;padding:1px 5px;border-radius:3px;font-size:12.5px}
+  @media(max-width:700px){ .wrap{padding:0 14px 60px} h1{font-size:24px} input[type=range]{width:100%} }
+</style>
+
+<div class="wrap">
+<header>
+  <h1>The Sprint delivery <em>engine</em></h1>
+  <div class="sub">Groceries, medicines, liquor and parcels. Everything on this page is driven by the
+    real engine code, not a mock of it. Every refusal you see is the same refusal a rider would get
+    at a real door.</div>
+  <div class="real" id="realbadge">checking the engine…</div>
+</header>
+
+<section>
+  <h2>An order can never get stuck <span>the thing the review said would collapse operations</span></h2>
+  <p class="why">The old order flow had six steps and every one assumed nothing went wrong. An order
+    that hit trouble had nowhere to go and simply sat there. Try to break this one. Make the rider
+    break down, make the shop run out, make nobody answer the door. It always has a next step.</p>
+  <div class="meters">
+    <div class="meter"><b id="m-states">0</b><span>states</span></div>
+    <div class="meter"><b id="m-moves">0</b><span>ways to move</span></div>
+    <div class="meter zero"><b id="m-dead">0</b><span>dead ends</span></div>
+    <div class="meter zero"><b id="m-orphan">0</b><span>orphan states</span></div>
+  </div>
+  <svg id="map" viewBox="0 0 960 400" role="img" aria-label="The order state map">
+    <defs><marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#F7941D"/></marker></defs>
+    <text class="lane" x="6" y="60">WHEN IT GOES WRONG</text>
+    <text class="lane" x="6" y="196">THE WAY IT SHOULD GO</text>
+    <text class="lane" x="6" y="330">MONEY AND RETURNS</text>
+  </svg>
+  <div id="now" class="out"></div>
+  <div class="row" id="events"></div>
+  <div class="muted" id="history"></div>
+</section>
+
+<section>
+  <h2>Proof at the door <span>and the identity number that is never written down</span></h2>
+  <p class="why">Every delivery leaves a photograph of the parcel. Liquor needs a document checked.
+    A prescription needs the document and a code the customer reads out. Try to skip a step.</p>
+  <div class="row">
+    <button data-hv="ordinary" class="on">Ordinary parcel</button>
+    <button data-hv="liquor">Liquor</button>
+    <button data-hv="prescription">Prescription</button>
+  </div>
+  <div class="row">
+    <button id="hv-photo" class="on">Photo of the parcel</button>
+    <button id="hv-person" class="warn">Photo of the person</button>
+    <button id="hv-code">Code checked</button>
+    <button id="hv-id">Document checked</button>
+  </div>
+  <label for="hv-name">Name the rider types for who received it</label>
+  <input id="hv-name" type="text" value="Neo Kgosi" style="width:230px;background:#1c1c19;color:#F4F4F1;border:1px solid #2e2e28;padding:7px 9px;border-radius:4px;font:inherit">
+  <div id="hv-out" class="out"></div>
+</section>
+
+<section>
+  <h2>Sending a parcel <span>priced from the signed contract, page 10</span></h2>
+  <p class="why">This is the half neither competitor has. The prices come out of the signed rate
+    card itself, read by word position, not from anybody's copy of it. A weight or zone with no
+    contract price is refused rather than estimated.</p>
+  <label>Weight <b id="pw" style="color:var(--bone)">5.0</b> kg</label>
+  <input id="parcel-kg" type="range" min="0.5" max="30" step="0.5" value="5">
+  <div class="row" id="zones">
+    <button data-z="1" class="on">Zone 1</button><button data-z="2">Zone 2</button>
+    <button data-z="3">Zone 3</button><button data-z="4">Zone 4</button>
+  </div>
+  <div class="bar"><i id="parcel-bar" style="width:20%"></i></div>
+  <div id="parcel-out" class="out"></div>
+</section>
+
+<section>
+  <h2>Cash that counts <span>the number nobody at Sprint has ever measured</span></h2>
+  <p class="why">The change calculator is the easy half. The half that matters is the count at the
+    end of a shift against what the orders say should be there. Put a wrong number in and watch what
+    happens.</p>
+  <label>Order total, pula</label><input id="c-total" type="number" value="87" min="1">
+  <label>Customer pays with</label>
+  <select id="c-note"><option value="10000">P100</option><option value="20000">P200</option>
+    <option value="5000">P50</option><option value="2000">P20</option></select>
+  <div id="c-change" class="out"></div>
+  <label>Counted back at the end of the shift, pula</label><input id="c-counted" type="number" value="100">
+  <div class="bar"><i id="c-bar" style="width:50%"></i></div>
+  <div id="c-recon" class="out"></div>
+</section>
+
+<section>
+  <h2>An address that gets better every time <span>Gaborone has no street grid</span></h2>
+  <p class="why">The customer types it. The rider who actually finds the door confirms or corrects
+    it, standing there. Two failed finds and it stops being used until somebody changes something.</p>
+  <div class="row">
+    <button id="ap-confirm">A rider found it and confirmed</button>
+    <button id="ap-correct">A rider corrected it at the door</button>
+    <button id="ap-fail" class="warn">A rider could not find it</button>
+    <button id="ap-repair">The customer fixes it</button>
+    <button id="ap-reset">Start again</button>
+  </div>
+  <div id="ap-out" class="out"></div>
+  <div id="ap-rider" class="out"></div>
+</section>
+
+<section>
+  <h2>What the customer sees while they wait <span>the review ruled on this twice</span></h2>
+  <p class="why">A time window, never a countdown. The address checked once, early, while there is
+    still time to fix it. The map last, and only when there is a rider to follow. Change the state
+    above and this changes with it.</p>
+  <div id="tr-out"></div>
+</section>
+
+<section>
+  <h2>The ops tower <span>every question a director asks, that nothing shows today</span></h2>
+  <p class="why">This board leads with what needs a person, never with a total. A dashboard that
+    opens with revenue teaches people to scroll past the order that has been sitting for an hour.
+    Everything here is computed from the state of each order and the fault already recorded on it.</p>
+  <div id="ops-one" class="out bad"></div>
+  <div class="meters" id="ops-shape"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">Stuck right now, worst first</h3>
+  <div id="ops-q"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">Per rider, by name, failures split by whose fault</h3>
+  <div id="ops-riders"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">Per merchant, the one quietly costing money first</h3>
+  <div id="ops-merchants"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">Where the money leaked, and whose fault it was</h3>
+  <div id="ops-leak"></div>
+  <div id="ops-reach" class="out"></div>
+</section>
+
+<section>
+  <h2>The merchant till <span>where delivery apps actually lose orders</span></h2>
+  <p class="why">Nobody loses an order in the app. They lose it at the counter, where the order
+    arrives on a phone nobody is holding and a rider turns up twenty minutes later to a shop that
+    has picked nothing. The promise is two minutes to accept. What makes that mean something is the
+    line below: a shop that has not accepted and a till that is switched off look identical on every
+    other delivery dashboard, and they are two different phone calls to two different people.</p>
+  <label>How long the order has been sitting at the counter: <b id="tl-secs" style="color:var(--bone)">30 seconds</b></label>
+  <input id="tl-time" type="range" min="0" max="660" step="15" value="30">
+  <div class="row" id="tl-pick"></div>
+  <div id="tl-out" class="out"></div>
+  <div id="tl-disp" class="out"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">What happens next, and who does it</h3>
+  <div id="tl-ladder"></div>
+  <h3 style="font-size:14px;margin:18px 0 0;color:var(--dim)">Every till Sprint owns, broken ones first</h3>
+  <div id="tl-wall"></div>
+</section>
+
+<section>
+  <h2>Liquor, by the merchant's own licence <span>the app does not pretend to know the law</span></h2>
+  <p class="why">Botswana's Trade Act repealed the old liquor statute and the one that replaced it
+    is not on this machine. A trading hour invented by a delivery company is an offence waiting to
+    happen. So the shop's own licence is the rule, and the app enforces exactly what it says. The
+    time that matters is when it <b>arrives</b>, not when it was ordered.</p>
+  <label>It would arrive at <b id="lq-when" style="color:var(--bone)">Monday 12:00</b></label>
+  <input id="lq-time" type="range" min="0" max="167" step="1" value="36">
+  <div class="row">
+    <button id="lq-have" class="on">Licence on file</button>
+    <button id="lq-none" class="warn">No licence on file</button>
+    <button id="lq-expired" class="warn">Licence expired</button>
+  </div>
+  <div id="lq-out" class="out"></div>
+  <div id="lq-exp" class="out"></div>
+</section>
+
+<section>
+  <h2>A rider with no signal <span>most of this country has none</span></h2>
+  <p class="why">A rider does not stop working because a bar disappeared. They still hand the
+    parcel over, still take the cash, still photograph the door. Turn the signal off, do a few
+    deliveries, then turn it back on. Nothing is ever thrown away, not even when the office
+    refuses it.</p>
+  <div class="row">
+    <button id="off-signal" class="on">Signal is on</button>
+    <button id="off-hand">Hand over a parcel</button>
+    <button id="off-cash">Take the cash</button>
+    <button id="off-addr">Confirm the address</button>
+    <button id="off-refuse" class="warn">Make the office refuse everything</button>
+    <button id="off-reset">Start again</button>
+  </div>
+  <div id="off-rider" class="out"></div>
+  <div id="off-list"></div>
+</section>
+
+<section>
+  <h2>The bank's monthly invoice <span>where the money already is</span></h2>
+  <p class="why">A bank does not pay per delivery at a gate. It orders against an account, splits
+    the cost across its own departments, and pays one invoice a month. An order with no department
+    on it stops the invoice rather than hiding inside it.</p>
+  <div class="stack" id="inv-stack"></div>
+  <div class="key" id="inv-key"></div>
+  <div id="inv-out"></div>
+</section>
+
+<section>
+  <h2 style="font-size:16px">What is not here</h2>
+  <p class="why">This is the engine, not the product. There is no camera, no rider phone, no live
+    map and no payment provider connected. WhatsApp ordering needs a business account that nobody
+    at Sprint owns yet. The waybill a branch would scan does not exist. Those are named on the build
+    wall with a person against each one, rather than quietly left out of a demo.</p>
+</section>
+</div>
+
+<script src="engine.bundle.js"></script>
+<script>
+(function () {
+  var E = window.Engine;
+  var $ = function (id) { return document.getElementById(id); };
+  if (!E) { $('realbadge').textContent = 'the engine did not load'; return; }
+
+  /* ---------- badge + meters, computed from the engine itself ---------- */
+  var dead = E.machine.deadEnds().length, orphan = E.machine.unreachable().length;
+  $('m-states').textContent = Object.keys(E.machine.STATES).length;
+  $('m-moves').textContent = E.machine.TRANSITIONS.length;
+  $('m-dead').textContent = dead;
+  $('m-orphan').textContent = orphan;
+  $('realbadge').textContent = 'Running the real engine: ' + E.machine.TRANSITIONS.length +
+    ' moves, ' + dead + ' dead ends, ' + orphan + ' orphan states, all computed live on this page';
+
+  /* ---------- the state map ---------- */
+  var POS = {
+    payment_failed:[150,55], stock_problem:[430,55], address_problem:[640,55], customer_absent:[780,55],
+    placed:[60,175], paid:[160,175], dispatch_offered:[275,175], dispatch_accepted:[400,175],
+    at_merchant:[520,175], picked_up:[625,175], at_door:[730,175], delivered:[830,175],
+    rider_failed:[300,305], returning:[625,305], returned:[720,305], refund_due:[820,305],
+    cancelled:[60,305], closed:[910,305]
+  };
+  var W = 96, H = 34, svg = $('map'), state = 'placed', hist = [];
+
+  function draw() {
+    var next = {}, edges = [];
+    E.machine.transitionsFrom(state).forEach(function (t) { next[t.to] = 1; edges.push(t.to); });
+    var out = svg.innerHTML.split('<text class="lane"')[0];
+    var lanes = '<text class="lane" x="6" y="30">WHEN IT GOES WRONG</text>' +
+                '<text class="lane" x="6" y="150">THE WAY IT SHOULD GO</text>' +
+                '<text class="lane" x="6" y="280">MONEY AND RETURNS</text>';
+    var arrows = '';
+    edges.forEach(function (to) {
+      if (to === state || !POS[to]) return;
+      var a = POS[state], b = POS[to];
+      var x1 = a[0] + W / 2, y1 = a[1] + H / 2, x2 = b[0] + W / 2, y2 = b[1] + H / 2;
+      var my = (y1 + y2) / 2 - (Math.abs(x2 - x1) > 200 ? 26 : 0);
+      arrows += '<path class="edge" d="M' + x1 + ',' + y1 + ' Q' + ((x1 + x2) / 2) + ',' + my + ' ' + x2 + ',' + y2 + '"/>';
+    });
+    var nodes = '';
+    Object.keys(POS).forEach(function (s) {
+      var p = POS[s], cls = 'node';
+      if (s === state) cls += ' now'; else if (next[s]) cls += ' next';
+      if (E.machine.STATES[s].terminal) cls += ' end';
+      var label = s.replace(/_/g, ' ');
+      nodes += '<g class="' + cls + '"><rect x="' + p[0] + '" y="' + p[1] + '" width="' + W +
+        '" height="' + H + '" rx="4"/><text x="' + (p[0] + W / 2) + '" y="' + (p[1] + H / 2 + 4) + '">' +
+        label + '</text></g>';
+    });
+    svg.innerHTML = out.replace(/<\/svg>/, '') + lanes + arrows + nodes;
+
+    var meta = E.machine.STATES[state];
+    $('now').innerHTML = '<b>' + state.replace(/_/g, ' ') + '</b>. ' + meta.says +
+      (meta.terminal ? ' <span class="muted">This order is finished.</span>'
+        : ' <span class="muted">Ops is told if it sits here more than ' + meta.stuckAfterMinutes + ' minutes.</span>');
+
+    var box = $('events'); box.innerHTML = '';
+    E.machine.transitionsFrom(state).forEach(function (t) {
+      var b = document.createElement('button');
+      b.textContent = t.says;
+      if (t.faultRequired) b.className = 'warn';
+      b.onclick = function () {
+        try {
+          var move = E.machine.apply(state, t.event, { actor: t.actors[0], fault: t.faultRequired ? 'sprint' : undefined });
+          hist.push(t.says + (t.faultRequired ? ' (fault recorded)' : ''));
+          state = move.state; draw(); tracking();
+        } catch (e) { $('now').innerHTML = '<b>refused</b> ' + e.message; }
+      };
+      box.appendChild(b);
+    });
+    if (meta.terminal) {
+      var r = document.createElement('button');
+      r.textContent = 'Start another order'; r.onclick = function () { state = 'placed'; hist = []; draw(); tracking(); };
+      box.appendChild(r);
+    }
+    $('history').textContent = hist.length ? 'So far: ' + hist.join(' then ') : '';
+  }
+
+  /* ---------- proof at the door ---------- */
+  var hv = { sens: 'ordinary', photo: true, person: false, code: false, id: false };
+  function pick(sel, on) { document.querySelectorAll(sel).forEach(function (b) { b.classList.remove('on'); }); if (on) on.classList.add('on'); }
+  document.querySelectorAll('[data-hv]').forEach(function (b) {
+    b.onclick = function () { hv.sens = b.dataset.hv; pick('[data-hv]', b); handover(); };
+  });
+  $('hv-photo').onclick = function () { hv.photo = !hv.photo; if (hv.photo) hv.person = false; sync(); };
+  $('hv-person').onclick = function () { hv.person = !hv.person; if (hv.person) hv.photo = true; sync(); };
+  $('hv-code').onclick = function () { hv.code = !hv.code; sync(); };
+  $('hv-id').onclick = function () { hv.id = !hv.id; sync(); };
+  $('hv-name').oninput = handover;
+  function sync() {
+    $('hv-photo').classList.toggle('on', hv.photo && !hv.person);
+    $('hv-person').classList.toggle('on', hv.person);
+    $('hv-code').classList.toggle('on', hv.code);
+    $('hv-id').classList.toggle('on', hv.id);
+    handover();
+  }
+  function handover() {
+    var box = $('hv-out');
+    try {
+      var h = E.handover.record({
+        order_id: 'demo', courier_id: 'courier_amo', sensitivity: hv.sens,
+        photo_ref: hv.photo ? 'pod/demo.jpg' : null,
+        photo_of: hv.person ? 'person' : (hv.photo ? 'parcel' : null),
+        code_verified: hv.code,
+        identity: hv.id ? { document: 'omang', name_matched: true, old_enough: true } : null,
+        received_by_name: $('hv-name').value
+      });
+      var ev = E.handover.evidence(h);
+      var rows = Object.keys(ev).map(function (k) { return '<tr><td class="muted">' + k + '</td><td>' + ev[k] + '</td></tr>'; }).join('');
+      box.className = 'out';
+      box.innerHTML = '<b>Handed over.</b> ' + h.says + '<table>' + rows + '</table>';
+    } catch (e) {
+      box.className = 'out bad';
+      box.innerHTML = '<b>Refused.</b> ' + e.message;
+    }
+  }
+
+  /* ---------- parcel ---------- */
+  var zone = '1';
+  document.querySelectorAll('[data-z]').forEach(function (b) {
+    b.onclick = function () { zone = b.dataset.z; pick('[data-z]', b); parcel(); };
+  });
+  $('parcel-kg').oninput = parcel;
+  function parcel() {
+    var kg = parseFloat($('parcel-kg').value);
+    $('pw').textContent = kg.toFixed(1);
+    try {
+      var q = E.parcel.quote(kg, zone);
+      var max = E.parcel.quote(30, '4').price;
+      $('parcel-bar').style.width = Math.max(3, (q.price / max) * 100) + '%';
+      $('parcel-bar').className = '';
+      $('parcel-out').className = 'out';
+      $('parcel-out').innerHTML = '<b style="font-size:21px;color:var(--green)">P' + q.price.toFixed(2) + '</b> ' +
+        'to send ' + q.charged_kg + 'kg to zone ' + zone +
+        (q.beyond_table ? ' <span class="muted">(past the table, priced at the contract rate per kilo)</span>' : '') +
+        '<div class="muted" style="margin-top:7px">' + E.parcel.priceNote() +
+        '<br>Source: ' + q.source + ', read by word position on ' + E.parcel.provenance().read_on + '.</div>';
+    } catch (e) {
+      $('parcel-out').className = 'out bad';
+      $('parcel-out').innerHTML = '<b>Refused.</b> ' + e.message;
+    }
+  }
+
+  /* ---------- cash ---------- */
+  ['c-total', 'c-note', 'c-counted'].forEach(function (id) { $(id).oninput = cashUi; $(id).onchange = cashUi; });
+  function cashUi() {
+    var total = Math.round(parseFloat($('c-total').value || 0) * 100);
+    var note = parseInt($('c-note').value, 10);
+    var chg = $('c-change');
+    var order;
+    try {
+      var c = E.cash.changeFor(total, note);
+      order = { order_id: 'demo', total: total, paying_with: note };
+      chg.className = 'out';
+      chg.innerHTML = c.says + (E.cash.needsCashPhoto(total) ? ' <span class="muted">A photograph is needed for this one.</span>' : '');
+    } catch (e) {
+      chg.className = 'out bad'; chg.innerHTML = '<b>Refused.</b> ' + e.message;
+      $('c-recon').className = 'out bad'; $('c-recon').textContent = 'Fix the order above first.';
+      return;
+    }
+    var f = E.cash.floatFor([order]);
+    var counted = Math.round(parseFloat($('c-counted').value || 0) * 100);
+    var r = E.cash.reconcile(f.float, [order], Math.max(0, counted));
+    var pct = r.expected ? Math.min(100, (r.counted / r.expected) * 100) : 0;
+    var bar = $('c-bar');
+    bar.style.width = Math.max(2, pct) + '%';
+    bar.className = r.difference === 0 ? '' : (r.difference < 0 ? 'short' : 'over');
+    $('c-recon').className = 'out' + (r.difference === 0 ? '' : (r.within_write_off ? ' warn' : ' bad'));
+    $('c-recon').innerHTML = '<b>' + r.says + '</b>' +
+      '<div class="muted" style="margin-top:6px">Float out ' + E.cash.pula(f.float) +
+      ', collected ' + E.cash.pula(note) + ', change given ' + E.cash.pula(f.float) +
+      ', so ' + E.cash.pula(r.expected) + ' should be in the bag.</div>';
+  }
+
+  /* ---------- address passport ---------- */
+  var ap;
+  function apReset() {
+    ap = E.passport.create({ id: 'p1', customer_id: 'c1', label: 'Home',
+      plot: 'Plot 2147, Block 8', landmark: 'Blue gate opposite ABC Hardware',
+      access: 'Ring twice, the dog is friendly' });
+    apDraw();
+  }
+  function apDraw() {
+    var r = E.passport.forRider(ap);
+    $('ap-out').className = 'out' + (ap.confidence === 'doubted' ? ' bad' : (ap.confidence === 'typed' ? ' warn' : ''));
+    $('ap-out').innerHTML = '<b>' + E.passport.summary(ap) + '</b>' +
+      '<div class="muted" style="margin-top:6px">Failed finds: ' + ap.failed_finds +
+      '. Used ' + ap.times_used + ' times.' +
+      (E.passport.needsAttention(ap) ? ' The customer is asked to check it before the next order.' : '') + '</div>';
+    $('ap-rider').className = 'out';
+    $('ap-rider').innerHTML = '<span class="muted">All the rider phone is given:</span><br>' +
+      r.plot + ' &middot; ' + r.landmark + ' &middot; ' + r.access +
+      '<br><span class="muted">' + r.says + '</span>';
+  }
+  $('ap-confirm').onclick = function () { try { ap = E.passport.confirmAtDoor(ap, 'courier_amo'); } catch (e) {} apDraw(); };
+  $('ap-correct').onclick = function () { try { ap = E.passport.correctAtDoor(ap, 'courier_amo', { landmark: 'Red gate, the hardware shop closed down' }); } catch (e) {} apDraw(); };
+  $('ap-fail').onclick = function () { ap = E.passport.markNotFound(ap); apDraw(); };
+  $('ap-repair').onclick = function () {
+    try { ap = E.passport.repair(ap, { plot: 'Plot 2174, Block 8' }); }
+    catch (e) { $('ap-out').className = 'out bad'; $('ap-out').innerHTML = '<b>Refused.</b> ' + e.message; return; }
+    apDraw();
+  };
+  $('ap-reset').onclick = apReset;
+
+  /* ---------- tracking ---------- */
+  function tracking() {
+    var since = new Date(Date.now() - 4 * 60000).toISOString();
+    var w = E.tracking.arrivalWindow(state, since);
+    var ps = E.tracking.panels(state, ap, false, w);
+    var html = ps.length ? ps.map(function (p) {
+      var colour = p.kind === 'problem' ? 'bad' : (p.kind === 'map' ? 'warn' : '');
+      return '<div class="out ' + colour + '" style="margin-top:8px"><span class="muted">' + p.rank +
+        '. ' + p.kind.replace(/_/g, ' ') + '</span><br>' + p.says + '</div>';
+    }).join('') : '<div class="out muted">Nothing to show. This order is finished.</div>';
+    var wa = E.tracking.whatsappLine(state, w);
+    html += wa
+      ? '<div class="out" style="margin-top:8px"><span class="muted">And on WhatsApp:</span><br>' + wa +
+        '<br><span class="muted">Checked for anything clinical before sending: ' +
+        (E.tracking.isSafeForWhatsapp(wa) ? 'safe' : 'BLOCKED') + '</span></div>'
+      : '<div class="muted" style="margin-top:8px">Nothing worth a WhatsApp message at this point.</div>';
+    $('tr-out').innerHTML = html;
+  }
+
+  /* ---------- corporate invoice ---------- */
+  function invoice() {
+    var P = function (n) { return n * 100; };
+    var account = { id: 'acc01', company: 'A Gaborone bank', billing_contact: 'Accounts payable',
+      billing_email: 'ap@example.co.bw', credit_limit: P(50000), payment_terms_days: 30, active: true,
+      cost_centres: [{ code: 'HO', name: 'Head office' }, { code: 'BR12', name: 'Branch 12, Main Mall' },
+        { code: 'CARDS', name: 'Card operations' }] };
+    var orders = [
+      { order_id: 'o1', account_id: 'acc01', cost_centre: 'HO', amount: P(136), placed_at: '2026-09-02T09:00:00Z', description: 'Documents to Francistown' },
+      { order_id: 'o2', account_id: 'acc01', cost_centre: 'CARDS', amount: P(250), placed_at: '2026-09-05T11:00:00Z', description: 'Card stock to Maun' },
+      { order_id: 'o3', account_id: 'acc01', cost_centre: 'HO', amount: P(87), placed_at: '2026-09-09T14:00:00Z', description: 'Envelope to Lobatse' },
+      { order_id: 'o4', account_id: 'acc01', cost_centre: 'BR12', amount: P(163), placed_at: '2026-09-19T08:00:00Z', description: 'Branch pouch' }
+    ];
+    var s = E.corporate.statement(account, orders, '2026-09-01T00:00:00Z', '2026-09-30T23:59:59Z');
+    var colours = ['#3AAA35', '#F7941D', '#4a86c7'];
+    $('inv-stack').innerHTML = s.lines.map(function (l, i) {
+      return '<i style="width:' + ((l.total / s.total) * 100) + '%;background:' + colours[i % 3] + '"></i>';
+    }).join('');
+    $('inv-key').innerHTML = s.lines.map(function (l, i) {
+      return '<span><b style="background:' + colours[i % 3] + '"></b>' + l.cost_centre_name + ' ' +
+        E.corporate.pula(l.total) + '</span>';
+    }).join('');
+    $('inv-out').innerHTML =
+      '<table><tr><th>Department</th><th>Orders</th><th style="text-align:right">Amount</th></tr>' +
+      s.lines.map(function (l) {
+        return '<tr><td>' + l.cost_centre_name + ' <span class="muted">' + l.cost_centre + '</span></td><td>' +
+          l.orders + '</td><td class="n">' + E.corporate.pula(l.total) + '</td></tr>';
+      }).join('') +
+      '<tr><td><b>Total</b></td><td></td><td class="n"><b>' + E.corporate.pula(s.total) + '</b></td></tr></table>' +
+      '<div class="muted" style="margin-top:9px">Invoice ' + s.number + ' &middot; ' + s.period_from +
+      ' to ' + s.period_to + ' &middot; due ' + s.due_date + '<br>' + s.note + '</div>' +
+      '<div class="out" style="margin-top:10px">' + E.corporate.health(account, s.total) + '</div>';
+  }
+
+
+  /* ---------- offline outbox ---------- */
+  var ob = [], online = true, refusing = false, seq = 0;
+  function offDraw() {
+    $('off-signal').textContent = online ? 'Signal is on' : 'No signal';
+    $('off-signal').classList.toggle('on', online);
+    $('off-refuse').classList.toggle('on', refusing);
+    $('off-rider').className = 'out' + (ob.some(function (a) { return a.attempts >= E.offline.GIVE_UP_AFTER; }) ? ' bad' : (ob.length ? ' warn' : ''));
+    $('off-rider').innerHTML = '<b>On the rider phone:</b> ' + E.offline.riderStatus(ob, online);
+    $('off-list').innerHTML = ob.length
+      ? '<table><tr><th>What happened</th><th>Order</th><th>Tries</th><th>Why it is still here</th></tr>' +
+        E.offline.sendOrder(ob).map(function (a) {
+          return '<tr><td>' + a.kind.replace(/_/g, ' ') +
+            (E.offline.isPrecious(a.kind) ? ' <span class="muted">money or proof</span>' : '') +
+            '</td><td>' + a.order_id + '</td><td>' + a.attempts + '</td><td class="muted">' +
+            (a.last_error || 'waiting') + '</td></tr>';
+        }).join('') + '</table>'
+      : '<div class="muted" style="margin-top:8px">The phone is holding nothing.</div>';
+  }
+  function offAdd(kind) {
+    seq += 1;
+    ob = E.offline.queue(ob, { id: 'a' + seq, kind: kind, order_id: 'o' + Math.ceil(seq / 3),
+      happened_at: new Date().toISOString(), payload: {} });
+    offSync();
+  }
+  function offSync() {
+    var r = E.offline.sync(ob, function () {
+      if (refusing) throw new Error('the office refused it');
+      return 'sent';
+    }, online);
+    ob = E.offline.remaining(r);
+    offDraw();
+  }
+  $('off-signal').onclick = function () { online = !online; offSync(); };
+  $('off-refuse').onclick = function () { refusing = !refusing; offSync(); };
+  $('off-hand').onclick = function () { offAdd('handover'); };
+  $('off-cash').onclick = function () { offAdd('cash_collected'); };
+  $('off-addr').onclick = function () { offAdd('address_confirmed'); };
+  $('off-reset').onclick = function () { ob = []; seq = 0; refusing = false; online = true; offDraw(); };
+
+
+  /* ---------- liquor ---------- */
+  var T = E.liquor.parseTime;
+  var LIC = { number: 'LL/GAB/0447', holder: 'A licensed bottle store', premises: 'Plot 5310, Gaborone West',
+    hours: { mon:{from:T('10:00'),to:T('20:00')}, tue:{from:T('10:00'),to:T('20:00')},
+      wed:{from:T('10:00'),to:T('20:00')}, thu:{from:T('10:00'),to:T('20:00')},
+      fri:{from:T('10:00'),to:T('22:00')}, sat:{from:T('10:00'),to:T('22:00')} },
+    expires: '2027-03-31', source: 'Copy supplied by the merchant' };
+  var lqMode = 'have';
+  ['have','none','expired'].forEach(function (m) {
+    $('lq-' + m).onclick = function () {
+      lqMode = m;
+      ['have','none','expired'].forEach(function (k) { $('lq-' + k).classList.toggle('on', k === m); });
+      lqDraw();
+    };
+  });
+  $('lq-time').oninput = lqDraw;
+  function lqDraw() {
+    var h = parseInt($('lq-time').value, 10);
+    // hour 0 is Sunday midnight of a known week, so the day names are real
+    var base = Date.UTC(2026, 8, 20, 0, 0, 0);
+    var when = new Date(base + h * 3600000).toISOString();
+    var names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var d = new Date(when);
+    $('lq-when').textContent = names[d.getUTCDay()] + ' ' + String(d.getUTCHours()).padStart(2,'0') + ':00';
+    var lic = lqMode === 'none' ? null : (lqMode === 'expired' ? Object.assign({}, LIC, { expires: '2026-08-30' }) : LIC);
+    var v = E.liquor.mayHandOver(lic, when);
+    $('lq-out').className = 'out' + (v.allowed ? '' : ' bad');
+    $('lq-out').innerHTML = '<b>' + (v.allowed ? 'Allowed' : 'Refused') + '.</b> ' + v.says;
+    var soon = E.liquor.expiringSoon([LIC, Object.assign({}, LIC, { number:'LL/GAB/0002', holder:'A shop nearly out of time', expires:'2026-10-20' }),
+      Object.assign({}, LIC, { number:'LL/GAB/0003', holder:'A shop already out of time', expires:'2026-08-30' })], when);
+    $('lq-exp').className = 'out' + (soon.length ? ' warn' : '');
+    $('lq-exp').innerHTML = '<span class="muted">Licences running out inside sixty days, which is the question a director asks:</span><br>' +
+      (soon.length ? soon.map(function (x) { return x.says; }).join('<br>') : 'None.');
+  }
+
+
+  /* ---------- ops tower, on a made up but realistic day ---------- */
+  function opsDraw() {
+    var NOW = new Date().toISOString();
+    var ago = function (m) { return new Date(Date.now() - m * 60000).toISOString(); };
+    var P = function (n) { return n * 100; };
+    var liveO = [
+      { order_id:'o1', state:'picked_up', since:ago(70), courier_id:'c1', courier_name:'Amo', merchant_id:'m1', merchant_name:'A grocer', place:'Mogoditshane' },
+      { order_id:'o2', state:'dispatch_offered', since:ago(9), courier_id:null, courier_name:null, merchant_id:'m2', merchant_name:'A pharmacy', place:'Phakalane' },
+      { order_id:'o3', state:'picked_up', since:ago(10), courier_id:'c2', courier_name:'Kabelo', merchant_id:'m1', merchant_name:'A grocer', place:'Tlokweng' },
+      { order_id:'o4', state:'at_door', since:ago(2), courier_id:'c1', courier_name:'Amo', merchant_id:'m2', merchant_name:'A pharmacy', place:'Main Mall' },
+      { order_id:'o5', state:'at_merchant', since:ago(22), courier_id:'c3', courier_name:'Neo', merchant_id:'m1', merchant_name:'A grocer', place:'Rail Park' }
+    ];
+    var doneO = [
+      { order_id:'d1', merchant_id:'m1', merchant_name:'A grocer', goods:P(200), delivery_fee:P(60), rail:'cash', fault:'none', delivered:true, perishable:false },
+      { order_id:'d2', merchant_id:'m1', merchant_name:'A grocer', goods:P(150), delivery_fee:P(60), rail:'cash', fault:'merchant', delivered:false, perishable:false },
+      { order_id:'d3', merchant_id:'m1', merchant_name:'A grocer', goods:P(150), delivery_fee:P(60), rail:'cash', fault:'merchant', delivered:false, perishable:false },
+      { order_id:'d4', merchant_id:'m2', merchant_name:'A pharmacy', goods:P(400), delivery_fee:P(60), rail:'myzaka', fault:'none', delivered:true, perishable:false },
+      { order_id:'d5', merchant_id:'m2', merchant_name:'A pharmacy', goods:P(90), delivery_fee:P(60), rail:'cash', fault:'rider', delivered:false, perishable:false }
+    ];
+    var riderOf = new Map([['d1',{id:'c1',name:'Amo'}],['d2',{id:'c1',name:'Amo'}],
+      ['d3',{id:'c2',name:'Kabelo'}],['d4',{id:'c2',name:'Kabelo'}],['d5',{id:'c1',name:'Amo'}]]);
+    var pula = function (t) { return 'P' + (t/100).toFixed(2); };
+
+    $('ops-one').innerHTML = '<b>Do this now:</b> ' + E.ops.theOneThing(liveO, NOW);
+    $('ops-shape').innerHTML = E.ops.byState(liveO).map(function (s) {
+      return '<div class="meter"><b style="color:' + (s.waiting ? 'var(--orange)' : 'var(--green)') + '">' +
+        s.count + '</b><span>' + s.state.replace(/_/g,' ') + (s.waiting ? ', waiting' : '') + '</span></div>';
+    }).join('');
+    var q = E.ops.exceptionQueue(liveO, NOW);
+    $('ops-q').innerHTML = q.length
+      ? '<table><tr><th>Order</th><th>Where it is</th><th>Minutes</th><th>Over by</th><th>Who has it</th></tr>' +
+        q.map(function (e) { return '<tr><td>' + e.order.order_id + '</td><td>' + e.order.state.replace(/_/g,' ') +
+          '</td><td class="n">' + e.minutes + '</td><td class="n" style="color:var(--red)">' + e.over_by +
+          '</td><td>' + (e.order.courier_name || 'nobody') + '</td></tr>'; }).join('') + '</table>'
+      : '<div class="muted">Nothing is stuck.</div>';
+    $('ops-riders').innerHTML = '<table><tr><th>Rider</th><th>Live</th><th>Delivered</th><th>Failed, their own</th><th>Failed, not theirs</th></tr>' +
+      E.ops.perRider(liveO, doneO, riderOf).map(function (r) {
+        return '<tr><td>' + r.courier_name + '</td><td class="n">' + r.live + '</td><td class="n">' + r.delivered +
+          '</td><td class="n" style="color:' + (r.failed_own_fault ? 'var(--red)' : 'var(--dim)') + '">' + r.failed_own_fault +
+          '</td><td class="n muted">' + r.failed_other + '</td></tr>'; }).join('') + '</table>';
+    $('ops-merchants').innerHTML = '<table><tr><th>Merchant</th><th>Orders</th><th>Failed</th><th>Wasted trips cost Sprint</th></tr>' +
+      E.ops.perMerchant(doneO).map(function (m) {
+        return '<tr><td>' + m.merchant_name + '</td><td class="n">' + m.orders + '</td><td class="n">' + m.failures +
+          '</td><td class="n" style="color:' + (m.cost_of_their_failures ? 'var(--red)' : 'var(--dim)') + '">' +
+          pula(m.cost_of_their_failures) + '</td></tr>'; }).join('') + '</table>';
+    $('ops-leak').innerHTML = '<table><tr><th>Whose fault</th><th>How many</th><th>What Sprint carried</th></tr>' +
+      E.ops.failuresByFault(doneO).map(function (f) {
+        return '<tr><td>' + f.fault + '</td><td class="n">' + f.count + '</td><td class="n">' + pula(f.cost) + '</td></tr>';
+      }).join('') + '</table>';
+    $('ops-reach').innerHTML = '<span class="muted">And the network it all runs on, read out of the company profile:</span><br>' +
+      E.network.reachLine();
+  }
+
+
+  /* ---------- brick 32, the merchant till ---------- */
+  var tlWho = 'alive';
+  function tillDraw() {
+    var NOW = new Date().toISOString();
+    var back = function (s) { return new Date(Date.now() - s * 1000).toISOString(); };
+    var secs = +$('tl-time').value;
+    var tills = [
+      { merchant_id:'m1', merchant_name:'A grocer',      channel:'printer', last_seen:back(30),      person:'Neo',  phone:'71 234 567' },
+      { merchant_id:'m2', merchant_name:'A pharmacy',    channel:'tablet',  last_seen:back(40*60),   person:'Lesego', phone:'72 887 004' },
+      { merchant_id:'m3', merchant_name:'A bottle store',channel:'tablet',  last_seen:null,          person:null,   phone:null }
+    ];
+    var key = { alive:'m1', dead:'m2', boxed:'m3' };
+    var till = tills.filter(function (x) { return x.merchant_id === key[tlWho]; })[0];
+    var offer = { order_id:'o1', merchant_id:till.merchant_id, sent_at:back(secs),
+                  accepted_at:null, refused_at:null, refusal:null };
+
+    $('tl-secs').textContent = secs < 60 ? secs + ' seconds'
+      : Math.floor(secs/60) + ' minute' + (Math.floor(secs/60) === 1 ? '' : 's') +
+        (secs % 60 ? ' ' + (secs % 60) + ' seconds' : '');
+    $('tl-pick').innerHTML = [['alive','The till is on'],['dead','The till went quiet'],['boxed','Never unboxed']]
+      .map(function (p) { return '<button data-w="' + p[0] + '" class="' + (tlWho === p[0] ? 'on' : '') + '">' + p[1] + '</button>'; }).join('');
+    Array.prototype.forEach.call($('tl-pick').querySelectorAll('button'), function (b) {
+      b.onclick = function () { tlWho = b.getAttribute('data-w'); tillDraw(); };
+    });
+
+    var state = E.till.tillState(offer, till, NOW);
+    var tone = state === 'waiting' ? '' : (state === 'accepted' ? ' good' : ' bad');
+    $('tl-out').className = 'out' + tone;
+    $('tl-out').innerHTML = '<b>' + state.replace(/_/g,' ') + '</b><br>' + E.till.says(offer, till, NOW);
+
+    var speed = E.till.speedOf(till.merchant_id, till.merchant_name, []);
+    var d = E.till.mayDispatch(offer, till, speed, NOW);
+    $('tl-disp').className = 'out' + (d.may ? ' good' : '');
+    $('tl-disp').innerHTML = '<span class="muted">Send a rider yet?</span><br><b>' +
+      (d.may ? 'Yes' : 'Not yet') + '.</b> ' + d.says;
+
+    $('tl-ladder').innerHTML = '<table><tr><th>After</th><th>Who</th><th>What happens</th></tr>' +
+      E.till.ladder(till).map(function (r) {
+        var live = secs >= r.at_seconds;
+        return '<tr style="opacity:' + (live ? 1 : .45) + '"><td class="n">' +
+          (r.at_seconds ? Math.round(r.at_seconds/60) + ' min' : 'at once') + '</td><td>' + r.who +
+          '</td><td>' + r.what + '</td></tr>';
+      }).join('') + '</table>';
+
+    $('tl-wall').innerHTML = '<table><tr><th>Shop</th><th>Device</th><th>Working</th><th>What the office sees</th></tr>' +
+      E.till.deviceWall(tills, NOW).map(function (w) {
+        return '<tr><td>' + w.till.merchant_name + '</td><td>' + w.till.channel + '</td><td style="color:' +
+          (w.alive ? 'var(--green)' : 'var(--red)') + '">' + (w.alive ? 'yes' : 'no') + '</td><td>' + w.says + '</td></tr>';
+      }).join('') + '</table>';
+  }
+  $('tl-time').oninput = tillDraw;
+
+  apReset(); draw(); handover(); parcel(); cashUi(); tracking(); invoice(); offDraw(); lqDraw(); opsDraw(); tillDraw();
+})();
+</script>

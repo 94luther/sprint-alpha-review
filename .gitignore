@@ -1,0 +1,20 @@
+# Secrets. api/.env holds a 64 character JWT_SECRET and a DEMO_MASTER_KEY, and it
+# was tracked until 15 September 2026. They are still in the history of this repo,
+# which is why the repo is PRIVATE. Rotate them if they were ever used anywhere
+# that matters.
+.env
+*.env
+!.env.example
+!*.env.example
+
+node_modules/
+dist/
+build/
+*.log
+npm-debug.log*
+
+# Windows and editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/

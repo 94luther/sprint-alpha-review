@@ -1,0 +1,319 @@
+{
+  "users": [
+    {
+      "id": "913e6786-05bb-4568-b9b8-9cf1f197633c",
+      "name": "Neo",
+      "role": "customer",
+      "phone_hash": "d6a0a284d91056c7d4f965b0305049065e1bd746701fa6d4480b54ae2d742d41",
+      "phone_enc": "a6b1203a627fa33a4d1f776e:d0ee476cd8cb3ce6cafd3bdd71e45cef:8faa5751498a1f7a",
+      "pin_hash": "$argon2id$v=19$m=19456,t=2,p=1$rv3L6zBAHeSzjV5CD9GPkA$J2T0Pr+Mv8wgOcHmbTXNhVt1jDDxm/cA8BkS9K+HKGA"
+    },
+    {
+      "id": "0458c69b-2f65-4ede-91a8-ad714faed474",
+      "name": "Kabelo",
+      "role": "courier",
+      "phone_hash": "55e9f37bc07211a8485f26c59f15cdf194955e4517ea5c722f3e1c7328a526bf",
+      "phone_enc": "01fc872a759b2787b4971cff:05a73f7b8e46b613310de5fd55e7b536:ece5b732de270729",
+      "pin_hash": "$argon2id$v=19$m=19456,t=2,p=1$RZysK5BNmk3fbkkGjjDzpg$QRRRIOS+GXsYqupW2Qo92iAE3OFwZ15rarD3ma0N5Aw",
+      "courier_id": "c1"
+    },
+    {
+      "id": "535624b0-95c8-46a9-9004-be37e51dfd73",
+      "name": "Amo",
+      "role": "ops",
+      "phone_hash": "bfd6d18e0983551fb2c728da4e1ac37b3fbd3d6d9af0b1111c2abb96532dc6e7",
+      "phone_enc": "ce6f0fe0bc08920577a18067:5b7e4becc3670df13a414b83beac27a4:dbb29ff02c4c890e",
+      "pin_hash": "$argon2id$v=19$m=19456,t=2,p=1$EleV+Gmz8J0ndYpmlbvaSg$eJHJgeXfpRlDE29CHo0sx0qdNn0LyjMc1ZutzQNMTtc"
+    }
+  ],
+  "merchants": [
+    {
+      "id": "m1",
+      "name": "Mama T's Kitchen",
+      "type": "food",
+      "age_restricted": false,
+      "lat": -24.6519,
+      "lng": 25.907899999999998,
+      "heroImage": "/food/stew.jpg",
+      "rating": 4.7,
+      "ratingCount": 320,
+      "etaMinLow": 25,
+      "etaMinHigh": 40,
+      "deliveryFee": 12,
+      "promo": "20% off, up to P30",
+      "status": "open",
+      "items": [
+        {
+          "id": "m1-i1",
+          "name": "Seswaa and Pap",
+          "price_bwp": 55,
+          "photo": "/food/stew.jpg",
+          "description": "Slow-cooked shredded beef with a mound of soft pap."
+        },
+        {
+          "id": "m1-i2",
+          "name": "Chicken and Rice",
+          "price_bwp": 45,
+          "photo": "/food/curryrice.jpg",
+          "description": "Spiced chicken pieces over fragrant rice."
+        },
+        {
+          "id": "m1-i3",
+          "name": "Beef Stew Plate",
+          "price_bwp": 50,
+          "photo": "/food/beans.jpg",
+          "description": "Hearty beef stew plate with a side of beans."
+        },
+        {
+          "id": "m1-i4",
+          "name": "Vegetable Relish Plate",
+          "price_bwp": 35,
+          "photo": "/food/veg.jpg",
+          "description": "Fresh seasonal vegetable relish, lightly spiced."
+        },
+        {
+          "id": "m1-i5",
+          "name": "Grilled Chicken Quarter",
+          "price_bwp": 40,
+          "photo": "/food/friedrice.jpg",
+          "description": "Chargrilled quarter chicken with a side of rice."
+        },
+        {
+          "id": "m1-i6",
+          "name": "Bogobe with Sour Milk",
+          "price_bwp": 30,
+          "photo": "/food/bread2.jpg",
+          "description": "Traditional sorghum porridge with cultured sour milk."
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "name": "QuickMart Broadhurst",
+      "type": "grocery",
+      "age_restricted": false,
+      "lat": -24.6422,
+      "lng": 25.943199999999997,
+      "heroImage": "/food/grocery.jpg",
+      "rating": 3.9,
+      "ratingCount": 41,
+      "etaMinLow": 30,
+      "etaMinHigh": 50,
+      "deliveryFee": 15,
+      "promo": null,
+      "status": "busy",
+      "items": [
+        {
+          "id": "m2-i1",
+          "name": "White Bread 700g",
+          "price_bwp": 14,
+          "photo": "/food/bread.jpg",
+          "description": "Fresh sliced white bread loaf, 700g."
+        },
+        {
+          "id": "m2-i2",
+          "name": "Fresh Milk 1L",
+          "price_bwp": 18,
+          "photo": "/food/milk.jpg",
+          "description": "Full cream fresh milk, 1 litre."
+        },
+        {
+          "id": "m2-i3",
+          "name": "Eggs Tray of 30",
+          "price_bwp": 55,
+          "photo": "/food/grocery.jpg",
+          "description": "Tray of 30 farm fresh eggs."
+        },
+        {
+          "id": "m2-i4",
+          "name": "White Sugar 2kg",
+          "price_bwp": 32,
+          "photo": "/food/market.jpg",
+          "description": "Refined white sugar, 2kg bag."
+        },
+        {
+          "id": "m2-i5",
+          "name": "Cooking Oil 750ml",
+          "price_bwp": 28,
+          "photo": "/food/veg.jpg",
+          "description": "Pure sunflower cooking oil, 750ml."
+        },
+        {
+          "id": "m2-i6",
+          "name": "Maize Meal 10kg",
+          "price_bwp": 95,
+          "photo": "/food/beans.jpg",
+          "description": "Coarse maize meal, 10kg bag, a kitchen staple."
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "name": "CloudNine Vapes",
+      "type": "vape",
+      "age_restricted": true,
+      "lat": -24.6267,
+      "lng": 25.925600000000003,
+      "heroImage": "/food/market.jpg",
+      "rating": 4.2,
+      "ratingCount": 96,
+      "etaMinLow": 25,
+      "etaMinHigh": 45,
+      "deliveryFee": 18,
+      "promo": null,
+      "status": "closed",
+      "items": [
+        {
+          "id": "m3-i1",
+          "name": "Disposable Vape 2500 Puffs",
+          "price_bwp": 180,
+          "photo": "/food/market.jpg",
+          "description": "Disposable vape device, approximately 2500 puffs."
+        },
+        {
+          "id": "m3-i2",
+          "name": "Disposable Vape 5000 Puffs",
+          "price_bwp": 250,
+          "photo": "/food/grocery.jpg",
+          "description": "Disposable vape device, approximately 5000 puffs."
+        },
+        {
+          "id": "m3-i3",
+          "name": "Vape Juice 30ml",
+          "price_bwp": 120,
+          "photo": "/food/veg.jpg",
+          "description": "E-liquid refill bottle, 30ml."
+        },
+        {
+          "id": "m3-i4",
+          "name": "Replacement Coils 5 Pack",
+          "price_bwp": 90,
+          "photo": "/food/bread2.jpg",
+          "description": "Pack of 5 replacement coils."
+        },
+        {
+          "id": "m3-i5",
+          "name": "Starter Kit",
+          "price_bwp": 350,
+          "photo": "/food/beans.jpg",
+          "description": "Complete starter kit with device and charger."
+        }
+      ]
+    },
+    {
+      "id": "m4",
+      "name": "Kgale Pharmacy",
+      "type": "pharmacy",
+      "age_restricted": false,
+      "lat": -24.6675,
+      "lng": 25.9092,
+      "heroImage": "/food/pharmacy.jpg",
+      "rating": 4.8,
+      "ratingCount": 142,
+      "etaMinLow": 15,
+      "etaMinHigh": 30,
+      "deliveryFee": 10,
+      "promo": "Free delivery on your first order",
+      "status": "open",
+      "items": [
+        {
+          "id": "m4-i1",
+          "name": "Paracetamol 500mg",
+          "price_bwp": 25,
+          "photo": "/food/pharmacy.jpg",
+          "description": "Pack of 20 paracetamol tablets, 500mg."
+        },
+        {
+          "id": "m4-i2",
+          "name": "Ibuprofen 200mg",
+          "price_bwp": 30,
+          "photo": "/food/pharmacy.jpg",
+          "description": "Pack of 20 ibuprofen tablets, 200mg."
+        },
+        {
+          "id": "m4-i3",
+          "name": "Multivitamin Tablets 30s",
+          "price_bwp": 65,
+          "photo": "/food/pharmacy.jpg",
+          "description": "Daily multivitamin, 30 tablet pack."
+        },
+        {
+          "id": "m4-i4",
+          "name": "Digital Thermometer",
+          "price_bwp": 85,
+          "photo": "/food/pharmacy.jpg",
+          "description": "Fast-read digital body thermometer."
+        },
+        {
+          "id": "m4-i5",
+          "name": "Hand Sanitizer 500ml",
+          "price_bwp": 35,
+          "photo": "/food/pharmacy.jpg",
+          "description": "Alcohol-based hand sanitizer, 500ml pump bottle."
+        }
+      ]
+    }
+  ],
+  "couriers": [
+    {
+      "id": "c1",
+      "name": "Kabelo",
+      "status": "online",
+      "lat": -24.631284,
+      "lng": 25.921396,
+      "rating": 4.9,
+      "earnings_today_bwp": 86,
+      "waypoint_target": 1,
+      "move_target": null
+    },
+    {
+      "id": "c2",
+      "name": "Tumi",
+      "status": "online",
+      "lat": -24.652136,
+      "lng": 25.912775999999997,
+      "rating": 4.6,
+      "earnings_today_bwp": 42,
+      "waypoint_target": 2,
+      "move_target": null
+    },
+    {
+      "id": "c3",
+      "name": "Ofentse",
+      "status": "online",
+      "lat": -24.642716,
+      "lng": 25.93754,
+      "rating": 4.8,
+      "earnings_today_bwp": 110,
+      "waypoint_target": 3,
+      "move_target": null
+    },
+    {
+      "id": "c4",
+      "name": "Naledi",
+      "status": "online",
+      "lat": -24.669196000000003,
+      "lng": 25.912992,
+      "rating": 4.3,
+      "earnings_today_bwp": 23,
+      "waypoint_target": 4,
+      "move_target": null
+    },
+    {
+      "id": "c5",
+      "name": "Thato",
+      "status": "online",
+      "lat": -24.667759999999998,
+      "lng": 25.925168,
+      "rating": 4.7,
+      "earnings_today_bwp": 67,
+      "waypoint_target": 5,
+      "move_target": null
+    }
+  ],
+  "orders": [],
+  "ledger_entries": [],
+  "events_outbox": [],
+  "idempotency": [],
+  "last_dispatch": null
+}

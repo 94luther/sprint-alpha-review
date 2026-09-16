@@ -1,0 +1,308 @@
+{
+ "title": "The house, Sprint delivery app: groceries, medicines, liquor, parcels",
+ "built_when": "Michelle's written decision to scale through the 55 branches, or to stop, is saved on disk on Fri 15 Jan 2027, after an eight week Gaborone pilot that went live on Mon 9 Nov 2026 as an install free web app plus WhatsApp ordering",
+ "start": "2026-09-14",
+ "deliver": "2026-11-09T08:00",
+ "close": "2027-01-15T17:00",
+ "deliver_label": "pilot live Mon 9 Nov",
+ "close_label": "decision Fri 15 Jan 2027",
+ "critical": [
+  7,
+  12,
+  15,
+  19,
+  23,
+  31,
+  39,
+  41,
+  43,
+  44,
+  45,
+  46,
+  47
+ ],
+ "days": {
+  "Already standing, before 12 Sep": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "Week 1, Mon 14 Sep": [
+   7,
+   8,
+   9,
+   10,
+   13,
+   38
+  ],
+  "Week 2, Mon 21 Sep": [
+   11,
+   12,
+   14,
+   16,
+   22
+  ],
+  "Week 3, Mon 28 Sep": [
+   15,
+   17,
+   18,
+   20,
+   21
+  ],
+  "Week 4, Mon 5 Oct": [
+   19,
+   23,
+   24,
+   26,
+   27,
+   30
+  ],
+  "Week 5, Mon 12 Oct": [
+   25,
+   28,
+   29,
+   31,
+   36
+  ],
+  "Week 6, Mon 19 Oct": [
+   32,
+   33,
+   34,
+   35
+  ],
+  "Week 7, Mon 26 Oct": [
+   37,
+   39,
+   40
+  ],
+  "Week 8, Mon 2 Nov": [
+   41,
+   42,
+   43
+  ],
+  "Week 9, Mon 9 Nov": [
+   44
+  ],
+  "Weeks 10 to 17, 16 Nov to Fri 8 Jan": [
+   45
+  ],
+  "Week 18, Mon 11 Jan 2027": [
+   46,
+   47
+  ]
+ },
+ "accomplish": {
+  "7": [
+   "Frame agreed",
+   "Everyone above Luther knows what this app is for: keeping the corporate base and stopping Wanzy and Zebras taking the consumer side. Until this, every pitch gets argued from scratch."
+  ],
+  "8": [
+   "BoMRA has answered",
+   "We know in writing whether Sprint riders may carry sealed prescriptions and under what rules. Until this, medicines are a promise we cannot keep."
+  ],
+  "9": [
+   "Data protection done",
+   "Health and address data has an owner, a plan and a 72 hour breach drill. Without it a leak costs up to 50 million pula or 4 percent of turnover."
+  ],
+  "10": [
+   "Settlement terms known",
+   "We know what Orange Money, MyZaka and Smega take per order and when they pay out. Until this, the profit per order is a guess."
+  ],
+  "11": [
+   "Cold chain ready",
+   "A medicine or a frozen basket rides in a logged box with a labelled tariff behind it. This is the evidence that lost the BMC bid in 2025."
+  ],
+  "12": [
+   "Profit per order known",
+   "Barbara's real costs say what one order leaves behind. This number decides everything above it."
+  ],
+  "13": [
+   "Licences on one wall",
+   "Every licence, cover and registration is listed with a date read off the original, and the PPRA gap is finally moving."
+  ],
+  "14": [
+   "Orders never stick",
+   "Every order has a next step even when the shop is out, the address is wrong, nobody is home or the rider breaks down. Eighteen states, and a machine test proves not one of them can trap an order."
+  ],
+  "15": [
+   "Who pays is settled",
+   "When a delivery fails, everyone already knows whose fault it was and who eats the cost. The council said same day merchant payment is impossible without this."
+  ],
+  "16": [
+   "Address Passport",
+   "The rider who actually finds the door confirms it, and from then on it is trusted and reused. Gaborone has no street grid, so this is how a delivery arrives first time."
+  ],
+  "17": [
+   "The real network",
+   "Orders go to the 53 Sprint sites that actually exist, with their real addresses and phone numbers, and anywhere Sprint does not go is refused rather than promised."
+  ],
+  "18": [
+   "Cash that counts",
+   "A rider leaves with the exact change the orders need and counts it back at the end of the shift against what should be there. The difference is named rather than absorbed, which is how the cash leak finally becomes a number."
+  ],
+  "19": [
+   "Merchants paid today",
+   "A shop that sold at lunch has its money the same day, worked out from the fault already recorded on each order. The council said this decides whether merchants stay."
+  ],
+  "20": [
+   "A window, not a dot",
+   "The customer is told a time range and asked once whether the address is right, with the map underneath. A late order widens the window instead of quietly renewing a promise."
+  ],
+  "21": [
+   "Proof at the door",
+   "Every handover leaves a photograph of the parcel, and liquor or a prescription also needs a document checked and a code read out. The identity number is never written down, so it can never leak."
+  ],
+  "22": [
+   "Hardened",
+   "The known holes in Node, NestJS and PostGIS are patched and no card number is ever stored. No pilot before this."
+  ],
+  "23": [
+   "Groceries live",
+   "A real supermarket sells through Sprint, with substitutions and weighed items handled. Pick n Pay is already with Wanzy; this is the counter."
+  ],
+  "24": [
+   "Chemist counter live",
+   "Painkillers, vitamins and baby goods from a licensed pharmacy, with no prescription risk."
+  ],
+  "25": [
+   "Scripts delivered",
+   "A patient uploads a script and a pharmacist dispenses, seals and signs; the rider checks ID at the door. Neither Wanzy nor Zebras does this properly."
+  ],
+  "26": [
+   "Liquor done right",
+   "Only from a shop whose licence is on file, only in the hours that licence permits, and judged on when it will arrive rather than when it was ordered. No licence means no liquor, by default."
+  ],
+  "27": [
+   "Parcels in the app",
+   "Sprint's own business, sending a parcel, is priced inside the same app as the groceries, off the signed contract itself rather than a copy of it. Neither competitor can offer the second half of that."
+  ],
+  "28": [
+   "Vapes kept off the stores",
+   "Vapes sell on the website with an age gate and never touch a store build, so no store listing is ever at risk."
+  ],
+  "29": [
+   "Repeat orders",
+   "Weekly groceries and repeat prescriptions arrive without a new order each time. Plexilife charges P89 for this; Wanzy and Zebras have nothing."
+  ],
+  "30": [
+   "The app is real",
+   "The demo runs on real shops, real riders and real payments, and installs from the web on Android and iPhone without a store."
+  ],
+  "31": [
+   "Ordering in WhatsApp",
+   "A customer reorders from inside WhatsApp without opening the app. The council called this the moat; the sources say lead with it, not with a download."
+  ],
+  "32": [
+   "The shop cannot miss it",
+   "The order lands on a device at the counter that will not stop until somebody touches it, and if that device is switched off the office knows it is the device and not the shopkeeper."
+  ],
+  "33": [
+   "Riders work offline",
+   "A rider with no signal still delivers, still takes the cash, still photographs the door, and not one of those facts is ever lost. Most of this country has no coverage."
+  ],
+  "34": [
+   "Tower sees all",
+   "One screen says what is stuck and who has it, output per rider by name, and which shop is quietly costing money. It opens with the one thing to do now, not with a total."
+  ],
+  "35": [
+   "The bank's invoice",
+   "A bank orders against an account, splits the cost across its own departments and pays one invoice a month. Neither competitor can do this at all, and it is where Sprint's money already is."
+  ],
+  "36": [
+   "Riders on the right deal",
+   "Shift pattern, pay per drop and who rides the pilot are agreed in writing. Batch courier habits do not survive on demand work; the council called this a culture clash."
+  ],
+  "37": [
+   "People trained",
+   "Riders and merchants have run the exception drills and the cold chain handling before a real customer is affected."
+  ],
+  "38": [
+   "Launch cell picked",
+   "The clusters and the target merchants are named, and none of them is a field sales account. AgriPet proved why."
+  ],
+  "39": [
+   "Merchants signed",
+   "25 to 30 shops are live with credentials, settlement details and a first order done. Fewer than 25 and the pilot cannot prove density."
+  ],
+  "40": [
+   "Pharmacy signed",
+   "A licensed pharmacy is on board with BoMRA's letter attached, so the medicine lane is legal on day one."
+  ],
+  "41": [
+   "100 real orders",
+   "Staff, friends and family have placed 100 orders, the bugs are out, and the profit per order is measured, not modelled."
+  ],
+  "42": [
+   "Council has reviewed",
+   "Kimi, ChatGPT and Gemini have attacked the live app and their gaps are filed with verdicts."
+  ],
+  "43": [
+   "MD has the pack",
+   "Michelle has seen density, reliability, profit per order, output per rider and margin per merchant, carried up by Barbara."
+  ],
+  "44": [
+   "Pilot is live",
+   "The web app is live at a Sprint address, WhatsApp ordering is on, and a member of the public has paid for a delivery. Store listings are submitted but nothing waits for them."
+  ],
+  "45": [
+   "Eight weeks measured",
+   "Weeks one, four and eight are written up against the five targets. Week four is the trough; do not judge there."
+  ],
+  "46": [
+   "Warehouse gate decided",
+   "All six numbers say whether a micro fulfilment room is justified: 150 grocery orders a day, P250 baskets, 40 percent repeat, P40 contribution, 97 percent fill, under 3 percent cancelled."
+  ],
+  "47": [
+   "The house is built",
+   "Michelle has decided in writing: scale through the 55 branches or stop. Either answer is a finished house."
+  ],
+  "1": [
+   "Demo that works",
+   "Anyone can open a real Sprint ordering app on a phone right now and go from shop to tracking. This is why the idea is not a slide."
+  ],
+  "2": [
+   "Code that runs",
+   "The customer app and the order engine exist in one language and compile clean. A pilot starts from working code, not from zero."
+  ],
+  "3": [
+   "Strategy answered",
+   "We already know what to build first, at what volume a warehouse pays for itself, and that own label earns far less than it sounds."
+  ],
+  "4": [
+   "First review survived",
+   "The demo was attacked once and every fault found was fixed, including a fee bug that was charging the wrong amount."
+  ],
+  "5": [
+   "We know the gaps",
+   "Every single thing Wanzy and Zebras cannot do is written down, tied to the brick that closes it and the person who owns it."
+  ],
+  "6": [
+   "Plan with proof",
+   "Every brick names the proof that lays it, and a ledger checks them, so nothing can be called done without evidence."
+  ]
+ },
+ "fallback": {
+  "7": "If Barbara cannot carry it up this month, Luther presents the frame page at the next sales meeting and records who agreed.",
+  "8": "If BoMRA does not reply in ten working days, Barbara phones, and the medicine lane launches over the counter only (brick 18) until the letter arrives.",
+  "12": "If Barbara's cost lines are late, use the tariff engine's rates and the 2025 fuel and rider figures already on disk, marked as estimates.",
+  "14": "If the exception states are not done in the week, the pilot runs with a manual exception phone line staffed by the ops tower and the states are added before week four.",
+  "15": "If Barbara and Luther cannot agree the fault model, Sprint eats every failed delivery cost in the pilot and the model is written from the first 100 orders.",
+  "18": "If Smega's sandbox is not open, launch cash only with CashSure and add mobile money before the first public order.",
+  "19": "If automatic split is not ready, Barbara pays merchants by manual EFT each afternoon from the payout file.",
+  "23": "If no supermarket signs by week seven, launch with independent grocers in the cell and keep the supermarket pitch running.",
+  "31": "If the WhatsApp number is not approved in time, the pilot launches on the web app with a WhatsApp link to a human, and ordering in chat follows in week two.",
+  "38": "If the field sales list is still overdue, Wame confirms each merchant by phone before a pitch goes out.",
+  "39": "If fewer than 25 merchants sign by week seven, launch with one cluster and push the pilot date two weeks rather than launch thin.",
+  "41": "If 100 orders are not reached in a week, Barbara's staff order lunch through the app every day until they are.",
+  "43": "If Barbara is away, Lucy carries the pack up; it never goes to Michelle directly.",
+  "44": "If the web address or the WhatsApp number is not live on the day, delay by days, never by launching through a store listing instead.",
+  "45": "If the week four read is bad, wait for week eight before any decision; the council warned about the trough.",
+  "46": "If the numbers sit just under the line, extend the pilot four weeks rather than build a warehouse on hope.",
+  "47": "If no decision comes by Fri 15 Jan, the pilot continues at the same size and the pack goes up again on 1 Feb.",
+  "32": "If the printers do not arrive, the same order goes to the shop on WhatsApp with the same two minute clock and the same escalation, so the promise holds on a phone they already own."
+ },
+ "dash_exempt": []
+}

@@ -1,0 +1,321 @@
+<title>Sprint Home Screen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root{
+    --green:#3AAA35; --green-d:#2A7D27; --orange:#F7941D;
+    --ink:#000; --sub:#545454; --faint:#8c8c8c;
+    --wash:#f2f2f2; --line:#e8e8e8; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#d9dbd6;color:var(--ink);
+       font:15px/1.4 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+  /* minmax(0,...) on every track. Without it a grid track refuses to shrink below its content and
+     the horizontal rails inside the phone drag the whole page sideways. */
+  .stage{max-width:1180px;margin:0 auto;padding:26px 18px 60px;
+         display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:36px;align-items:start}
+  @media (max-width:900px){ .stage{grid-template-columns:minmax(0,1fr);gap:22px} }
+
+  /* ---------- the device ---------- */
+  .device{background:#111;border-radius:44px;padding:10px;box-shadow:0 34px 70px rgba(0,0,0,.32);
+          position:sticky;top:22px;width:100%;max-width:400px;margin:0 auto;min-width:0}
+  .app{background:var(--white);border-radius:36px;overflow:hidden;height:794px;
+       display:flex;flex-direction:column;position:relative;min-width:0}
+  .sysbar{display:flex;justify-content:space-between;padding:12px 24px 4px;font-size:12px;font-weight:600}
+
+  .scroll{flex:1;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+  .scroll::-webkit-scrollbar{width:0}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;gap:10px;padding:6px 16px 12px}
+  .addr{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;letter-spacing:-.2px}
+  .addr svg{width:13px;height:13px}
+  .seg{margin-left:auto;background:var(--wash);border-radius:22px;padding:3px;display:flex}
+  .seg button{border:none;background:none;border-radius:20px;padding:7px 15px;font:700 13px Inter;
+              color:var(--sub);cursor:pointer}
+  .seg button.on{background:#1f1f1f;color:#fff}
+
+  .searchbar{margin:0 16px 12px;background:var(--wash);border-radius:26px;padding:12px 16px;
+             display:flex;align-items:center;gap:10px;color:var(--faint);font-size:14.5px}
+  .searchbar svg{width:17px;height:17px;flex:none}
+
+  /* ---------- chips ---------- */
+  .rail{display:flex;min-width:0;gap:9px;overflow-x:auto;padding:0 16px 14px;scrollbar-width:none}
+  .rail::-webkit-scrollbar{height:0}
+  .chip{flex:none;background:var(--wash);border-radius:22px;padding:10px 16px;font:700 13.5px Inter;
+        display:flex;align-items:center;gap:7px;white-space:nowrap;color:var(--ink);border:none;cursor:pointer}
+  .chip.on{background:#1f1f1f;color:#fff}
+  .chip svg{width:14px;height:14px}
+
+  /* ---------- category tiles ---------- */
+  .cats{display:flex;min-width:0;gap:14px;overflow-x:auto;padding:2px 16px 18px;scrollbar-width:none}
+  .cats::-webkit-scrollbar{height:0}
+  .cat{flex:none;width:74px;text-align:center;cursor:pointer;background:none;border:none;padding:0;font:inherit}
+  .cat i{display:grid;place-items:center;width:74px;height:62px;border-radius:14px;background:var(--wash);
+         font-style:normal;font-size:29px;margin-bottom:6px}
+  .cat span{display:block;font-size:12px;font-weight:600;line-height:1.25;color:var(--ink)}
+
+  /* ---------- sections ---------- */
+  .sec{padding:6px 16px 2px;display:flex;align-items:center;gap:10px}
+  .sec h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.5px}
+  .sec .go{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--wash);
+           display:grid;place-items:center;flex:none}
+  .sec .go svg{width:15px;height:15px}
+  .note{padding:2px 16px 12px;font-size:12.5px;color:var(--faint);line-height:1.45}
+
+  /* ---------- shop cards ---------- */
+  .cards{display:flex;min-width:0;gap:14px;overflow-x:auto;padding:4px 16px 20px;scrollbar-width:none}
+  .cards::-webkit-scrollbar{height:0}
+  .shop{flex:none;width:252px;cursor:pointer}
+  .shot{height:146px;border-radius:12px;position:relative;overflow:hidden;display:grid;place-items:center;
+        font-size:52px}
+  .shot.g1{background:linear-gradient(150deg,#dff0dc,#b9e0b4)}
+  .shot.g2{background:linear-gradient(150deg,#dfeaf7,#bcd6ef)}
+  .shot.g3{background:linear-gradient(150deg,#fbe6cf,#f5cfa3)}
+  .shot.g4{background:linear-gradient(150deg,#ecdff7,#d5bdec)}
+  .shot.g5{background:linear-gradient(150deg,#f7dfe0,#eebcc0)}
+  .promo{position:absolute;left:9px;top:9px;background:#d7f0d3;color:#1c5e18;border-radius:7px;
+         padding:5px 9px;font:700 11.5px Inter}
+  .heart{position:absolute;right:9px;top:9px;width:28px;height:28px;border-radius:50%;
+         background:rgba(255,255,255,.9);display:grid;place-items:center}
+  .heart svg{width:15px;height:15px}
+  .shopname{display:flex;align-items:center;gap:6px;margin:9px 0 3px}
+  .shopname b{font-size:15.5px;font-weight:800;letter-spacing:-.25px;
+              overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .meta{font-size:13.5px;color:var(--sub);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .badge{width:15px;height:15px;border-radius:50%;background:var(--green);display:grid;place-items:center;
+         color:#fff;font:800 9px Inter;flex:none}
+  .tbc{color:var(--faint);font-style:italic}
+  .row2{font-size:13px;color:var(--sub);margin-top:2px}
+
+  /* ---------- list rows ---------- */
+  .lrow{display:flex;gap:12px;align-items:center;padding:11px 16px;border-top:1px solid var(--line);cursor:pointer}
+  .lrow i{width:56px;height:56px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:25px;font-style:normal}
+  .lrow b{display:block;font-size:15px;font-weight:800;letter-spacing:-.2px}
+  .lrow small{display:block;font-size:13px;color:var(--sub);margin-top:2px}
+  .lrow .arr{margin-left:auto;color:var(--faint)}
+
+  .cta{margin:16px;background:var(--green);color:#fff;border-radius:30px;padding:15px;text-align:center;
+       font:800 15px Inter;cursor:pointer;box-shadow:0 10px 22px rgba(58,170,53,.3)}
+  .cta.ghost{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+
+  /* ---------- tab bar ---------- */
+  .tabbar{display:flex;border-top:1px solid var(--line);background:var(--white);padding:9px 0 13px}
+  .tab{flex:1;text-align:center;font-size:10.5px;font-weight:700;color:var(--faint)}
+  .tab.on{color:var(--green)}
+  .tab i{display:block;font-size:19px;font-style:normal;margin-bottom:2px;filter:grayscale(1);opacity:.55}
+  .tab.on i{filter:none;opacity:1}
+
+  /* ---------- the rail beside the phone ---------- */
+  .side{display:flex;flex-direction:column;gap:14px}
+  .panel{background:var(--white);border-radius:18px;padding:18px 20px;box-shadow:0 6px 18px rgba(0,0,0,.07)}
+  .panel h3{margin:0 0 7px;font-size:16px;font-weight:800;letter-spacing:-.3px}
+  .panel p{margin:0 0 9px;font-size:13.5px;color:var(--sub);line-height:1.6}
+  .panel p:last-child{margin-bottom:0}
+  .panel b{color:var(--ink);font-weight:700}
+  .tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;
+       color:var(--green-d);background:#e4f3e2;border-radius:20px;padding:4px 10px;margin-bottom:9px}
+  .tag.amber{color:#8a5208;background:#fdeed8}
+  .hd{max-width:1180px;margin:0 auto;padding:26px 18px 0;text-align:center}
+  .hd .mk{font-weight:900;letter-spacing:.16em;font-size:12px;color:var(--green-d)}
+  .hd h1{margin:8px 0 0;font-size:30px;font-weight:900;letter-spacing:-.7px}
+  .hd p{margin:9px auto 0;max-width:58ch;color:#4a4a4a;font-size:14px}
+  cite{font-style:normal;border-bottom:1px dotted rgba(0,0,0,.3);cursor:help}
+</style>
+
+<div class="hd">
+  <div class="mk">SPRINT COURIERS</div>
+  <h1>The home screen, the way people expect it</h1>
+  <p>Built in the language your customers already use every day. Every figure on it is real or says it
+    is missing. Scroll the phone, tap a shop.</p>
+</div>
+
+<div class="stage">
+
+  <div class="device">
+   <div class="app">
+    <div class="sysbar"><span id="clock">10:34</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+
+    <div class="scroll" id="scroll">
+
+      <div class="topbar">
+        <div class="addr">Plot 22418, Block 9
+          <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="seg">
+          <button class="on" data-seg="deliver">Deliver</button>
+          <button data-seg="collect">Collect</button>
+        </div>
+      </div>
+
+      <div class="searchbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8c8c8c" stroke-width="2.4">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        Shops, medicines, a parcel to send
+      </div>
+
+      <div class="rail" id="chips"></div>
+
+      <div class="cats" id="cats"></div>
+
+      <div class="sec"><h2>Open near you</h2>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="note" id="opennote"></div>
+      <div class="cards" id="shops"></div>
+
+      <div class="sec"><h2>Send a parcel</h2>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="note">Priced from the signed rate card, all inclusive. Anywhere on the Sprint network.</div>
+      <div id="parcels"></div>
+
+      <div class="sec" style="margin-top:14px"><h2>On account</h2>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="note">For the banks and public bodies already on contract. Billed monthly, on the cost
+        centres they already use.</div>
+      <div class="lrow"><i style="background:#e9eef7">&#127974;</i>
+        <div><b>Order against a cost centre</b><small>An unknown code is refused, not guessed</small></div>
+        <span class="arr">&#8250;</span></div>
+
+      <div class="cta" id="runorder">Watch a real order run</div>
+      <div class="cta ghost" id="seecounter">See the shop counter</div>
+      <div style="height:10px"></div>
+    </div>
+
+    <div class="tabbar">
+      <div class="tab on"><i>&#127968;</i>Home</div>
+      <div class="tab"><i>&#128269;</i>Search</div>
+      <div class="tab"><i>&#128230;</i>Send</div>
+      <div class="tab"><i>&#128220;</i>Orders</div>
+      <div class="tab"><i>&#128100;</i>Account</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="side">
+    <div class="panel">
+      <span class="tag">Deliberately missing</span>
+      <h3>There are no star ratings on this screen.</h3>
+      <p>Every app in your reference shows <b>4.7 with 1,500 reviews</b>. Sprint has never collected a
+        single rating, so putting stars here would be inventing the one number a customer trusts most.</p>
+      <p>What is shown instead is what Sprint can actually prove: whether the shop is open, how long the
+        delivery takes, and what it costs. When real ratings exist, they go here.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag">Real numbers only</span>
+      <h3>Two prices, and two blanks.</h3>
+      <p>A parcel is <cite title="0.5 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10, read by word position">P87.00</cite>
+        for half a kilo and <cite title="1 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10">P93.00</cite>
+        for a kilo across Gaborone, VAT and fuel already in.</p>
+      <p>The grocery and liquor delivery fees say <b>fee to confirm</b> because nobody has set them.
+        A guess on this screen becomes a promise to a customer.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag">Why collect is a real tab</span>
+      <h3>You have 57 counters. They do not.</h3>
+      <p>Wanzy and Zebras have no branch outside Gaborone. Sprint has
+        <cite title="Counted from SC Profile 2026_.pdf pages 24 to 26, two columns kept apart">30 offices and 27 service points</cite>
+        with an address and a phone number each, plus 3 in South Africa.</p>
+      <p>Collect is not a lesser option here. It is the thing nobody else can offer.</p>
+    </div>
+
+    <div class="panel">
+      <span class="tag amber">Not real yet</span>
+      <h3>The photographs.</h3>
+      <p>Those cards would carry real photographs of real shops. Nothing on this machine has any, so
+        they are drawn rather than faked with stock pictures of somebody else's food.</p>
+      <p>Shop photographs are a morning with a phone, once merchants are signed.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  var CHIPS = [['Open now', true], ['Under 45 min', false], ['Medicines', false],
+               ['Groceries', false], ['Liquor', false], ['Cold box', false]];
+  $('chips').innerHTML = CHIPS.map(function(c, i){
+    return '<button class="chip' + (c[1] ? ' on' : '') + '" data-i="' + i + '">' + c[0] + '</button>';
+  }).join('');
+  $('chips').onclick = function(e){
+    var b = e.target.closest('.chip'); if (!b) return;
+    b.classList.toggle('on');
+  };
+
+  var CATS = [['&#128138;','Pharmacy'],['&#128722;','Groceries'],['&#127863;','Liquor'],
+              ['&#128230;','Parcels'],['&#127974;','On account'],['&#10052;','Cold box'],['&#128663;','Same day']];
+  $('cats').innerHTML = CATS.map(function(c){
+    return '<button class="cat"><i>' + c[0] + '</i><span>' + c[1] + '</span></button>';
+  }).join('');
+
+  /* Only what Sprint can prove goes on a card. No ratings, because none have ever been collected. */
+  var SHOPS = [
+    {g:'g1', icon:'&#128138;', name:'A pharmacy, Main Mall', fee:'P93.00',
+     feeNote:'1 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10',
+     mins:'45 min', extra:'Prescriptions need a script and ID at the door', promo:'Cold box available'},
+    {g:'g2', icon:'&#128722;', name:'A grocer, Rail Park', fee:null,
+     mins:'45 min', extra:'Weighed items priced at the till, you approve before it leaves', promo:null},
+    {g:'g3', icon:'&#127863;', name:'A bottle store, Mogoditshane', fee:null,
+     mins:'45 min', extra:'Open only inside this shop licence hours, judged on arrival', promo:null},
+    {g:'g4', icon:'&#128230;', name:'Send a parcel anywhere', fee:'P87.00',
+     feeNote:'0.5 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10',
+     mins:'Next working day', extra:'To any of 57 Sprint counters nationwide', promo:null}
+  ];
+
+  $('opennote').textContent = 'No star ratings, because Sprint has never collected one. What is shown is what can be proved.';
+
+  $('shops').innerHTML = SHOPS.map(function(s){
+    var fee = s.fee
+      ? '<cite title="' + s.feeNote + '">' + s.fee + ' delivery</cite>'
+      : '<span class="tbc">fee to confirm</span>';
+    return '<div class="shop">' +
+      '<div class="shot ' + s.g + '">' + s.icon +
+        (s.promo ? '<span class="promo">' + s.promo + '</span>' : '') +
+        '<span class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">' +
+        '<path d="M12 20s-7-4.6-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.7C19 15.4 12 20 12 20z"/></svg></span>' +
+      '</div>' +
+      '<div class="shopname"><b>' + s.name + '</b></div>' +
+      '<div class="meta"><span class="badge">S</span>' + fee + ' &#183; ' + s.mins + '</div>' +
+      '<div class="row2">' + s.extra + '</div>' +
+    '</div>';
+  }).join('');
+
+  var PARCEL = [
+    ['&#128231;','Documents, half a kilo','P87.00','0.5 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10','#e9f3e8'],
+    ['&#128230;','A parcel, one kilo','P93.00','1 kg zone 1, all inclusive. UPDATED SLA_2026.pdf page 10','#f3eee8'],
+    ['&#10052;','Cold box, two to eight degrees','fee to confirm',null,'#e8f0f5']
+  ];
+  $('parcels').innerHTML = PARCEL.map(function(p){
+    var right = p[3]
+      ? '<cite title="' + p[3] + '">' + p[2] + '</cite>'
+      : '<span class="tbc">' + p[2] + '</span>';
+    return '<div class="lrow"><i style="background:' + p[4] + '">' + p[0] + '</i>' +
+      '<div><b>' + p[1] + '</b><small>' + right + '</small></div><span class="arr">&#8250;</span></div>';
+  }).join('');
+
+  $('runorder').onclick   = function(){ window.open('order.html', '_blank'); };
+  $('seecounter').onclick = function(){ window.open('track.html', '_blank'); };
+
+  var seg = document.querySelector('.seg');
+  seg.onclick = function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    Array.prototype.forEach.call(seg.querySelectorAll('button'), function(x){ x.className = ''; });
+    b.className = 'on';
+    var collect = b.getAttribute('data-seg') === 'collect';
+    $('opennote').textContent = collect
+      ? 'Collect from any of 57 Sprint counters. Wanzy and Zebras have no branch outside Gaborone.'
+      : 'No star ratings, because Sprint has never collected one. What is shown is what can be proved.';
+  };
+
+  function tick(){
+    var d = new Date();
+    $('clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  tick(); setInterval(tick, 20000);
+})();
+</script>

@@ -1,0 +1,537 @@
+<title>Sprint, the phone</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --green:#3AAA35; --amber:#c47a10; --red:#b3261e;
+    --ink:#111; --sub:#5f5f5f; --faint:#9a9a9a;
+    --hair:#ececec; --wash:#f5f5f5; --white:#fff; --ground:#e9e9e6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--ground);display:grid;place-items:center;padding:28px 16px;
+       font:15px/1.5 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+       -webkit-font-smoothing:antialiased}
+
+  .device{width:100%;max-width:392px;background:#161616;border-radius:46px;padding:11px;
+          box-shadow:0 30px 60px rgba(0,0,0,.22)}
+  .app{background:var(--white);border-radius:37px;overflow:hidden;height:812px;
+       display:flex;flex-direction:column;min-width:0}
+  .sys{display:flex;justify-content:space-between;padding:14px 28px 0;font-size:12px;font-weight:600}
+  .scroll{flex:1;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;padding:22px 24px 0}
+  .scroll::-webkit-scrollbar{width:0}
+  .screen{display:none}
+  .screen.on{display:block}
+
+  .addr{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:6px}
+  .addr svg{width:11px;height:11px}
+  h1{margin:6px 0 22px;font-size:26px;font-weight:700;letter-spacing:-.6px;line-height:1.15}
+  .eyebrow{font-size:12px;color:var(--faint);letter-spacing:.02em}
+
+  .search{background:var(--wash);border-radius:16px;padding:14px 16px;display:flex;align-items:center;
+          gap:11px;color:var(--faint);font-size:14px}
+  .search svg{width:16px;height:16px;flex:none}
+
+  .seg{display:flex;gap:22px;margin:26px 0 0;border-bottom:1px solid var(--hair)}
+  .seg span{padding:0 0 11px;font-size:14px;font-weight:500;color:var(--faint);cursor:pointer;
+            border-bottom:2px solid transparent;margin-bottom:-1px}
+  .seg span.on{color:var(--ink);font-weight:600;border-color:var(--ink)}
+  .seg.small{margin-top:18px}
+  .seg.small span{font-size:13px;padding-bottom:9px}
+
+  .cats{display:flex;gap:18px;overflow-x:auto;min-width:0;padding:26px 0 8px;scrollbar-width:none}
+  .cats::-webkit-scrollbar{height:0}
+  .cat{flex:none;width:64px;text-align:center}
+  .cat i{display:grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--wash);
+         font-style:normal;font-size:24px;margin-bottom:8px}
+  .cat span{font-size:12px;color:var(--sub)}
+
+  h2{margin:34px 0 4px;font-size:18px;font-weight:600;letter-spacing:-.3px}
+  .sub{font-size:12.5px;color:var(--faint);margin:0 0 16px;line-height:1.5}
+
+  .shop{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--hair);cursor:pointer}
+  .shop:last-of-type{border-bottom:none}
+  .shop i{width:58px;height:58px;border-radius:16px;flex:none;display:grid;place-items:center;
+          font-style:normal;font-size:24px}
+  .shop b{display:block;font-size:15px;font-weight:600;letter-spacing:-.2px}
+  .shop small{display:block;font-size:12.5px;color:var(--sub);margin-top:3px}
+  .shop em{margin-left:auto;font-style:normal;font-size:13px;font-weight:600;white-space:nowrap;
+           font-variant-numeric:tabular-nums}
+  .shop em.tbc{color:var(--faint);font-weight:500;font-size:12px}
+
+  .send{margin:30px 0 26px;padding:18px 20px;border:1px solid var(--hair);border-radius:20px}
+  .send b{display:block;font-size:15px;font-weight:600}
+  .send small{display:block;font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5}
+  .send .price{margin-top:12px;font-size:22px;font-weight:600;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+  .send .price span{font-size:12.5px;color:var(--faint);font-weight:500;margin-left:6px}
+
+  /* ---------- the counter and the order share these ---------- */
+  .big{margin:30px 0 4px;font-size:44px;font-weight:700;letter-spacing:-1.5px;line-height:1;
+       font-variant-numeric:tabular-nums}
+  .big.amber{color:var(--amber)} .big.red{color:var(--red)} .big.green{color:var(--green)}
+  .under{font-size:14px;color:var(--sub);line-height:1.55;max-width:30ch}
+  .under b{color:var(--ink);font-weight:600}
+
+  .row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--hair)}
+  .row:last-child{border-bottom:none}
+  .row .k{width:24px;flex:none;font-size:12px;color:var(--faint);text-align:center;padding-top:2px;
+          font-variant-numeric:tabular-nums}
+  .row .k.done{color:var(--green)}
+  .row div{font-size:13.5px;color:var(--sub);line-height:1.45}
+  .row div b{display:block;color:var(--ink);font-weight:600}
+  .row.dim{opacity:.38}
+
+  .side{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:26px}
+  .cell{padding:14px 15px;border:1px solid var(--hair);border-radius:18px;min-height:88px}
+  .cell small{display:block;font-size:11px;color:var(--faint);margin-bottom:5px}
+  .cell b{display:block;font-size:14px;font-weight:600;letter-spacing:-.2px;line-height:1.3}
+  .cell span{display:block;font-size:12px;color:var(--sub);margin-top:4px;line-height:1.4}
+
+  .money{margin-top:22px;border-top:1px solid var(--hair);padding-top:14px}
+  .money div{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;color:var(--sub)}
+  .money div b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  .money p{margin:8px 0 0;font-size:12.5px;color:var(--faint);line-height:1.5}
+
+  .act{margin:28px 0 26px;background:var(--ink);color:#fff;border-radius:18px;padding:16px;text-align:center;
+       font-size:15px;font-weight:600;cursor:pointer;border:none;width:100%;font-family:inherit}
+  .act.quiet{background:var(--wash);color:var(--ink)}
+  .act[disabled]{opacity:.35;cursor:default}
+  .acts{display:flex;gap:10px;margin:28px 0 26px}
+  .acts .act{margin:0;flex:1;padding:14px 8px;font-size:13.5px}
+
+
+  /* ---------- tracking ---------- */
+  .map{margin:24px 0 0;border:1px solid var(--hair);border-radius:20px;overflow:hidden;background:#fafafa}
+  .map svg{display:block;width:100%;height:210px}
+  .win{display:flex;align-items:baseline;gap:10px;margin-top:30px}
+  .win .big{margin:0}
+  .win small{font-size:13px;color:var(--faint)}
+  .rider{display:flex;gap:14px;align-items:center;padding:18px 0 14px;border-bottom:1px solid var(--hair);margin-top:22px}
+  .rider i{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;
+           background:var(--wash);font-style:normal;font-size:20px}
+  .rider b{display:block;font-size:15px;font-weight:600}
+  .rider small{display:block;font-size:12.5px;color:var(--sub);margin-top:2px}
+  .rider em{margin-left:auto;font-style:normal;font-size:13.5px;font-weight:600;color:var(--green)}
+  .where{padding:14px 0 0}
+  .where b{display:block;font-size:14px;font-weight:600}
+  .where small{display:block;font-size:12.5px;color:var(--sub);margin-top:3px;line-height:1.5}
+
+  .tabs{display:flex;padding:12px 8px 16px;border-top:1px solid var(--hair);background:var(--white)}
+  .tab{flex:1;text-align:center;font-size:10.5px;color:var(--faint);cursor:pointer;border:none;background:none;font-family:inherit}
+  .tab i{display:block;font-style:normal;font-size:19px;margin-bottom:3px;opacity:.45}
+  .tab.on{color:var(--ink);font-weight:600}
+  .tab.on i{opacity:1}
+  cite{font-style:normal;cursor:help}
+</style>
+
+<div class="device">
+ <div class="app">
+  <div class="sys"><span id="clock">10:34</span><span>&#9679;&#9679;&#9679;</span></div>
+  <div class="scroll" id="scroll">
+
+    <!-- ================= HOME ================= -->
+    <section class="screen on" id="s-home">
+      <div class="addr">Plot 22418, Block 9
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5f5f5f" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <h1>What do you need<br>brought to you?</h1>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="2.2">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        A shop, a medicine, a parcel
+      </div>
+      <div class="seg" id="seg">
+        <span class="on" data-k="deliver">Deliver</span>
+        <span data-k="collect">Collect</span>
+      </div>
+      <div class="cats" id="cats"></div>
+      <h2 id="h2">Open now</h2>
+      <p class="sub" id="sub">No ratings. Sprint has never collected one. Tap a shop to place an order.</p>
+      <div id="shops"></div>
+      <div class="send">
+        <b>Send a parcel</b>
+        <small>Anywhere on the Sprint network. Next working day.</small>
+        <div class="price"><cite title="0.5 kg, zone 1, all inclusive. UPDATED SLA_2026.pdf page 10, read by word position">P87.00</cite>
+          <span>half a kilo</span></div>
+      </div>
+    </section>
+
+    <!-- ================= COUNTER ================= -->
+    <section class="screen" id="s-counter">
+      <div class="eyebrow">The pharmacy, Main Mall</div>
+      <h1 style="margin-bottom:0">New order</h1>
+      <div class="big" id="c-big">1:30</div>
+      <p class="under" id="c-under">to accept. The printer sounds until somebody touches it.</p>
+
+      <div class="seg small" id="c-till">
+        <span class="on" data-t="on">Till on</span>
+        <span data-t="quiet">Went quiet</span>
+        <span data-t="boxed">Never unboxed</span>
+      </div>
+      <div class="seg small" id="c-gone" style="margin-top:6px">
+        <span class="on" data-g="30">30 sec ago</span>
+        <span data-g="300">5 min ago</span>
+        <span data-g="660">11 min ago</span>
+      </div>
+
+      <h2 style="margin-top:30px">Pick</h2>
+      <div class="row"><span class="k">1</span><div><b>Paracetamol 500mg, 24</b>dispensed, sealed</div></div>
+      <div class="row"><span class="k">1</span><div><b>Cold box</b>two to eight degrees, logs itself</div></div>
+
+      <h2>If nobody touches it</h2>
+      <div id="c-ladder"></div>
+
+      <button class="act" id="c-accept">Accept</button>
+    </section>
+
+    <!-- ================= ORDER ================= -->
+    <section class="screen" id="s-order">
+      <div class="eyebrow">Order SC-4417, a repeat prescription</div>
+      <div class="big" id="o-big" style="margin-top:12px;font-size:34px">placed</div>
+      <p class="under" id="o-under">Paracetamol and a cold box, P245.00 of goods, P93.00 delivery, paid on MyZaka.</p>
+
+      <div class="side">
+        <div class="cell"><small>Naledi</small><b id="o-cust">Waiting</b><span id="o-cust2"></span></div>
+        <div class="cell"><small>The pharmacy</small><b id="o-shop">Nothing yet</b><span id="o-shop2"></span></div>
+        <div class="cell"><small>Kabelo</small><b id="o-rider">Not assigned</b><span id="o-rider2"></span></div>
+        <div class="cell"><small>The office</small><b id="o-office">Nobody at fault</b><span id="o-office2"></span></div>
+      </div>
+
+      <div class="money" id="o-money" hidden></div>
+
+      <h2 style="margin-top:28px">What the engine did</h2>
+      <p class="sub">Every line is a real call into the order engine and its real answer.</p>
+      <div id="o-log"></div>
+
+      <div class="acts">
+        <button class="act" id="o-run">Run it</button>
+        <button class="act quiet" id="o-stock">Out of stock</button>
+        <button class="act quiet" id="o-absent">Nobody home</button>
+      </div>
+    </section>
+
+
+    <!-- ================= TRACK ================= -->
+    <section class="screen" id="s-track">
+      <div class="eyebrow">Order SC-4417</div>
+      <div class="win"><div class="big" id="t-big">10:42 to 10:52</div></div>
+      <p class="under" id="t-under">Arriving between. Nine in ten land inside this window.</p>
+
+      <div class="map">
+        <svg viewBox="0 0 340 210" role="img" aria-label="Live map of the rider approaching the address">
+          <g id="t-blocks"></g>
+          <path d="M-10 142 C 70 136, 130 156, 220 148 S 330 132, 350 138" stroke="#e6edf1" stroke-width="9" fill="none"/>
+          <g id="t-roads"></g>
+          <path id="t-route" d="M 34 178 L 84 178 L 84 126 L 160 126 L 160 82 L 240 82 L 240 46 L 300 46"
+                fill="none" stroke="#3AAA35" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".2"/>
+          <path id="t-trav" d="M 34 178 L 84 178 L 84 126 L 160 126 L 160 82 L 240 82 L 240 46 L 300 46"
+                fill="none" stroke="#3AAA35" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle id="t-halo" cx="34" cy="178" r="18" fill="#3AAA35" opacity=".12"/>
+          <g id="t-bike"><circle cx="0" cy="0" r="8" fill="#3AAA35" stroke="#fff" stroke-width="2.5"/>
+            <path d="M-3 1.2 L0 -3.4 L3 1.2 Z" fill="#fff"/></g>
+          <g><circle cx="300" cy="46" r="6.5" fill="#F7941D" stroke="#fff" stroke-width="2.5"/></g>
+          <text x="92" y="120" font-size="9" fill="#9a9a9a" font-family="Inter,sans-serif">Main Mall</text>
+          <text x="166" y="76" font-size="9" fill="#9a9a9a" font-family="Inter,sans-serif">Rail Park</text>
+          <text x="248" y="40" font-size="9" fill="#9a9a9a" font-family="Inter,sans-serif">Block 9</text>
+        </svg>
+      </div>
+
+      <div class="seg small" id="t-scene">
+        <span class="on" data-s="normal">On the way</span>
+        <span data-s="traffic">Held up</span>
+        <span data-s="door">At the gate</span>
+        <span data-s="done">Handed over</span>
+      </div>
+
+      <div class="rider"><i>&#128757;</i><div><b>Kabelo M.</b><small id="t-rstate">On the way to you</small></div><em>Call</em></div>
+      <div class="where">
+        <b>Plot 22418, Block 9</b>
+        <small>Blue gate opposite the primary school. Ring the bell, the gate is usually locked.</small>
+      </div>
+      <div style="height:26px"></div>
+    </section>
+
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-s="home"><i>&#9776;</i>Home</button>
+    <button class="tab" data-s="counter"><i>&#128438;</i>Counter</button>
+    <button class="tab" data-s="order"><i>&#128230;</i>Order</button>
+    <button class="tab" data-s="track"><i>&#128205;</i>Track</button>
+  </div>
+ </div>
+</div>
+
+<script src="engine.bundle.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = window.Engine || null;
+
+  /* ---------- navigation ---------- */
+  function show(name){
+    Array.prototype.forEach.call(document.querySelectorAll('.screen'), function(s){ s.className = 'screen' + (s.id === 's-' + name ? ' on' : ''); });
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'), function(t){ t.className = 'tab' + (t.getAttribute('data-s') === name ? ' on' : ''); });
+    $('scroll').scrollTop = 0;
+  }
+  $('tabs').onclick = function(e){ var t = e.target.closest('.tab'); if (t && t.getAttribute('data-s')) show(t.getAttribute('data-s')); };
+
+  /* ---------- home ---------- */
+  $('cats').innerHTML = [['&#128138;','Pharmacy'],['&#128722;','Groceries'],['&#127860;','Takeout'],
+                         ['&#127863;','Liquor'],['&#128230;','Parcels']].map(function(c){
+    return '<div class="cat"><i>' + c[0] + '</i><span>' + c[1] + '</span></div>';
+  }).join('');
+  var DELIVER = [
+    {i:'&#128138;', bg:'#eaf4e9', name:'A pharmacy', where:'Main Mall, 45 min',
+     fee:'<cite title="1 kg, zone 1, all inclusive. UPDATED SLA_2026.pdf page 10">P93.00</cite>', go:'order'},
+    {i:'&#128722;', bg:'#e9eef6', name:'A grocer', where:'Rail Park, 45 min', fee:null},
+    {i:'&#127860;', bg:'#f6ede3', name:'A braai spot', where:'Mogoditshane, 45 min', fee:null}
+  ];
+  var COLLECT = [
+    {i:'&#127974;', bg:'#eaf4e9', name:'Main Mall office', where:'Plot 181, Queens Road', fee:'open'},
+    {i:'&#127974;', bg:'#eaf4e9', name:'Rail Park office', where:'Rail Park Mall, Unit G69', fee:'open'},
+    {i:'&#127974;', bg:'#eaf4e9', name:'Mogoditshane office', where:'Bodiba Mall, Unit 10', fee:'open'}
+  ];
+  function drawShops(list){
+    $('shops').innerHTML = list.map(function(s, i){
+      var right = s.fee === null ? '<em class="tbc">fee to confirm</em>' : '<em>' + s.fee + '</em>';
+      return '<div class="shop" data-i="' + i + '"><i style="background:' + s.bg + '">' + s.i + '</i>' +
+        '<div><b>' + s.name + '</b><small>' + s.where + '</small></div>' + right + '</div>';
+    }).join('');
+  }
+  drawShops(DELIVER);
+  $('shops').onclick = function(e){
+    var r = e.target.closest('.shop'); if (!r) return;
+    var s = (collecting ? COLLECT : DELIVER)[+r.getAttribute('data-i')];
+    if (s && s.go){ oReset(HAPPY); show('order'); }
+  };
+  var collecting = false;
+  $('seg').onclick = function(e){
+    var t = e.target.closest('span'); if (!t) return;
+    Array.prototype.forEach.call($('seg').children, function(x){ x.className = ''; });
+    t.className = 'on';
+    collecting = t.getAttribute('data-k') === 'collect';
+    $('h2').textContent = collecting ? 'Nearest counters' : 'Open now';
+    $('sub').innerHTML = collecting
+      ? '<cite title="Counted from SC Profile 2026_.pdf pages 24 to 26">57 across Botswana.</cite> Addresses from the company profile.'
+      : 'No ratings. Sprint has never collected one. Tap a shop to place an order.';
+    drawShops(collecting ? COLLECT : DELIVER);
+  };
+
+  /* ---------- the counter, on brick 32's rules ---------- */
+  var ACCEPT = 120, GIVE_UP = 600;
+  var TILLS = {
+    on:    {silent:false, person:'Lesego', phone:'72 887 004', quiet:null},
+    quiet: {silent:true,  person:'Lesego', phone:'72 887 004', quiet:40},
+    boxed: {silent:true,  person:null,     phone:null,         quiet:null}
+  };
+  var till = 'on', gone = 30;
+  function mmss(n){ var m = Math.floor(n/60), s = n%60; return m + ':' + (s<10?'0':'') + s; }
+  function cState(t, secs){
+    if (t.silent) return 'silent';
+    if (secs >= GIVE_UP) return 'given_up';
+    if (secs >= ACCEPT) return 'late';
+    return 'waiting';
+  }
+  function cDraw(){
+    var t = TILLS[till], st = cState(t, gone), big = $('c-big'), under = $('c-under');
+    var who = t.person || 'the counter';
+    if (st === 'waiting'){
+      big.className = 'big'; big.textContent = mmss(ACCEPT - gone);
+      under.innerHTML = 'to accept. The printer sounds until somebody touches it.';
+    } else if (st === 'silent'){
+      big.className = 'big amber'; big.textContent = t.quiet ? 'Quiet ' + t.quiet + ' min' : 'Never on';
+      under.innerHTML = '<b>This is the device, not the shop.</b> ' + (t.phone
+        ? 'They probably never saw it. Ring ' + t.person + ' on ' + t.phone + ' and read it out.'
+        : 'Nobody has given a number for this shop, so there is no way to reach them.');
+    } else if (st === 'late'){
+      big.className = 'big amber'; big.textContent = Math.floor(gone/60) + ' min';
+      under.innerHTML = 'and not accepted. Past the two minutes. <b>Ring ' + who + '.</b>';
+    } else {
+      big.className = 'big red'; big.textContent = Math.floor(gone/60) + ' min';
+      under.innerHTML = '<b>Time is up.</b> A person tells the customer now. Nothing cancels itself.';
+    }
+    var ring = t.phone ? 'ring ' + who + ' on ' + t.phone : 'ring the shop';
+    var L = [[0,'The printer sounds until somebody touches it'],[120,'It sounds again, louder'],
+             [240,'The office will ' + ring],[420,'Offered to another shop, customer told'],
+             [600,'A person tells the customer plainly']];
+    $('c-ladder').innerHTML = L.map(function(r){
+      var live = gone >= r[0];
+      return '<div class="row' + (live ? '' : ' dim') + '"><span class="k' + (live ? ' done' : '') + '">' +
+        (r[0] ? Math.round(r[0]/60) + 'm' : 'now') + '</span><div>' + r[1] + '</div></div>';
+    }).join('');
+    $('c-accept').disabled = st === 'silent' || st === 'given_up';
+  }
+  function segPick(id, attr, cb){
+    $(id).onclick = function(e){
+      var t = e.target.closest('span'); if (!t) return;
+      Array.prototype.forEach.call($(id).children, function(x){ x.className = ''; });
+      t.className = 'on'; cb(t.getAttribute(attr)); cDraw();
+    };
+  }
+  segPick('c-till', 'data-t', function(v){ till = v; });
+  segPick('c-gone', 'data-g', function(v){ gone = +v; });
+  $('c-accept').onclick = function(){
+    $('c-big').className = 'big green'; $('c-big').textContent = 'Accepted';
+    $('c-under').innerHTML = 'Kabelo is on his way to collect it.';
+    $('c-accept').disabled = true;
+  };
+  cDraw();
+
+  /* ---------- the order, through the real engine ---------- */
+  var ORDER = { order_id:'SC-4417', merchant_id:'m2', merchant_name:'A pharmacy',
+                goods:24500, delivery_fee:9300, rail:'myzaka', fault:'none', delivered:false, perishable:true };
+  var HAPPY = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','Sent to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','At the counter'],
+    ['collected','courier','Sealed and cold packed, collected'],
+    ['arrived','courier','At the blue gate'],
+    ['handed_over','courier','ID shown, code given, parcel photographed'],
+    ['close','system','Closed, money moves']
+  ];
+  var STOCK = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','Sent to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','At the counter'],
+    ['out_of_stock','merchant','The pharmacy does not have it', 'merchant'],
+    ['cancel_order','ops','Cancelled rather than leaving her waiting', 'merchant'],
+    ['refunded','system','Naledi refunded', 'merchant']
+  ];
+  var ABSENT = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','Sent to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','At the counter'],
+    ['collected','courier','Sealed and cold packed, collected'],
+    ['arrived','courier','At the blue gate'],
+    ['nobody_there','courier','Nobody answers', 'customer'],
+    ['wait_expired','courier','Five minutes, cannot wait longer', 'customer'],
+    ['back_at_merchant','courier','Cold box back to the pharmacy', 'customer'],
+    ['settle','ops','Who carries it', 'customer'],
+    ['refunded','system','Settled', 'customer']
+  ];
+  var script = HAPPY, i = 0, state = 'placed', fault = 'none', timer = null;
+
+  function oLog(text, bad){
+    var d = document.createElement('div');
+    d.className = 'row';
+    d.innerHTML = '<span class="k' + (bad ? '' : ' done') + '">' + (bad ? '&#10005;' : '&#10003;') + '</span><div>' + text + '</div>';
+    $('o-log').appendChild(d);
+  }
+  function oDraw(){
+    var done = state === 'closed';
+    var broken = ['stock_problem','address_problem','customer_absent','rider_failed','returning','returned','refund_due','cancelled'].indexOf(state) >= 0;
+    var big = $('o-big');
+    big.textContent = state.replace(/_/g,' ');
+    big.className = 'big' + (done ? ' green' : (broken ? ' red' : ''));
+
+    var seen = ['paid','dispatch_offered','dispatch_accepted','at_merchant','picked_up','at_door','delivered','closed'].indexOf(state) >= 0;
+    $('o-cust').textContent = done ? 'Delivered' : (broken ? 'Being told' : (seen ? 'Tracking' : 'Waiting'));
+    $('o-cust2').textContent = done ? 'Parcel photo kept 90 days. ID number never stored.' : '';
+    $('o-shop').textContent = state === 'placed' ? 'Nothing yet' : (state === 'stock_problem' ? 'Cannot supply' : (seen ? 'Accepted' : 'Waiting'));
+    $('o-shop2').textContent = 'two minutes to accept';
+    var carrying = ['dispatch_accepted','at_merchant','picked_up','at_door','returning'].indexOf(state) >= 0;
+    $('o-rider').textContent = carrying ? state.replace(/_/g,' ') : (done ? 'Free' : 'Not assigned');
+    $('o-rider2').textContent = carrying ? 'sees five fields, nothing about who she is' : '';
+    $('o-office').textContent = fault === 'none' ? 'Nobody at fault' : 'Fault: ' + fault;
+
+    var m = $('o-money');
+    if ((done || broken) && E){
+      var s;
+      try { s = E.settlement.settleOne(Object.assign({}, ORDER, {fault:fault, delivered: done && fault === 'none'})); }
+      catch (err){ s = null; }
+      if (s){
+        var P = E.settlement.pula;
+        m.hidden = false;
+        m.innerHTML = '<div><span>To the pharmacy</span><b>' + P(s.merchant) + '</b></div>' +
+          '<div><span>Cannot be resold</span><b>' + P(s.perishable_loss) + '</b></div>' +
+          '<div><span>Sprint keeps</span><b>' + P(s.sprint_fee) + '</b></div>' +
+          '<div><span>Sprint carries</span><b>' + P(s.sprint_absorbs) + '</b></div>' +
+          '<p>' + s.says + '</p>';
+        $('o-office2').textContent = 'worked out from the fault, nobody read a history';
+      }
+    } else { m.hidden = true; $('o-office2').textContent = ''; }
+  }
+  function oStep(){
+    if (!E){ oLog('engine.bundle.js did not load, so nothing is pretended', true); oStop(); return; }
+    if (i >= script.length){ oStop(); return; }
+    var row = script[i++], ev = row[0], actor = row[1], plain = row[2], f = row[3], move;
+    try { move = E.machine.apply(state, ev, f ? {actor:actor, fault:f} : {actor:actor}); }
+    catch (err){ oLog('<b>' + ev + '</b> refused: ' + err.message, true); oStop(); return; }
+    state = move.state;
+    if (move.fault && move.fault !== 'none') fault = move.fault;   /* sticky, on purpose */
+    oLog('<b>' + plain + '</b>' + move.says + ', by the ' + move.actor);
+    oDraw();
+    if (i >= script.length) oStop();
+  }
+  function oStop(){ clearInterval(timer); timer = null; $('o-run').textContent = i >= script.length ? 'Run again' : 'Run it'; }
+  function oReset(which){
+    oStop(); script = which; i = 0; state = 'placed'; fault = 'none';
+    $('o-log').innerHTML = ''; oDraw(); $('o-run').textContent = 'Run it';
+  }
+  function oPlay(which){
+    if (which || i >= script.length) oReset(which || script);
+    if (timer) return;
+    timer = setInterval(oStep, 1300); $('o-run').textContent = 'Running';
+  }
+  $('o-run').onclick    = function(){ oPlay(); };
+  $('o-stock').onclick  = function(){ oPlay(STOCK); };
+  $('o-absent').onclick = function(){ oPlay(ABSENT); };
+  oReset(HAPPY);
+
+
+  /* ---------- tracking: the window widens, it never slides ---------- */
+  (function(){
+    var ns = 'http://www.w3.org/2000/svg';
+    function el(n,a){ var e = document.createElementNS(ns,n); for (var k in a) e.setAttribute(k,a[k]); return e; }
+    var bb = $('t-blocks'), br = $('t-roads'), sd = 13;
+    function rnd(){ sd = (sd*16807)%2147483647; return sd/2147483647; }
+    for (var y=6; y<206; y+=28){ for (var x=6; x<336; x+=36){
+      bb.appendChild(el('rect',{x:x,y:y,width:(20+rnd()*10).toFixed(1),height:(15+rnd()*7).toFixed(1),rx:3,fill:'#f0f0ee'}));
+    }}
+    [34,84,160,240,300].forEach(function(x){ br.appendChild(el('line',{x1:x,y1:0,x2:x,y2:210,stroke:'#e6e6e3','stroke-width':6})); });
+    [46,82,126,178].forEach(function(y){ br.appendChild(el('line',{x1:0,y1:y,x2:340,y2:y,stroke:'#e6e6e3','stroke-width':6})); });
+
+    var SCENES = {
+      normal:  {at:0.42, big:'10:42 to 10:52', cls:'',       under:'Arriving between. Nine in ten land inside this window.', rider:'On the way to you'},
+      traffic: {at:0.54, big:'10:42 to 11:06', cls:' amber', under:'Held up on Western Bypass. The earliest time has not moved, only the far edge has.', rider:'Held up, still coming'},
+      door:    {at:0.985,big:'Right now',      cls:'',       under:'Kabelo is at your gate. He waits five minutes.', rider:'At your gate'},
+      done:    {at:1,    big:'10:47',          cls:' green', under:'Handed to you and photographed at the door. The photo is kept 90 days, never a photo of a person.', rider:'Delivered'}
+    };
+    var route = $('t-route'), bike = $('t-bike'), halo = $('t-halo'), trav = $('t-trav');
+    var L = route.getTotalLength(), pos = 0.02, target = SCENES.normal.at;
+    trav.setAttribute('stroke-dasharray', L);
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function place(){
+      var p = route.getPointAtLength(L*pos), q = route.getPointAtLength(Math.min(L, L*pos+5));
+      var a = Math.atan2(q.y-p.y, q.x-p.x)*180/Math.PI + 90;
+      bike.setAttribute('transform','translate('+p.x.toFixed(2)+','+p.y.toFixed(2)+') rotate('+a.toFixed(1)+')');
+      halo.setAttribute('cx',p.x.toFixed(2)); halo.setAttribute('cy',p.y.toFixed(2));
+      trav.setAttribute('stroke-dashoffset',(L*(1-pos)).toFixed(1));
+    }
+    function advance(){ if (Math.abs(target-pos) < 0.0004){ pos = target; place(); return; } pos += (target-pos)*0.035; place(); }
+    function paint(k){
+      var sc = SCENES[k];
+      $('t-big').className = 'big' + sc.cls; $('t-big').textContent = sc.big;
+      $('t-under').textContent = sc.under; $('t-rstate').textContent = sc.rider;
+      target = sc.at; if (k === 'normal') pos = 0.02; if (still) pos = target; place();
+    }
+    $('t-scene').onclick = function(e){
+      var t = e.target.closest('span'); if (!t) return;
+      Array.prototype.forEach.call($('t-scene').children, function(x){ x.className = ''; });
+      t.className = 'on'; paint(t.getAttribute('data-s'));
+    };
+    paint('normal');
+    /* a frame loop for smoothness and a plain timer so a background tab still gets the rider there */
+    if (!still){ (function f(){ advance(); requestAnimationFrame(f); })(); setInterval(advance, 220); }
+  })();
+
+  function tick(){
+    var d = new Date();
+    $('clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  tick(); setInterval(tick, 20000);
+})();
+</script>

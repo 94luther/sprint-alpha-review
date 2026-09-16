@@ -1,0 +1,163 @@
+/* ---------------------------------------------------------------------
+   THE PULSE - global motion system.
+
+   One set of timing tokens and two reusable primitives (a spring entrance
+   and a staggered-list utility) that every page draws from, so the whole
+   app enters and reacts with the same hand instead of each screen
+   inventing its own timing. Page files (eta.css, fees.css, discovery.css)
+   still own their own choreography (hero sweeps, celebrations, ambient
+   loops) but reach for the tokens and keyframes defined here rather than
+   re-declaring the curve.
+
+   Loaded once, globally, right after app.css (see main.tsx). No new
+   dependencies: everything below is plain CSS plus the small React state
+   that individual components use to add/remove these classes.
+   --------------------------------------------------------------------- */
+
+:root {
+  /* Spring entrance: the "something arrived" feel. Overshoots past 100%
+     before settling, ~450ms. Used for every card/row/tile that enters the
+     screen. */
+  --dur-spring: 450ms;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Micro interactions: taps, presses, small hover responses. Quick and
+     honest, no overshoot. */
+  --dur-micro: 200ms;
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Stagger step between siblings entering together. */
+  --stagger-step: 60ms;
+
+  /* Craft director's amendment pass ("THE PULSE, upgraded"):
+     two more named curves alongside the spring above, so every motion on
+     the app reaches for one of three deliberate feelings instead of a
+     generic ease. --ease-spring (already bouncy) doubles as the "physical
+     card" curve at a tighter 300ms; --ease-status-lock is new, a heavier,
+     no-overshoot curve for state changes that should read as settled fact
+     rather than a bouncy arrival. */
+  --dur-card-spring: 300ms;
+  --dur-status-lock: 400ms;
+  --ease-status-lock: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ---------- Spring entrance ---------- */
+
+@keyframes pulseEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Nothing pops in: any element entering the page reaches for this class
+   (optionally with an inline --pulse-delay for hand-placed sequencing, see
+   Track.tsx cards) instead of appearing instantly. */
+.pulse-enter {
+  animation: pulseEnter var(--dur-spring) var(--ease-spring) both;
+  animation-delay: var(--pulse-delay, 0ms);
+}
+
+/* Physical cards (a rider, a delivery point, anything that reads as a real
+   object rather than a row of text) enter tighter and quicker than the
+   default spring, 300ms instead of 450ms, same bounce. */
+.pulse-enter-card {
+  animation: pulseEnter var(--dur-card-spring) var(--ease-spring) both;
+  animation-delay: var(--pulse-delay, 0ms);
+}
+
+/* ---------- Staggered lists ---------- */
+
+/* Apply to the parent of a list of cards/rows/tiles: every direct child
+   plays the spring entrance, 60ms apart, left-to-right / top-to-bottom in
+   source order. Covers merchant cards, menu item rows, pay-method chips,
+   and any future list without hand-writing a delay per item. */
+.pulse-stagger > * {
+  animation: pulseEnter var(--dur-spring) var(--ease-spring) both;
+}
+
+.pulse-stagger > *:nth-child(1) {
+  animation-delay: calc(var(--stagger-step) * 0);
+}
+.pulse-stagger > *:nth-child(2) {
+  animation-delay: calc(var(--stagger-step) * 1);
+}
+.pulse-stagger > *:nth-child(3) {
+  animation-delay: calc(var(--stagger-step) * 2);
+}
+.pulse-stagger > *:nth-child(4) {
+  animation-delay: calc(var(--stagger-step) * 3);
+}
+.pulse-stagger > *:nth-child(5) {
+  animation-delay: calc(var(--stagger-step) * 4);
+}
+.pulse-stagger > *:nth-child(6) {
+  animation-delay: calc(var(--stagger-step) * 5);
+}
+.pulse-stagger > *:nth-child(7) {
+  animation-delay: calc(var(--stagger-step) * 6);
+}
+.pulse-stagger > *:nth-child(8) {
+  animation-delay: calc(var(--stagger-step) * 7);
+}
+.pulse-stagger > *:nth-child(9) {
+  animation-delay: calc(var(--stagger-step) * 8);
+}
+.pulse-stagger > *:nth-child(10) {
+  animation-delay: calc(var(--stagger-step) * 9);
+}
+.pulse-stagger > *:nth-child(11) {
+  animation-delay: calc(var(--stagger-step) * 10);
+}
+.pulse-stagger > *:nth-child(12) {
+  animation-delay: calc(var(--stagger-step) * 11);
+}
+.pulse-stagger > *:nth-child(13) {
+  animation-delay: calc(var(--stagger-step) * 12);
+}
+.pulse-stagger > *:nth-child(14) {
+  animation-delay: calc(var(--stagger-step) * 13);
+}
+.pulse-stagger > *:nth-child(n + 15) {
+  animation-delay: calc(var(--stagger-step) * 14);
+}
+
+/* ---------- Micro interaction primitive ---------- */
+
+/* A quick, non-spring transition for hover/press states that just need to
+   feel responsive rather than arrive with weight. */
+.pulse-tap {
+  transition: transform var(--dur-micro) var(--ease-micro),
+    box-shadow var(--dur-micro) var(--ease-micro);
+}
+
+/* ---------------------------------------------------------------------
+   Reduced motion, honored globally.
+
+   Rather than hunting down every keyframe this system and every page adds
+   (here, eta.css, fees.css, discovery.css, plus the existing animations in
+   app.css), this collapses all animation and transition durations to
+   effectively zero and caps loops at one iteration. Entrances still
+   happen, they just resolve instantly instead of animating; ambient loops
+   (the hero breathing, the rider token patrol, the checkpoint shimmer,
+   the map pulse) play one indivisible frame and stop, which is the same
+   as "off" to anyone who asked for reduced motion.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

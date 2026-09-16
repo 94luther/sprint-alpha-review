@@ -1,0 +1,99 @@
+:root {
+  /* Brand */
+  --green: #3aaa35;
+  --green-bright: #4cc63e;
+  --green-deep: #2a7d27;
+  --orange: #f7941d;
+  --orange-deep: #e0781a;
+  --ink: #111111;
+  --ink-soft: #1c1c1c;
+  --bone: #f4f4f1;
+  --white: #ffffff;
+
+  /* Fonts */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-sub: 'Poppins', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  /* Dark theme is the default flagship look */
+  --bg: var(--ink);
+  --bg-raised: var(--ink-soft);
+  --bg-raised-2: #262626;
+  --border: rgba(244, 244, 241, 0.1);
+  --border-strong: rgba(244, 244, 241, 0.18);
+  --text: var(--bone);
+  --text-dim: rgba(244, 244, 241, 0.62);
+  --text-faint: rgba(244, 244, 241, 0.38);
+  --accent: var(--green-bright);
+  --accent-deep: var(--green-deep);
+  --accent-contrast: var(--ink);
+  --warn: var(--orange);
+  --warn-deep: var(--orange-deep);
+  --map-ground: #0b0f0c;
+  --map-road: rgba(244, 244, 241, 0.14);
+  --map-road-strong: rgba(244, 244, 241, 0.22);
+  --map-block: rgba(244, 244, 241, 0.05);
+  --map-block-hi: rgba(255, 255, 255, 0.14);
+  --map-block-lo: rgba(0, 0, 0, 0.3);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  /* Image treatment radii, per the app-teardown spec: inset item photos sit
+     at the low end of the 8-16px band, full merchant hero art at the top. */
+  --radius-item: 12px;
+  --radius-hero: 16px;
+
+  /* Glovo-style saturated category accents. Fixed hue in both themes, same
+     as --green/--orange above; only surfaces flip between themes, category
+     identity colour does not. */
+  --cat-food: var(--green-bright);
+  --cat-grocery: #3d9bf0;
+  --cat-pharmacy: #a06bff;
+  --cat-vape: var(--orange);
+  --cat-all: #9aa0a6;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Sticky bottom tab bar height, referenced by app-main's bottom padding
+     and by the Home page's floating cart bar (see .cart-fab.above-tabbar). */
+  --tabbar-h: 64px;
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --bg: var(--bone);
+  --bg-raised: var(--white);
+  --bg-raised-2: #eceae4;
+  --border: rgba(17, 17, 17, 0.1);
+  --border-strong: rgba(17, 17, 17, 0.18);
+  --text: var(--ink);
+  --text-dim: rgba(17, 17, 17, 0.62);
+  --text-faint: rgba(17, 17, 17, 0.4);
+  --accent: var(--green-deep);
+  --accent-deep: var(--green);
+  --accent-contrast: var(--white);
+  --warn: var(--orange-deep);
+  --warn-deep: #b85e12;
+  --map-ground: #d9dcd3;
+  --map-road: rgba(17, 17, 17, 0.16);
+  --map-road-strong: rgba(17, 17, 17, 0.28);
+  --map-block: rgba(17, 17, 17, 0.05);
+  --map-block-hi: rgba(255, 255, 255, 0.55);
+  --map-block-lo: rgba(17, 17, 17, 0.18);
+  --shadow: 0 20px 50px rgba(17, 17, 17, 0.12);
+  --shadow-soft: 0 8px 24px rgba(17, 17, 17, 0.08);
+  color-scheme: light;
+}

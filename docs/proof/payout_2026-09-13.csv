@@ -1,0 +1,5 @@
+day,merchant_id,merchant_name,orders,goods_pula,perishable_pula,net_pula,rail,funded_by_sprint
+2026-09-13,m1,"A Gaborone grocer",3,520.00,220.00,740.00,cash,no
+2026-09-13,m2,"A licensed pharmacy",2,410.00,0.00,410.00,myzaka,yes
+2026-09-13,m3,"A licensed bottle store",2,260.00,0.00,260.00,orange_money,yes
+2026-09-13,TOTAL,"",7,,,1410.00,,

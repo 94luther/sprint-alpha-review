@@ -1,0 +1,105 @@
+/* Checkout fee breakdown and minimum-order nudge. Scoped to Checkout.tsx
+   only, kept out of app.css per file-ownership rules for this change. */
+
+/* Items subtotal reuses .summary-line spacing but sits visually lighter
+   than the priced item rows above it, since it repeats a sum the customer
+   just read rather than naming something new. */
+.checkout-subtotal-row {
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: var(--space-3);
+}
+
+/* Delivery and service fee rows: same rhythm as item lines so the whole
+   card reads as one honest list, nothing set apart or buried. */
+.checkout-fee-row {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.checkout-min-order-nudge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-3);
+  color: var(--warn);
+  font-family: var(--font-sub);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ---------- THE PULSE: pay rail glow + place-order button juice ---------- */
+
+/* A one-shot glow ripple outward from a payment rail the moment it is
+   picked, on top of the existing chipSpring pop (app.css). Green light,
+   not paint: a soft box-shadow bloom that fades, never a colour change. */
+.pay-chip.selected {
+  animation: chipSpring 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    payChipGlowPulse 0.9s ease-out;
+}
+
+@keyframes payChipGlowPulse {
+  0% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  55% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 22px 6px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 0 0 transparent;
+  }
+}
+
+.place-order-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.place-order-btn:active:not(:disabled) {
+  animation: placeOrderPress var(--dur-micro, 200ms) var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
+
+@keyframes placeOrderPress {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Success ripple: plays once the order is actually placed, while the
+   button holds its disabled "placed" state for the beat before the route
+   changes to /track/:id (see Checkout.tsx, SUCCESS_RIPPLE_MS). */
+.place-order-btn.success-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, color-mix(in srgb, var(--white) 55%, transparent) 0%, transparent 70%);
+  transform: scale(0);
+  animation: successRipple 480ms ease-out;
+}
+
+@keyframes successRipple {
+  0% {
+    transform: scale(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}

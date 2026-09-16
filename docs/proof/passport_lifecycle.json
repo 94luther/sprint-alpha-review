@@ -1,0 +1,59 @@
+{
+  "what": "One address passport through its whole life, produced by api/src/orders/address_passport.ts on 13 September 2026",
+  "steps": [
+    {
+      "step": "1. customer typed it at checkout",
+      "confidence": "typed",
+      "summary": "Home: Plot 2147, Block 8, Blue gate opposite ABC Hardware (not yet confirmed)",
+      "rider_sees": {
+        "plot": "Plot 2147, Block 8",
+        "landmark": "Blue gate opposite ABC Hardware",
+        "access": "Ring twice, dog is friendly",
+        "trusted": false,
+        "says": "Nobody has been here yet, confirm it at the door"
+      }
+    },
+    {
+      "step": "2. a rider could not find it",
+      "confidence": "typed",
+      "summary": "Home: Plot 2147, Block 8, Blue gate opposite ABC Hardware (not yet confirmed)",
+      "rider_sees": {
+        "plot": "Plot 2147, Block 8",
+        "landmark": "Blue gate opposite ABC Hardware",
+        "access": "Ring twice, dog is friendly",
+        "trusted": false,
+        "says": "Nobody has been here yet, confirm it at the door"
+      }
+    },
+    {
+      "step": "3. the next rider found it and fixed the landmark at the door",
+      "confidence": "rider_confirmed",
+      "summary": "Home: Plot 2147, Block 8, Red gate, the hardware shop closed down (confirmed)",
+      "rider_sees": {
+        "plot": "Plot 2147, Block 8",
+        "landmark": "Red gate, the hardware shop closed down",
+        "access": "Ring twice, dog is friendly",
+        "trusted": true,
+        "says": "A rider has been here before and confirmed this"
+      }
+    },
+    {
+      "step": "4. used again and confirmed",
+      "confidence": "rider_confirmed",
+      "summary": "Home: Plot 2147, Block 8, Red gate, the hardware shop closed down (confirmed)",
+      "rider_sees": {
+        "plot": "Plot 2147, Block 8",
+        "landmark": "Red gate, the hardware shop closed down",
+        "access": "Ring twice, dog is friendly",
+        "trusted": true,
+        "says": "A rider has been here before and confirmed this"
+      }
+    }
+  ],
+  "two_addresses_on_file": [
+    "Home: Plot 2147, Block 8, Red gate, the hardware shop closed down (confirmed)",
+    "Office: Plot 50361, Fairgrounds, Behind the blue tower (not yet confirmed)"
+  ],
+  "app_offers_the_customer": "Home: Plot 2147, Block 8, Red gate, the hardware shop closed down (confirmed)",
+  "why": "The rider confirmed address wins over the typed one, which is the whole point"
+}

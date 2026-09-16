@@ -1,0 +1,797 @@
+{
+ "_source": {
+  "document": "SC Profile 2026_.pdf",
+  "pages": "2 and 7 for the coverage words, 7 for the map, 24 to 26 for every branch",
+  "read_on": "2026-09-12",
+  "method": "read out of the profile PDF by word coordinates, with the two branch columns kept apart and the map labels split on their own drawing positions. Never from memory, never from a summary, never from an earlier extract.",
+  "correction": "REBUILT 12 September 2026 after three faults were found in the first read. ONE: the branch pages print in TWO COLUMNS, and reading them as flowing text paired every branch name with the NEXT branch's address, so Kanye's address, phone and email were printed under Commerce Park, about 85 km away. TWO: Kanye, BDF SSKB Camp, Letlhakeng and Shoshong were missing from the app altogether. THREE: the coverage page is a MAP, and neighbouring town labels were glued into place names that do not exist, such as Bobonong Gabojango and Dinokwe Shoshong, so the app would refuse real towns and accept invented ones.",
+  "guard": "Every branch whose email is printed must carry an email whose local part matches its own name. The only exceptions the profile itself prints are the head office on info@, the two Francistown depots sharing frwexpress@ and Maun Express on mubexpress@. checkEmailsMatchBranches() enforces it and a test fails if a new read breaks it."
+ },
+ "coverage_claim": "more than 50 towns, villages and cities nationwide and operates the biggest privately owned and extensive network covering over 75 sites on a daily basis",
+ "branch_claim": "over 50 branches",
+ "coverage_note": "Both lines are the profile's own words, quoted. The profile says over 50 branches on page 2 and never says 55. Counted off the branch pages there are 30 offices and 27 service points in Botswana with a printed address, plus 3 offices in South Africa.",
+ "counted": {
+  "botswana_offices": 30,
+  "botswana_service_points": 27,
+  "south_africa_offices": 3,
+  "total_with_an_address": 60
+ },
+ "unresolved": [
+  {
+   "name": "Ramotswa",
+   "phones": [
+    "76 999 958"
+   ],
+   "source_page": 25,
+   "why": "The profile prints this heading and a phone number with no address beside it, and a second Ramotswa with a full address appears on the next page. It is not offered as a collection point until a person confirms whether these are one place or two. Owner: Barbara."
+  }
+ ],
+ "towns_on_the_coverage_map": [
+  "Bobonong",
+  "Charles Hill",
+  "Dinokwe",
+  "Francistown",
+  "Gabojango",
+  "Gaborone",
+  "Ghanzi",
+  "Goodhope",
+  "Goshwe",
+  "Gumare",
+  "Gweta",
+  "Hukuntsi",
+  "Ikoga",
+  "Jwaneng",
+  "Kang",
+  "Kasane",
+  "Kazungula",
+  "Khakhea",
+  "Khumaga",
+  "Kokong",
+  "Letlhakane",
+  "Lobatse",
+  "Mabutsane",
+  "Mahalapye",
+  "Maitengwe",
+  "Makopong",
+  "Makuta",
+  "Masunga",
+  "Mathathane",
+  "Maun",
+  "Mmadinare",
+  "Mmashoro",
+  "Mochudi",
+  "Mogapi",
+  "Mogoditshane",
+  "Molepolole",
+  "Mopipi",
+  "Mosomane",
+  "Nata",
+  "Ncamasere",
+  "Ncojane",
+  "Nokaneng",
+  "Orapa",
+  "Otse",
+  "Palapye",
+  "Pandamatenga",
+  "Phuduhudu",
+  "Pilane",
+  "Pitsane Molopo",
+  "Ramatlabama",
+  "Ramokgwebana",
+  "SSKB",
+  "Sefhare",
+  "Sefhophe",
+  "Sehithwa",
+  "Selibe Phikwe",
+  "Sepupa",
+  "Serowe",
+  "Serule",
+  "Shakawe",
+  "Shorobe",
+  "Shoshong",
+  "Sowa",
+  "Takatokwane",
+  "Thamaga",
+  "Tonota",
+  "Toteng",
+  "Tsabong",
+  "Tsamaya",
+  "Tsau",
+  "Tshane",
+  "Tutume",
+  "Ukwi",
+  "Werda",
+  "Zanzibar",
+  "Zoroga"
+ ],
+ "towns_note": "These are labels lifted off a drawing, not a printed list, so they are treated as likely covered rather than certain. A town here with no branch of its own is carried to, not collected from, and the office confirms before anything is promised.",
+ "sites": [
+  {
+   "name": "Head",
+   "kind": "office",
+   "address": "Plot 69368, Unit 1, Western Industrial Estate Block 3 Industrial",
+   "phones": [
+    "390 3300",
+    "76 999 965"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Main Mall",
+   "kind": "office",
+   "address": "Plot 181, Office 1A, Queens Road",
+   "phones": [
+    "76 999 941"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Mahalapye",
+   "kind": "office",
+   "address": "Old Mall, Opposite Jet Stores",
+   "phones": [
+    "472 0047",
+    "76 999 970"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Rail Park",
+   "kind": "office",
+   "address": "Plot 4716, Rail Park Mall Unit G69",
+   "phones": [
+    "75 121 171"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Mogoditshane",
+   "kind": "office",
+   "address": "Plot 13445, Unit 10, Bodiba Mall",
+   "phones": [
+    "76 999 963"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "BDF SSKB Camp",
+   "kind": "service_point",
+   "address": "BDF SSKB Camp, Mogoditshane",
+   "phones": [
+    "78 781 149"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Phakalane",
+   "kind": "office",
+   "address": "Unit 16, Mowana Park Mall",
+   "phones": [
+    "77 355 258"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Tlokweng",
+   "kind": "service_point",
+   "address": "Plot 14028, khaekholo ward AO Tlokweng Clinic",
+   "phones": [
+    "74 416 521"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Bus Rank",
+   "kind": "service_point",
+   "address": "Gaborone Bus Rank, Next to waiting Room",
+   "phones": [
+    "75 161 303"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Ghanzi",
+   "kind": "office",
+   "address": "Tau Mall, Next to the bus rank",
+   "phones": [
+    "659 6276",
+    "76 999 993"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Gumare",
+   "kind": "office",
+   "address": "Bamly Gardens, Mopako Ward. Opposite Botoka Hardware",
+   "phones": [
+    "76 999 987"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Francistown",
+   "kind": "office",
+   "address": "Plot 469/70, Blue Jacket Street, Next to Nashua",
+   "phones": [
+    "240 1999",
+    "76 999 980"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Francistown Warehouse",
+   "kind": "office",
+   "address": "Plot 31250, Warehouse No. 3 Mmaraka Station (Next to CTM, Builders Warehouse & Isuzu Motors)",
+   "phones": [
+    "240 1999",
+    "78 781 136"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Francistown Express",
+   "kind": "office",
+   "address": "Unit 10, Nswazwi Mall, Above Ackermans",
+   "phones": [
+    "78 222 284"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Francistown Donga Express",
+   "kind": "office",
+   "address": "Donga BDF Camp",
+   "phones": [
+    "78 781 141"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Palapye",
+   "kind": "office",
+   "address": "Plot 8717, Unit 18E River view Mall",
+   "phones": [
+    "76 999 971",
+    "76 999 972"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Maun",
+   "kind": "office",
+   "address": "Plot 2599 Spin Master Building",
+   "phones": [
+    "686 1848",
+    "76 999 985",
+    "76 999 987"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Maun Express",
+   "kind": "office",
+   "address": "Unit 8, Park View Mall",
+   "phones": [
+    "77 365 005"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Maun Warehouse",
+   "kind": "office",
+   "address": "Plot 27886 (Along Airport Road)",
+   "phones": [
+    "+267 78 781 140"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Kasane",
+   "kind": "office",
+   "address": "Plot 81, Madiba Complex, Next to Kasane Furnmart",
+   "phones": [
+    "625 1448",
+    "76 999 978"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Serowe",
+   "kind": "office",
+   "address": "Plot 741, Unit 7, Choppies Botalaote Complex",
+   "phones": [
+    "460 0203",
+    "76 9999 73",
+    "76 999 943"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Selibe Phikwe",
+   "kind": "office",
+   "address": "Office B1, Plot 2577 Cash Bazar Building",
+   "phones": [
+    "262 2779",
+    "76 999 975"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 24
+  },
+  {
+   "name": "Kanye",
+   "kind": "office",
+   "address": "Plot 2672, Motlhala Ward, Dunlop Complex",
+   "phones": [
+    "75 201 943",
+    "76 999 960"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Letlhakane",
+   "kind": "office",
+   "address": "Plot 12105, Mokgobelele Ward, Next to Bus Rank",
+   "phones": [
+    "297 6002",
+    "76 999 969"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Tsabong",
+   "kind": "office",
+   "address": "Delta Complex, opposite Bayport, Plot 1264, Ikageng Ward",
+   "phones": [
+    "654 0745",
+    "76 999 990"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Jwaneng",
+   "kind": "office",
+   "address": "Plot 5422/3, Unit 2 (B) Diamond Mall",
+   "phones": [
+    "588 1975",
+    "76 314 546",
+    "76 999 961"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Molepolole",
+   "kind": "office",
+   "address": "Plot 7072, Unit 5, 1st Floor, SM Complex, Bokaa Ward",
+   "phones": [
+    "75 201 944",
+    "76 999 957"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Lobatse",
+   "kind": "office",
+   "address": "Plot 4649, Unit 2, Hillside mall",
+   "phones": [
+    "530 1107",
+    "77 464 240"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Orapa",
+   "kind": "office",
+   "address": "Eland Drive Way, Next to Township Maintenance Offices",
+   "phones": [
+    "76 9999 74",
+    "75 1896 89"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Shakawe",
+   "kind": "office",
+   "address": "Unit 14, Shakawe Shopping Mall Plot 3237, Saoshoko Ward",
+   "phones": [
+    "78 222 298",
+    "78 372 541"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Kazungula",
+   "kind": "office",
+   "address": "Unit D27, Duncan Plaza Mall",
+   "phones": [
+    "78 568 721"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Mochudi",
+   "kind": "service_point",
+   "address": "Plot 478 Ramopyana Ward Blue Caravan, Taxi Rank",
+   "phones": [
+    "74 380 838"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Commerce Park",
+   "kind": "office",
+   "address": "Plot 39A, Unit 2 Gaborone International Commerce Park, Opposite Dunlop",
+   "phones": [
+    "+267 78 781 150",
+    "390 3300"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Tutume",
+   "kind": "office",
+   "address": "Plot 9959 Madikwe Ward, Opposite Choppies Mall",
+   "phones": [
+    "74 439 227",
+    "76 999 981"
+   ],
+   "email": "office@example.com",
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Kang",
+   "kind": "service_point",
+   "address": "Plot 5422, Kang Meat Market Complex, Gamonyemane Ward",
+   "phones": [
+    "78 568 725"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Nata",
+   "kind": "service_point",
+   "address": "Plot 6243 Kachikau Ward, next to Kaseba Private Clinic",
+   "phones": [
+    "78 781 119",
+    "76 999 994"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Masunga",
+   "kind": "service_point",
+   "address": "Plot 12, Unit 4, Equity Management Building",
+   "phones": [
+    "77 911 474"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Pandamatenga",
+   "kind": "service_point",
+   "address": "Plot 1, Engen Filling Station",
+   "phones": [
+    "75 305 120",
+    "76 999 989"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Bobonong",
+   "kind": "service_point",
+   "address": "Crescent Bay Cafe, Opposite Bobonong Circle Complex, Kgwatalala Ward",
+   "phones": [
+    "76 999 977"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "CharlesHill",
+   "kind": "service_point",
+   "address": "Plot 9812 Utjiseu Ward next to VDC Market Stalls",
+   "phones": [
+    "76 999 992"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Moshupa",
+   "kind": "service_point",
+   "address": "Intellects Copy Shop, Next to Bus Rank",
+   "phones": [
+    "74 411 594",
+    "75 189 032"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Thamaga",
+   "kind": "service_point",
+   "address": "Intellect Copy Shop, Next to Parliament Offices",
+   "phones": [
+    "78 372 591"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Sebina",
+   "kind": "service_point",
+   "address": "Plot 1669, Machengedza Complex, Unit 3, Opposite Sefalana",
+   "phones": [
+    "78 568 722"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Tonota",
+   "kind": "service_point",
+   "address": "Plot 8585, Unit D, Manyanda Ward",
+   "phones": [
+    "75 210 939",
+    "76 9999 83"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 25
+  },
+  {
+   "name": "Sefhare",
+   "kind": "service_point",
+   "address": "Sefhvil Guest House, Tribal lot 2433, Bobirwa Ward, behind Cugel Store",
+   "phones": [
+    "78 568 755"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Rakops",
+   "kind": "service_point",
+   "address": "Plot 6822, Samoaba Ward, Opposite Main Kgotla",
+   "phones": [
+    "78 781 124"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "GoodHope",
+   "kind": "service_point",
+   "address": "PH Filling Station, next to Pule Funeral Palour",
+   "phones": [
+    "78 781 122"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Ramotswa",
+   "kind": "service_point",
+   "address": "Plot 2221, Lesetlhana Ward, Next to Ramotswa Pharmacy, Opposite Police Station",
+   "phones": [
+    "78 781 131"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Sekoma",
+   "kind": "service_point",
+   "address": "Sekoma Filling Station",
+   "phones": [
+    "78 781 134"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Sehithwa",
+   "kind": "service_point",
+   "address": "Plot 2159, Kgalagadi Ward",
+   "phones": [
+    "78 781 126"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Shoshong",
+   "kind": "service_point",
+   "address": "Plot 1920, Unit 3, One for the Road Complex, Next to Shell Filling Station",
+   "phones": [
+    "78 568 754"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Gweta",
+   "kind": "service_point",
+   "address": "Bobengink Internet Cafe, Maditsa Ward, Next to Gweta Lodge",
+   "phones": [
+    "+267 78 447 674"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Mmadinare",
+   "kind": "service_point",
+   "address": "Plot 2254 Mosokolo ward, Next to Saverite",
+   "phones": [
+    "78 781 123"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Letlhakeng",
+   "kind": "service_point",
+   "address": "Plot 4127, Robby Moketo Complex, Next to Bus Rank",
+   "phones": [
+    "78 781 128"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Hukuntsi",
+   "kind": "service_point",
+   "address": "Lot 17, Magobelelo Ward, Hukuntsi, Botswana Next to PEP building and opposite Council offices",
+   "phones": [
+    "78 781 135"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Mabutsane",
+   "kind": "service_point",
+   "address": "Kgosing Ward, Next to Mabutsane Trading Store, Opposite Speed Joint Bar",
+   "phones": [
+    "78 781 133"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Otse",
+   "kind": "service_point",
+   "address": "Lot 1446, Lekubung Ward, Otse",
+   "phones": [
+    "78 781 142"
+   ],
+   "email": null,
+   "international": false,
+   "source_page": 26
+  },
+  {
+   "name": "Johannesburg",
+   "kind": "office",
+   "address": "1 Quark Crescent Linbro Business Park, Sandton, 2090 Customer Service Executive: Lilahloane Thea Gabatshwane",
+   "phones": [
+    "+27 11 457 3000"
+   ],
+   "email": null,
+   "international": true,
+   "source_page": 26
+  },
+  {
+   "name": "Durban",
+   "kind": "office",
+   "address": "28 Island Circle, Riverhorse Valley Business Estate, Effingham, 4051 Operations Manager: Dinesh Dheepnarain",
+   "phones": [
+    "+27 31 581 5800"
+   ],
+   "email": null,
+   "international": true,
+   "source_page": 26
+  },
+  {
+   "name": "Capetown",
+   "kind": "office",
+   "address": "Platinum Crescent Montagu Gardens Millerton 7441",
+   "phones": [
+    "+27 31 581 5800"
+   ],
+   "email": null,
+   "international": true,
+   "source_page": 26
+  }
+ ]
+}

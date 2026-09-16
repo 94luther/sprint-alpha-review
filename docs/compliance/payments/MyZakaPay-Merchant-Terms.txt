@@ -1,0 +1,412 @@
+ 
+ 
+ 
+                          
+ 
+ 
+MYZAKAPAY MERCHANT TERMS & CONDITIONS 
+ 
+WHEREAS Mascom is desirous of appointing 
+_____________________________________
+_____________________________________ 
+as its Merchant to accept payments through 
+MyZaka Mobile Money Merchant Payment 
+service (“MyZakaPay”) as well as to provide 
+related mobile money transfer services offered 
+by Mascom Wireless Botswana 
+(“Mascom”) as part of its mobile phone 
+services and products in Botswana on a non-
+exclusive basis. 
+AND WHEREAS the Merchant is agreeable to 
+the provision of such merchant services to 
+Mascom. 
+NOW THEREFORE IN CONSIDERATION OF THE 
+AFOREGOING THE PARTIES HAVE AGREED AS 
+FOLLOWS: 
+1. DEFINITIONS 
+1.1 Cash-Out means the process of redeeming 
+e-value for cash from the Agent. 
+1.2 Customer means every person in whose 
+name a MyZaka account is registered in 
+connection with the use of MyZaka services 
+and who also purchases goods and/or services 
+from the Merchant. 
+1.3 E-value or e-money means the electronic 
+money in the Mobile Money Transfer System 
+which will equate to the deposits in the 
+Mascom MyZaka Trust Account at Absa Bank. 
+1.4 Wallet means an E- value repository. 
+1.5 MyZaka Agent means an entity registered 
+by Mascom to fulfil functions of registering 
+customers and effecting payments, deposits 
+and withdrawals. 
+1.6 MyZaka Transfer and Payment system 
+means the MyZaka mobile money system on 
+which the Mobile Money Transactions are 
+done. 
+1.7 Merchant means an entity that accepts 
+E-value as a payment mode for goods and/or 
+services and for bulk disbursement of cash as 
+e-value to beneficiaries. 
+1.8 Merchant Code refers to a 6-digit number  
+assigned to a business or organization by 
+Mascom upon registration as a Merchant 
+1.9 SMS means short message services. 
+1.10 
+USSD 
+means 
+the 
+Unstructured 
+Supplementary Service Data menu on your 
+cellphone that lists all the services. 
+ 
+ 
+2. SCOPE OF MERCHANT AGREEMENT 
+Mascom hereby appoints and retains the 
+Merchant, on a non-exclusive basis, to 
+perform functions, services and such other 
+acts as the Merchant is specifically required to 
+do pursuant to the terms of this agreement. 
+The Merchant agrees to perform its duties 
+under the supervision of Mascom within 
+Botswana commencing 
+__________________20_____, 
+subject to renewal, extension, or termination 
+by the Parties. 
+ 
+3. MERCHANT’S RIGHTS AND OBLIGATIONS 
+3.1 The Merchant shall forthwith upon 
+execution of this Agreement, if not already 
+done prior to such execution, register with 
+Mascom as a Customer and have a Mascom 
+line to facilitate registration as a Mascom 
+mobile money Merchant (“MyZakaPay 
+Merchant”). 
+3.2 The Merchant’s outlets shall be staffed 
+with appropriately qualified and trained staff  
+members to handle MyZakaPay payments. 
+Should Mascom organize training for Outlet 
+staff, the Merchant will ensure that Outlet 
+staff are in attendance. The Merchant shall 
+not do or omit to do anything which could 
+reasonably be regarded as inconsistent with 
+this obligation. 
+3.3 The merchant shall accept MyZakaPay 
+payments from customers for goods and 
+services bought. 
+The procedure for accepting MyZakaPay 
+payments shall be as follows: 
+3.3.1 The merchant shall always display his 
+merchant code where it is clearly visible to 
+customers. 
+3.3.2 The customer will initiate a payment 
+transaction for goods and/or services through 
+USSD (cell phone) menu short code *167# 
+3.3.3 The Merchant shall ensure that the 
+customer quotes the Merchant Code in all 
+payments made through MyZakaPay. 
+3.3.4 The Merchant shall not deduct any 
+charges for the payment transactions made 
+by the Customer. In this regard the amount 
+transferred by the Customer shall be 
+equivalent to the price(s) of goods and/or 
+services displayed on the till. 
+3.3.5 The Merchant shall release the goods 
+and or/services to the customer upon 
+successful completion of the transaction and 
+the money reflecting in the Merchant’s wallet. 
+In this regard the Merchant shall receive an 
+SMS notification showing inter alia the 
+amount paid by the Customer, their name and 
+customer number. A receipt shall be 
+generated where systems are integrated. 
+Merchant can also go into the merchant 
+portal to check the last transactions to 
+validate in case SMS is not delivered. 
+3.3.6 At any time the merchant may choose to 
+liquidate his/her wallet at any MyZaka 
+agent’s outlet or by issuing a bank transfer 
+instruction for larger amounts in accordance 
+with any limits as advised by the regulator 
+from time to time. 
+ 
+3.4 The Merchant shall exercise full control 
+over and take full responsibility to ensure that 
+all payment transactions are done in line with 
+the policies of Mascom and as per the 
+procedures provided by Mascom as well as 
+for its employees, their acts and omissions 
+when carrying out MyZaka payment 
+transactions. 
+ 
+3.5 The Merchant shall ensure that the staff 
+members responsible for handling MyZaka 
+transactions undergo an annual Anti Money 
+Laundering and counter terrorism financing 
+and proliferation training on an annual basis 
+and shall share proof of such training with 
+Mascom within the year in question. 
+ 
+3.6 Mascom has zero tolerance for money 
+laundering  and other forms of financial 
+crime. Where the Merchant gets involved in 
+or is found guilty of money laundering, 
+terrorist financing or any unlawful activities 
+not governed by this agreement; Mascom will 
+not, in any way be party or held liable for such 
+illegal activities and reserves the right to 
+report this to the relevant authorities in line 
+with the requirements of the regulations and  
+terminate its relationship with the Merchant 
+forthwith 
+ 
+3.7 The Merchant shall be responsible for the 
+maintenance of accurate, up to date and 
+verified information which Mascom shall 
+deem true and correct and wholly rely on 
+when making payments.  
+ 
+3.8 Any change or variation of Merchant 
+information or management shall be 
+communicated to Mascom in writing within 
+30 days of such change occurring.  
+ 
+3.9 The Merchant may redeem electronic 
+money on behalf of the licensee, but shall not 
+issue electronic money on its own behalf. 
+ 
+3.10 The Merchant acknowledges that the 
+contract for their services shall not be 
+exclusive.  
+ 
+3.11 The Merchant shall establish the identity 
+of each customer  as required under Section 5 
+of the FIA Regulations, and where the 
+Merchant cannot establish the identity of a 
+customer due to impossibility of reasonable 
+impracticability, a specified party shall as far 
+as is reasonably possible, take steps to 
+ascertain and verify such identity and without 
+delay give written notice to the Agency of 
+such impossibility or impracticability 
+indicating any alternative measures used to 
+identify or verify the identity. 
+ 
+4. OBLIGATIONS OF MASCOM 
+Mascom shall: 
+4.1 Ensure that the Mobile Money Transfer 
+and Payment System operates effectively in 
+accordance with the provisions of the MyZaka 
+Procedures Manual.  
+4.2 Ensure that adequate marketing  
+material is available for use by the Merchants. 
+4.3 Have a fully operational Call Centre 
+manned by qualified employees and/or 
+automated systems to assist in the resolution 
+
+ 
+ 
+ 
+                          
+ 
+of problems related to the MyZakaPay 
+Services. 
+4.4 Mascom excludes warranties of any kind 
+and shall not be liable for any costs, loss, 
+liability or damage whether direct or indirect, 
+special or consequential whatsoever and 
+howsoever arising whether from any 
+suspension or termination of this Agreement 
+or otherwise. 
+4.5 Mascom will train outlet staff so that they 
+are proficient with MyZakaPay as well as 
+aligned with the relevant Mascom policies 
+and AML/CFT requirements before they start 
+offering the MyZakaPay services to the 
+market. 
+Mascom will meet all expenses related to the 
+training venue and training material, while 
+the Merchant meets all travel and 
+accommodation expenses incurred by their 
+officers when they attend training. 
+ 
+5. CHARGES 
+5.1 Mascom will prescribe a charge for the 
+Merchant for the liquidation of e-money and 
+the transaction charges are as follows: 
+5.1.1 Cashing out through a MyZaka Agent 
+will attract the prevailing withdrawal charges 
+with a maximum cap of BWP175. The charges 
+may change from time to time at the 
+discretion of Mascom. 
+5.1.2 A bank transfer will attract the 
+prevailing bank charges for bank transfers. 
+5.1.3. Merchant irrevocably and 
+unconditionally agrees and confirms that in 
+consideration of Mascom facilitating payment 
+services under the MyZakaPay Service, 
+Mascom shall be entitled to impose a 
+collection fee of _____% per payment. 
+ 
+6. INDEPENDENT CONTRACTOR 
+6.1 The Parties acknowledge that, save for the 
+duties and powers of the Merchant as stated 
+in clause 3, hereof nothing in this Agreement 
+shall be construed to create a relationship of 
+employment or partnership whatsoever 
+between the Parties, whether for tax or any 
+other purpose. 
+6.2 Subject to clause 3 hereof neither Party 
+shall have the right to bind the other to any 
+Agreement with a third Party or to incur any 
+obligation or liability on behalf of the other 
+Party. 
+ 
+7. SECURITY MANAGEMENT 
+7.1 In the event of loss of the Merchant’s SIM 
+card, the Merchant is required to inform 
+Mascom immediately so that the SIM card is 
+blocked. 
+The Merchant can contact the Mascom Call 
+Centre or send an e-mail to 
+mobilemoney@mascom.bw  Reporting 
+immediately will prevent unauthorized use. 
+The Merchant will be liable for any losses and 
+costs incurred before the disconnection of the 
+SIM card is made by Mascom. 
+7.2 The Merchant will be liable for any losses 
+and costs incurred before they notify Mascom 
+of the lost/stolen SIM card. The Merchant is 
+responsible for securing their MyZakaPay 
+wallet and the cell phone used for mobile 
+money transaction with an access pin. 
+Mascom will not be liable for any loss of 
+valuables from the Merchant’s premises.  
+ 
+8. CONFIDENTIALITY 
+8.1 The Merchant shall treat as confidential all 
+information 
+relating 
+to 
+Customers, 
+Transactions and Mascom. 
+8.2 Each Party agrees to keep all information 
+confidential and agrees that it shall not 
+without the prior written consent of the 
+Merchant, Customer, or Mascom, divulge 
+information relating to the Merchant, 
+Customer, or Mascom, unless required to do 
+so by law enforcement agents upon which the 
+affected Party should be consulted. 
+ 
+The Parties agree to abide by and conduct their 
+business in accordance with the relevant data 
+protection and privacy laws in Botswana. 
+ 
+9. BREACH 
+9.1 Mascom shall have the right to terminate 
+the Merchant Agreement in the event that 
+the Merchant: 
+9.2 Commits any act of fraud or theft against 
+customers or Mascom involving the use of the 
+Mascom mobile money facility; and/or 
+9.3 Commits an act that brings Mascom into 
+disrepute; and/or 
+9.4 Fails to perform any of its obligations in 
+terms of this Agreement. 
+ 
+10. TERMINATION 
+10.1 If the Merchant is in breach of the 
+provisions per clause 9 hereof, Mascom may 
+terminate this Agreement immediately and 
+thereafter inform the Merchant in writing of 
+reasons thereof. 
+10.2 Mascom may also terminate the 
+Merchant Agreement for whatever reason by 
+giving 30 calendar days’ notice to the 
+Merchant but in the event of a regulatory 
+breach, Mascom may terminate the 
+Agreement with immediate effect. 
+ 
+11. LIMITATION OF LIABILITY AND 
+INDEMNITY 
+11.1 Mascom will not be liable for any costs, 
+loss, or damage whether direct, special or 
+consequential, howsoever, and when so ever 
+arising from any suspension or termination of 
+this Agreement. 
+11.2 The Merchant shall indemnify Mascom, 
+from and against any and all costs incurred by 
+the Merchant of whatever nature and any 
+loss, damage or liability, whether criminal or 
+civil, suffered by Mascom resulting from a 
+breach of this Agreement or any laws and 
+regulations governing the provision of Mobile 
+Money Transfer Services by the Merchant 
+including but not limited to breaches caused 
+by any act, neglect or default of the Merchant 
+and/or its employees, or any subscriber or 
+third party claim in respect of any matter 
+arising from the Merchant’s or its employees’ 
+conduct. 
+11.3 No warranties or representations are 
+made with regard to potential revenues that 
+may be earned by the Merchant from the 
+provision of the Mobile Money Transfer 
+services and no reliance should be placed on 
+any statements or projections provided, 
+whether verbally or in writing in this respect. 
+ 
+11.4 Mascom shall not be liable for any 
+transactions carried out on the face of 
+inaccurate or unverified information or 
+documentation as at the date of transaction. 
+ 
+12. DISPUTE RESOLUTION 
+12.1 In the event of any dispute, parties shall 
+use their best efforts to resolve any dispute 
+arising out of or in connection to these Terms 
+and Conditions through good faith 
+negotiations within seven days of dispute 
+arising. 
+12.2 If the dispute is not resolved within this 
+period, it shall be referred to arbitration in 
+Gaborone in accordance with the Arbitration 
+Act, as amended.  
+12.3 The arbitration shall be conducted by a 
+single arbitrator appointed by the Law Society 
+of Botswana shall the appointment by way of 
+agreement between the parties fail. 
+12.4 The decision of the arbitrator shall be 
+final and binding on both parties.  
+12.5 Nothing in this clause shall prevent 
+either party from seeking interim or urgent 
+relief from a court of competent jurisdiction.  
+12.6 This clause is severable from the rest of 
+the Agreement and shall remain in force 
+notwithstanding the termination, cancellation 
+or invalidity of the Agreement or any part 
+thereof. 
+ 
+13 MUTUAL CO-OPERATION 
+The Parties undertake to act in good faith 
+with respect to each other’s rights under this 
+Agreement and to adopt all reasonable 
+measures to ensure the realization of the 
+objectives of this Agreement. 
+ 
+14. APPLICABLE LAW 
+This Agreement shall be governed by the laws 
+of Botswana. In the event of a dispute, the 
+Parties hereby submit to the jurisdiction of 
+the Courts of Botswana.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

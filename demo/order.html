@@ -1,0 +1,318 @@
+<title>One Real Order</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --accent:#3AAA35; --accent2:#F7941D; --red:#c8102e;
+    --bga:#E3F3E1; --bgb:#FDEBD6;
+    --ink:#111; --dim:#6b7280; --faint:#8a93a6;
+    --card:rgba(255,255,255,.80); --solid:#fff; --wash:#f3f5f8;
+    --shadow:0 8px 20px rgba(20,33,61,.07);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);min-height:100vh;
+       background:linear-gradient(150deg,var(--bga) 0%,#f7f4ef 48%,var(--bgb) 100%);
+       font:14px/1.5 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:0 auto;padding:30px 20px 70px}
+
+  header{text-align:center}
+  .mark{font-weight:800;letter-spacing:.16em;font-size:12px;color:var(--accent)}
+  h1{margin:8px 0 0;font-size:32px;font-weight:800;letter-spacing:-.5px}
+  .lede{color:var(--dim);max-width:60ch;margin:10px auto 0;font-size:14px}
+  .live{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--solid);
+        border-radius:22px;padding:8px 16px;font-size:12px;box-shadow:var(--shadow);font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:22px 0 6px}
+  .controls button{border:none;background:var(--solid);color:var(--ink);border-radius:24px;
+    padding:12px 20px;font:700 13px Inter;cursor:pointer;box-shadow:var(--shadow)}
+  .controls button.go{background:var(--accent);color:#fff;box-shadow:0 12px 24px rgba(58,170,53,.3)}
+  .controls button.bad{background:#fff;color:var(--red)}
+  .controls button[disabled]{opacity:.45;cursor:default}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px}
+  @media (max-width:1000px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+
+  .who{background:var(--card);backdrop-filter:blur(8px);border-radius:22px;padding:0 0 14px;
+       box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .whohead{padding:13px 15px 11px;border-bottom:1px solid rgba(20,33,61,.07);display:flex;align-items:center;gap:9px}
+  .whohead i{width:32px;height:32px;border-radius:10px;flex:none;display:grid;place-items:center;font-style:normal;
+             font-size:15px;background:linear-gradient(135deg,var(--bga),var(--bgb))}
+  .whohead b{font-size:13.5px;display:block}
+  .whohead small{display:block;font-size:10.5px;color:var(--faint)}
+  .whobody{padding:12px 15px 0;display:flex;flex-direction:column;gap:10px;flex:1}
+
+  .state{border-radius:14px;padding:10px 12px;background:var(--solid);box-shadow:0 4px 12px rgba(20,33,61,.05)}
+  .state small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .state b{display:block;font-size:15px;font-weight:800;margin-top:3px;letter-spacing:-.2px}
+  .state.hot{background:var(--accent2);color:#fff}
+  .state.hot small{color:rgba(255,255,255,.85)}
+  .state.stop{background:var(--red);color:#fff}
+  .state.stop small{color:rgba(255,255,255,.85)}
+  .line{font-size:11.5px;color:var(--dim);line-height:1.5}
+  .line b{color:var(--ink)}
+  .chips{display:flex;gap:5px;flex-wrap:wrap}
+  .chip{border-radius:18px;padding:4px 10px;font-size:10.5px;background:var(--wash);color:#4b5563;font-weight:600}
+  .chip.on{background:var(--accent);color:#fff}
+  .chip.warn{background:#FEF0DC;color:#9a5b06}
+  .muted{color:var(--faint);font-size:11px;font-style:italic}
+
+  .money{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:12px;margin-top:2px}
+  .money span{color:var(--dim)}
+  .money em{font-style:normal;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+
+  .logwrap{margin-top:26px;background:var(--solid);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+  .logtop{padding:13px 18px;border-bottom:1px solid rgba(20,33,61,.07);display:flex;align-items:baseline;gap:10px}
+  .logtop b{font-size:13.5px;font-weight:800}
+  .logtop span{font-size:11.5px;color:var(--faint)}
+  .log{max-height:330px;overflow:auto;padding:10px 0}
+  .ev{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:7px 18px;font-size:12px;
+      border-bottom:1px solid rgba(20,33,61,.04)}
+  .ev:last-child{border-bottom:none}
+  .ev time{font:600 11px "JetBrains Mono",monospace;color:var(--faint);padding-top:2px}
+  .ev code{font:600 11.5px "JetBrains Mono",monospace;color:var(--accent);display:block;word-break:break-word}
+  .ev.err code{color:var(--red)}
+  .ev p{margin:2px 0 0;color:var(--dim);font-size:11.5px;line-height:1.45}
+  .ev p b{color:var(--ink)}
+
+  footer{margin-top:34px;text-align:center;font-size:12px;color:var(--faint)}
+  cite{font-style:normal;border-bottom:1px dotted rgba(17,17,17,.3);cursor:help}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="mark">SPRINT COURIERS</div>
+  <h1>One real order, start to finish</h1>
+  <p class="lede">This is not a slideshow. Every line below is produced by calling the order engine in
+    this repository, live in your browser. Watch the same order from four sides at once.</p>
+  <div class="live"><span class="dot"></span><span id="livelabel">Ready</span></div>
+</header>
+
+<div class="controls">
+  <button class="go" id="play">Place the order and run it</button>
+  <button id="step">One step</button>
+  <button class="bad" id="trouble">Run it with the shop out of stock</button>
+  <button class="bad" id="absent">Run it with nobody home</button>
+  <button id="reset">Reset</button>
+</div>
+
+<div class="grid">
+  <div class="who">
+    <div class="whohead"><i>&#128241;</i><div><b>Naledi, the customer</b><small>Phakalane</small></div></div>
+    <div class="whobody" id="v-customer"></div>
+  </div>
+  <div class="who">
+    <div class="whohead"><i>&#127978;</i><div><b>The pharmacy</b><small>Main Mall</small></div></div>
+    <div class="whobody" id="v-shop"></div>
+  </div>
+  <div class="who">
+    <div class="whohead"><i>&#128757;</i><div><b>Kabelo, the rider</b><small>Scooter</small></div></div>
+    <div class="whobody" id="v-rider"></div>
+  </div>
+  <div class="who">
+    <div class="whohead"><i>&#128421;</i><div><b>The office</b><small>Ops and money</small></div></div>
+    <div class="whobody" id="v-office"></div>
+  </div>
+</div>
+
+<div class="logwrap">
+  <div class="logtop"><b>What the engine actually did</b>
+    <span>every line is a real function call and its real return value</span></div>
+  <div class="log" id="log"></div>
+</div>
+
+<footer>api/src/orders, bundled unchanged into this page &#183; 190 tests passing &#183;
+  prices from UPDATED SLA 2026 page 10, network from the company profile pages 24 to 26</footer>
+</div>
+
+<script src="engine.bundle.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = window.Engine;
+  if (!E){ $('log').innerHTML = '<div class="ev err"><time>--</time><div><code>engine.bundle.js did not load</code><p>The page is honest about this rather than showing a fake run.</p></div></div>'; return; }
+
+  /* ---------- the order, as data the engine understands ---------- */
+  var ORDER = {
+    order_id: 'SC-4417',
+    merchant_id: 'm2', merchant_name: 'A pharmacy',
+    goods: 24500,          /* P245.00 of goods, in thebe, because decimals lose money */
+    delivery_fee: 9300,    /* P93.00, one kilo zone 1, from the signed rate card */
+    rail: 'myzaka',
+    fault: 'none', delivered: false, perishable: true
+  };
+  var PASSPORT = {
+    id: 'ap-1', customer_id: 'c-naledi', label: 'Home',
+    plot: 'Plot 22418, Block 9',
+    landmark: 'Blue gate opposite the primary school',
+    access: 'Ring the bell, the gate is usually locked',
+    confidence: 'rider_confirmed', confirmed_by: 'Kabelo',
+    confirmed_at: '2026-09-01T10:00:00.000Z', times_used: 4
+  };
+
+  /* The happy path, in the engine's own event names. Nothing here is invented: every pair is a real
+     row in TRANSITIONS, and apply() throws if one of them is not. */
+  var HAPPY = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','The order goes out to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','Kabelo reaches the counter'],
+    ['collected','courier','The pharmacy hands over a sealed, cold packed order'],
+    ['arrived','courier','Kabelo reaches the blue gate'],
+    ['handed_over','courier','Naledi shows ID, gives the code, parcel photographed'],
+    ['close','system','The day closes and the money moves']
+  ];
+  var STOCK = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','The order goes out to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','Kabelo reaches the counter'],
+    ['out_of_stock','merchant','The pharmacy does not have it after all', 'merchant'],
+    ['cancel_order','ops','The office cancels rather than leaving her waiting', 'merchant'],
+    ['refunded','system','Naledi is refunded', 'merchant']
+  ];
+  var ABSENT = [
+    ['pay_succeeded','system','Naledi pays on MyZaka'],
+    ['offer_to_riders','system','The order goes out to riders nearby'],
+    ['rider_accepted','courier','Kabelo takes it'],
+    ['rider_arrived_at_shop','courier','Kabelo reaches the counter'],
+    ['collected','courier','The pharmacy hands over a sealed, cold packed order'],
+    ['arrived','courier','Kabelo reaches the blue gate'],
+    ['nobody_there','courier','Nobody answers the bell', 'customer'],
+    ['wait_expired','courier','Five minutes gone, Kabelo cannot wait longer', 'customer'],
+    ['back_at_merchant','courier','The cold box goes back to the pharmacy', 'customer'],
+    ['settle','ops','The office works out who carries it', 'customer'],
+    ['refunded','system','Settled', 'customer']
+  ];
+
+  var script = HAPPY, i = 0, state = 'placed', fault = 'none', timer = null, t0 = Date.now();
+
+  function clock(){
+    var s = Math.floor((Date.now() - t0)/1000);
+    return ('0'+Math.floor(s/60)).slice(-2) + ':' + ('0'+(s%60)).slice(-2);
+  }
+
+  function log(call, note, bad){
+    var d = document.createElement('div');
+    d.className = 'ev' + (bad ? ' err' : '');
+    d.innerHTML = '<time>'+clock()+'</time><div><code>'+call+'</code><p>'+note+'</p></div>';
+    $('log').appendChild(d);
+    $('log').scrollTop = $('log').scrollHeight;
+  }
+
+  function call(label, fn){
+    try { var v = fn(); return v; }
+    catch (err){ log(label, '<b>refused:</b> ' + err.message, true); return null; }
+  }
+
+  /* ---------- the four views, all computed, none written by hand ---------- */
+  function render(){
+    try { draw(); }
+    catch (err){
+      log('render failed', '<b>' + err.message + '</b> This is shown rather than hidden, because a blank panel looks like a working app with nothing to say.', true);
+    }
+  }
+
+  function draw(){
+    var friendly = state.replace(/_/g,' ');
+    var done = state === 'closed';
+    var broken = ['stock_problem','address_problem','customer_absent','rider_failed','returning','returned','refund_due','cancelled'].indexOf(state) >= 0;
+
+    /* customer */
+    var cust = '<div class="state '+(broken?'stop':(done?'':'hot'))+'"><small>Your order SC-4417</small><b>'+friendly+'</b></div>';
+    var need = call('handover.requirementFor("prescription")', function(){ return E.handover.requirementFor('prescription'); });
+    cust += '<div class="line"><b>P245.00</b> of goods and <cite title="1 kg, zone 1, all inclusive. UPDATED SLA_2026.pdf page 10">P93.00</cite> delivery, paid on MyZaka.</div>';
+    if (need && need.needs) cust += '<div class="chips">' + need.needs.map(function(n){
+        return '<span class="chip '+(n==='photo'?'on':'warn')+'">'+({photo:'Parcel photo',code:'Your code',identity:'ID checked'}[n]||n)+'</span>'; }).join('') + '</div>'
+        + '<div class="line muted">' + need.says + '</div>';
+    if (done) cust += '<div class="line"><b>Delivered and closed.</b> The parcel photo is kept 90 days. Your ID number was never stored.</div>';
+    if (broken) cust += '<div class="line"><b>Something went wrong.</b> The office owns telling you, and it already has.</div>';
+    $('v-customer').innerHTML = cust;
+
+    /* shop */
+    var seen = ['paid','dispatch_offered','dispatch_accepted','at_merchant','picked_up','at_door','delivered','closed'].indexOf(state) >= 0;
+    var shop = '<div class="state '+(state==='stock_problem'?'stop':'')+'"><small>The till</small><b>'+
+      (state==='placed' ? 'Nothing yet' : (state==='stock_problem' ? 'We could not supply it' : (seen ? 'Accepted' : 'Waiting'))) + '</b></div>';
+    shop += '<div class="line">Accept within <cite title="ACCEPT_WITHIN_SECONDS in api/src/orders/till.ts">two minutes</cite>, or the office rings a person by name.</div>';
+    var sp = call('till.speedOf("m2","A pharmacy",[])', function(){ return E.till.speedOf('m2','A pharmacy',[]); });
+    if (sp) shop += '<div class="line muted">'+sp.says+'</div>';
+    $('v-shop').innerHTML = shop;
+
+    /* rider */
+    var carrying = ['dispatch_accepted','at_merchant','picked_up','at_door','returning'].indexOf(state) >= 0;
+    var rider = '<div class="state"><small>Kabelo</small><b>'+(carrying ? friendly : (done?'free':'not assigned'))+'</b></div>';
+    var fr = call('passport.forRider(passport)', function(){ return E.passport.forRider(PASSPORT); });
+    if (fr){
+      var keys = Object.keys(fr);
+      rider += '<div class="line"><b>'+(fr.plot||PASSPORT.plot)+'</b><br>'+(fr.landmark||'')+'<br>'+(fr.access||'')+'</div>';
+      rider += '<div class="line muted">The rider is given exactly '+keys.length+' fields. Nothing about who she is, what she ordered, or what she paid.</div>';
+    }
+    $('v-rider').innerHTML = rider;
+
+    /* office */
+    var o = '<div class="state"><small>Fault</small><b>'+(fault==='none'?'nobody at fault':fault)+'</b></div>';
+    var route = call('network.routeTo("Phakalane")', function(){ return E.network.routeTo('Phakalane'); });
+    if (route) o += '<div class="line">'+route.says+'</div>';
+    var settled = ORDER.delivered || broken || done;
+    if (settled){
+      var s = call('settlement.settleOne(order)', function(){
+        return E.settlement.settleOne(Object.assign({}, ORDER, {fault:fault, delivered: state==='closed' && fault==='none'}));
+      });
+      if (s){
+        var P = E.settlement.pula;
+        o += '<div class="money">'+
+          '<span>To the pharmacy</span><em>'+P(s.merchant)+'</em>'+
+          '<span>Cannot be resold</span><em>'+P(s.perishable_loss)+'</em>'+
+          '<span>Sprint keeps</span><em>'+P(s.sprint_fee)+'</em>'+
+          '<span>Sprint carries</span><em>'+P(s.sprint_absorbs)+'</em></div>'+
+          '<div class="line muted">'+s.says+'</div>';
+      }
+    } else {
+      o += '<div class="line muted">Money is worked out once the order finishes, from the fault already on it. Nobody reads an order history.</div>';
+    }
+    $('v-office').innerHTML = o;
+
+    $('livelabel').textContent = done ? 'Finished' : (timer ? 'Running' : (i ? 'Paused at step ' + i : 'Ready'));
+  }
+
+  function step(){
+    if (i >= script.length){ stop(); render(); return; }
+    var row = script[i++], ev = row[0], actor = row[1], plain = row[2], f = row[3];
+    var move = call('machine.apply("'+state+'", "'+ev+'", {actor:"'+actor+'"'+(f?', fault:"'+f+'"':'')+'})', function(){
+      return E.machine.apply(state, ev, f ? {actor:actor, fault:f} : {actor:actor});
+    });
+    if (!move){ stop(); render(); return; }
+    state = move.state;
+    /* Once a fault is recorded it stays recorded. Later moves do not carry it, so taking the
+       latest move's fault silently cleared it and the money came out wrong. */
+    if (move.fault && move.fault !== 'none') fault = move.fault;
+    log('machine.apply("'+ev+'") &#8594; "'+move.state+'"',
+        '<b>'+plain+'</b><br>' + move.says + ' &#183; moved by the ' + move.actor +
+        (move.fault !== 'none' ? ' &#183; fault recorded against the <b>'+move.fault+'</b>' : ''));
+    render();
+    if (i >= script.length) stop();
+  }
+
+  function play(){
+    if (timer) return;
+    if (i >= script.length) reset();
+    timer = setInterval(step, 1400);
+    render();
+  }
+  function stop(){ clearInterval(timer); timer = null; render(); }
+  function reset(which){
+    stop(); script = which || HAPPY; i = 0; state = 'placed'; fault = 'none'; t0 = Date.now();
+    $('log').innerHTML = '';
+    log('order placed', 'SC-4417, a repeat prescription and a cold pack, <b>P245.00</b> of goods plus <b>P93.00</b> delivery to Phakalane.');
+    render();
+  }
+
+  $('play').onclick = function(){ if (timer) stop(); else play(); };
+  $('step').onclick = function(){ stop(); step(); };
+  $('trouble').onclick = function(){ reset(STOCK); play(); };
+  $('absent').onclick = function(){ reset(ABSENT); play(); };
+  $('reset').onclick  = function(){ reset(HAPPY); };
+
+  reset(HAPPY);
+})();
+</script>

@@ -1,0 +1,1043 @@
+{
+  "1": [
+    {
+      "type": "file",
+      "path": "web/dist/index.html",
+      "min_bytes": 500000
+    }
+  ],
+  "2": [
+    {
+      "type": "glob",
+      "pattern": "api/src/**/*.ts",
+      "min_count": 3
+    },
+    {
+      "type": "glob",
+      "pattern": "web/src/**/*.tsx",
+      "min_count": 3
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "npx --no-install tsc --noEmit -p tsconfig.json",
+      "timeout": 240
+    }
+  ],
+  "3": [
+    {
+      "type": "file",
+      "path": "docs/chatgpt-deep-think-response.md",
+      "min_bytes": 5000
+    }
+  ],
+  "4": [
+    {
+      "type": "text_contains",
+      "path": "STATE.md",
+      "pattern": "Council round 1 fixes ALL applied"
+    }
+  ],
+  "5": [
+    {
+      "type": "file",
+      "path": "GAPS.md",
+      "min_bytes": 4000
+    },
+    {
+      "type": "text_contains",
+      "path": "GAPS.md",
+      "pattern": "(?i)director sweep"
+    }
+  ],
+  "6": [
+    {
+      "type": "file",
+      "path": "BRICKS.md",
+      "min_bytes": 10000
+    },
+    {
+      "type": "file",
+      "path": "PROOF-LEDGER.jsonl",
+      "min_bytes": 5000
+    },
+    {
+      "type": "command",
+      "run": "python tools/check-wall.py",
+      "output_matches": "0 problem",
+      "timeout": 120
+    }
+  ],
+  "7": [
+    {
+      "type": "queue_row",
+      "subject_contains": "The delivery app, one page for Michelle",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "file",
+      "path": "docs/FRAME.pdf",
+      "min_bytes": 40000
+    },
+    {
+      "type": "file",
+      "path": "docs/FRAME.md",
+      "min_bytes": 800
+    },
+    {
+      "type": "attested",
+      "note_pattern": "Barbara"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/FRAME.md",
+      "pattern": "(?i)55 branches",
+      "expect": false
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/FRAME.pdf",
+      "pattern": "(?i)over 50 branches"
+    }
+  ],
+  "8": [
+    {
+      "type": "queue_row",
+      "subject_contains": "courier delivery of dispensed prescription",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "sent_item",
+      "subject_contains": "BoMRA",
+      "not_before": "2026-09-14"
+    },
+    {
+      "type": "file",
+      "path": "docs/compliance/BOMRA_REPLY.pdf",
+      "min_bytes": 1000
+    }
+  ],
+  "9": [
+    {
+      "type": "file",
+      "path": "docs/compliance/DPIA.md",
+      "min_bytes": 4000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/compliance/DPIA.md",
+      "pattern": "(?i)72 hours"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/compliance/DPIA.md",
+      "pattern": "(?i)Name:\\s*\\**\\s*TO BE NAMED",
+      "expect": false
+    }
+  ],
+  "10": [
+    {
+      "type": "queue_row",
+      "subject_contains": "Orange Money merchant rates",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "queue_row",
+      "subject_contains": "MyZakaPay merchant enquiry",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "queue_row",
+      "subject_contains": "Smega merchant onboarding",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/compliance/payments/reply_*",
+      "min_count": 3
+    }
+  ],
+  "11": [
+    {
+      "type": "file",
+      "path": "docs/compliance/COLD_CHAIN_SOP.md",
+      "min_bytes": 1500
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/compliance/*tariff*.pdf",
+      "min_count": 1
+    }
+  ],
+  "12": [
+    {
+      "type": "file",
+      "path": "docs/ORDER_PNL.xlsx",
+      "min_bytes": 8000
+    },
+    {
+      "type": "attested",
+      "note_pattern": "Barbara"
+    }
+  ],
+  "13": [
+    {
+      "type": "file",
+      "path": "docs/compliance/REGISTER.md",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/compliance/REGISTER.md",
+      "pattern": "(?i)22 Aug 2028"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/compliance/REGISTER.md",
+      "pattern": "(?i)no insurance document on this machine",
+      "expect": false
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/compliance/insurance_*",
+      "min_count": 1
+    }
+  ],
+  "14": [
+    {
+      "type": "file",
+      "path": "api/src/orders/state_machine.ts",
+      "min_bytes": 6000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/state_machine.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/state_machine.ts",
+      "pattern": "rider_failed"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/state_machine.ts",
+      "pattern": "address_problem"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/state_machine.ts",
+      "pattern": "stock_problem"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "20 tests pass"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/state_machine.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "15": [
+    {
+      "type": "queue_row",
+      "subject_contains": "who pays when a delivery goes wrong",
+      "states": [
+        "QUEUED",
+        "SENT",
+        "VERIFIED"
+      ]
+    },
+    {
+      "type": "file",
+      "path": "docs/FAULT_MODEL.md",
+      "min_bytes": 6000
+    },
+    {
+      "type": "file",
+      "path": "docs/FAULT_MODEL.pdf",
+      "min_bytes": 50000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/FAULT_MODEL.md",
+      "pattern": "(?i)Status:\\s*\\**\\s*proposed",
+      "expect": false
+    },
+    {
+      "type": "attested",
+      "note_pattern": "Barbara"
+    }
+  ],
+  "16": [
+    {
+      "type": "file",
+      "path": "api/src/orders/address_passport.ts",
+      "min_bytes": 5000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/address_passport.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/passport_*",
+      "min_count": 1
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/address_passport.ts",
+      "pattern": "confirmAtDoor"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/address_passport.ts",
+      "pattern": "rejectIdentityNumbers"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)rider"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/address_passport.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "17": [
+    {
+      "type": "file",
+      "path": "api/src/orders/network-sites.json",
+      "min_bytes": 9000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/network.ts",
+      "min_bytes": 5000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/network.ts",
+      "pattern": "checkEmailsMatchBranches"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/network-sites.json",
+      "pattern": "kanye@sprintcouriers\\.co\\.bw"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/network-sites.json",
+      "pattern": "commercepark@sprintcouriers\\.co\\.bw"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/network-sites.json",
+      "pattern": "(?i)two columns"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)174 tests"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/network.test.ts",
+      "pattern": "glued together"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/network.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "18": [
+    {
+      "type": "file",
+      "path": "api/src/orders/cash.ts",
+      "min_bytes": 3500
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/cash.test.ts",
+      "min_bytes": 2500
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/cash.ts",
+      "pattern": "reconcile"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/cash.ts",
+      "pattern": "CASH_CAP_THEBE"
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/smega_sandbox_*",
+      "min_count": 1
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/cash.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "19": [
+    {
+      "type": "file",
+      "path": "api/src/orders/settlement.ts",
+      "min_bytes": 5000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/settlement.test.ts",
+      "min_bytes": 3500
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/payout_*.csv",
+      "min_count": 1
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/settlement.ts",
+      "pattern": "readyToPay"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/payout_worked_example.md",
+      "pattern": "(?i)still a proposal"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)Barbara agreed"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/settlement.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "20": [
+    {
+      "type": "file",
+      "path": "api/src/orders/tracking.ts",
+      "min_bytes": 4000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/tracking.test.ts",
+      "min_bytes": 2500
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/tracking.ts",
+      "pattern": "arrivalWindow"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/tracking.ts",
+      "pattern": "shouldConfirmAddress"
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/whatsapp_template_*",
+      "min_count": 1
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/whatsapp_update_*",
+      "min_count": 1
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/tracking.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "21": [
+    {
+      "type": "file",
+      "path": "api/src/orders/handover.ts",
+      "min_bytes": 5000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/handover.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/handover.ts",
+      "pattern": "old_enough"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/handover.ts",
+      "pattern": "photo_of"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/handover.ts",
+      "pattern": "(?i)id_number|identity_number|omang_number",
+      "expect": false
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)tests pass"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/handover.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "22": [
+    {
+      "type": "file",
+      "path": "docs/SECURITY_AUDIT.md",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/SECURITY_AUDIT.md",
+      "pattern": "(?i)Verdict:\\s*\\**\\s*NOT CLEAN",
+      "expect": false
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/auth/auth.service.ts",
+      "pattern": "(?i)argon2"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/auth/auth.service.ts",
+      "pattern": "(?i)from 'bcryptjs'",
+      "expect": false
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)audit clean"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "npm audit --omit=dev",
+      "timeout": 240
+    }
+  ],
+  "23": [
+    {
+      "type": "glob",
+      "pattern": "docs/merchants/grocery_*.pdf",
+      "min_count": 1
+    }
+  ],
+  "24": [
+    {
+      "type": "glob",
+      "pattern": "docs/merchants/pharmacy_otc_*",
+      "min_count": 1
+    }
+  ],
+  "25": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/prescription_e2e_*",
+      "min_count": 1
+    },
+    {
+      "type": "attested",
+      "note_pattern": "pharmacist"
+    }
+  ],
+  "26": [
+    {
+      "type": "file",
+      "path": "api/src/orders/liquor.ts",
+      "min_bytes": 4000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/liquor.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/liquor.ts",
+      "pattern": "mayHandOver"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/liquor.ts",
+      "pattern": "EXPIRY_WARNING_DAYS"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/liquor.ts",
+      "pattern": "(?i)NATIONAL_HOURS|DEFAULT_HOURS",
+      "expect": false
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/merchants/liquor_licence_*",
+      "min_count": 1
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/liquor.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "27": [
+    {
+      "type": "file",
+      "path": "api/src/orders/parcel.ts",
+      "min_bytes": 3500
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/parcel.test.ts",
+      "min_bytes": 2500
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/tariff-domestic.json",
+      "min_bytes": 2000
+    },
+    {
+      "type": "file",
+      "path": "docs/TARIFF_CHECK.md",
+      "min_bytes": 1500
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/tariff-domestic.json",
+      "pattern": "UPDATED SLA_2026"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/tariff-domestic.json",
+      "pattern": "(?i)RATES\\.md",
+      "expect": false
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)tests pass"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/parcel.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "28": [
+    {
+      "type": "file",
+      "path": "docs/proof/store_build_manifest.txt",
+      "min_bytes": 50
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/store_build_manifest.txt",
+      "pattern": "vape",
+      "expect": false
+    }
+  ],
+  "29": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/scheduled_order_*.log",
+      "min_count": 1
+    }
+  ],
+  "30": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/iphone_*.png",
+      "min_count": 1
+    },
+    {
+      "type": "attested",
+      "note_pattern": "real"
+    }
+  ],
+  "31": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/whatsapp_order_*.png",
+      "min_count": 1
+    }
+  ],
+  "32": [
+    {
+      "type": "file",
+      "path": "api/src/orders/till.ts",
+      "min_bytes": 8000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/till.test.ts",
+      "min_bytes": 5000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/till.ts",
+      "pattern": "device_silent"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/till.ts",
+      "pattern": "mayDispatch"
+    },
+    {
+      "type": "text_contains",
+      "path": "demo/index.html",
+      "pattern": "The merchant till"
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/till_*.jpg",
+      "min_count": 1
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)190 tests"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/till.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "33": [
+    {
+      "type": "file",
+      "path": "api/src/orders/offline.ts",
+      "min_bytes": 4000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/offline.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/offline.ts",
+      "pattern": "isPrecious"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/offline.ts",
+      "pattern": "GIVE_UP_AFTER"
+    },
+    {
+      "type": "glob",
+      "pattern": "docs/proof/rider_*.jpg",
+      "min_count": 1
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/offline.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "34": [
+    {
+      "type": "file",
+      "path": "api/src/orders/ops.ts",
+      "min_bytes": 4500
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/ops.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/ops.ts",
+      "pattern": "theOneThing"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/ops.ts",
+      "pattern": "perMerchant"
+    },
+    {
+      "type": "text_contains",
+      "path": "demo/index.html",
+      "pattern": "The ops tower"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)tests pass"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/ops.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "35": [
+    {
+      "type": "file",
+      "path": "api/src/orders/corporate.ts",
+      "min_bytes": 4000
+    },
+    {
+      "type": "file",
+      "path": "api/src/orders/corporate.test.ts",
+      "min_bytes": 3000
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/corporate.ts",
+      "pattern": "cost_centre"
+    },
+    {
+      "type": "text_contains",
+      "path": "api/src/orders/corporate.ts",
+      "pattern": "credit_limit"
+    },
+    {
+      "type": "file",
+      "path": "demo/index.html",
+      "min_bytes": 10000
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(?i)tests pass"
+    },
+    {
+      "type": "command",
+      "cwd": "api",
+      "run": "node --test --require ts-node/register src/orders/corporate.test.ts",
+      "output_matches": "fail 0",
+      "output_absent": "pass 0\\b",
+      "timeout": 180
+    }
+  ],
+  "36": [
+    {
+      "type": "file",
+      "path": "docs/RIDER_MODEL.md",
+      "min_bytes": 1000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/RIDER_MODEL.md",
+      "pattern": "(?i)per drop|per hour"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "Barbara"
+    }
+  ],
+  "37": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/training_attendance_*",
+      "min_count": 1
+    }
+  ],
+  "38": [
+    {
+      "type": "file",
+      "path": "docs/LAUNCH_CELL.md",
+      "min_bytes": 1000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/LAUNCH_CELL.md",
+      "pattern": "field sales"
+    }
+  ],
+  "39": [
+    {
+      "type": "glob",
+      "pattern": "docs/merchants/signed/*.pdf",
+      "min_count": 25
+    }
+  ],
+  "40": [
+    {
+      "type": "glob",
+      "pattern": "docs/merchants/pharmacy_signed_*.pdf",
+      "min_count": 1
+    },
+    {
+      "type": "file",
+      "path": "docs/compliance/BOMRA_REPLY.pdf",
+      "min_bytes": 1000
+    }
+  ],
+  "41": [
+    {
+      "type": "file",
+      "path": "docs/proof/first_100_orders.csv",
+      "min_bytes": 5000
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/first_100_orders.csv",
+      "pattern": "(?i)contribution"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/first_100_orders.csv",
+      "pattern": "(?:[^\\n]*\\n){100}"
+    }
+  ],
+  "42": [
+    {
+      "type": "file",
+      "path": "docs/council/LAUNCH_VERDICT.md",
+      "min_bytes": 2000
+    }
+  ],
+  "43": [
+    {
+      "type": "file",
+      "path": "docs/MD_PACK.pdf",
+      "min_bytes": 20000
+    },
+    {
+      "type": "attested",
+      "note_pattern": "Barbara"
+    }
+  ],
+  "44": [
+    {
+      "type": "file",
+      "path": "docs/proof/GO_LIVE.md",
+      "min_bytes": 200
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/GO_LIVE.md",
+      "pattern": "https://"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/proof/GO_LIVE.md",
+      "pattern": "(?i)whatsapp"
+    },
+    {
+      "type": "attested",
+      "note_pattern": "paid"
+    }
+  ],
+  "45": [
+    {
+      "type": "file",
+      "path": "docs/WEEK_1.md",
+      "min_bytes": 500
+    },
+    {
+      "type": "file",
+      "path": "docs/WEEK_4.md",
+      "min_bytes": 500
+    },
+    {
+      "type": "file",
+      "path": "docs/WEEK_8.md",
+      "min_bytes": 500
+    }
+  ],
+  "46": [
+    {
+      "type": "file",
+      "path": "docs/DECISIONS.md",
+      "min_bytes": 200
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/DECISIONS.md",
+      "pattern": "Warehouse gate"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/DECISIONS.md",
+      "pattern": "150"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/DECISIONS.md",
+      "pattern": "P40"
+    },
+    {
+      "type": "text_contains",
+      "path": "docs/DECISIONS.md",
+      "pattern": "97"
+    }
+  ],
+  "47": [
+    {
+      "type": "glob",
+      "pattern": "docs/proof/md_decision_*",
+      "min_count": 1
+    },
+    {
+      "type": "attested",
+      "note_pattern": "(scale|stop|roll)"
+    }
+  ]
+}

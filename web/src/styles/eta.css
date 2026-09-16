@@ -1,0 +1,842 @@
+/* Hard arrive-by deadline line, paired with the soft eta-pill above it.
+   Amazon and Uber Eats show both together: a rolling estimate plus a
+   separate promise the customer can hold the courier to. */
+.arrive-by-line {
+  margin-top: 6px;
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* Swaps in once the order lands so the deadline never reads as a stale promise. */
+.arrive-by-delivered {
+  color: var(--accent);
+}
+
+/* ---------- Ground: topographical grain ---------- */
+/* Craft director's amendment: the Track page's ink ground is never
+   perfectly flat. A faint repeating contour pattern, dark on dark (it
+   reads from --text so it stays whisper-quiet in the light theme too),
+   drifts sideways at about 0.5px per second, one full 120px tile every
+   240s. Fixed and behind everything (z-index -1), never intercepts a
+   tap, never fights the content sitting on top of it. Opt-in via
+   .track-ground on the page's app-shell, not a global background. */
+.track-ground {
+  position: relative;
+}
+
+.track-ground::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: repeating-linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--text) 5%, transparent) 0px,
+      color-mix(in srgb, var(--text) 5%, transparent) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      25deg,
+      color-mix(in srgb, var(--text) 4%, transparent) 0px,
+      color-mix(in srgb, var(--text) 4%, transparent) 1px,
+      transparent 1px,
+      transparent 120px
+    );
+  background-size: 120px 120px;
+  animation: groundGrainDrift 240s linear infinite;
+}
+
+@keyframes groundGrainDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -120px 0;
+  }
+}
+
+/* ---------- Track hero ---------- */
+/* Same gradient card formula as the old .eta-banner, so the hero keeps the
+   page's established "warm accent card" feel while replacing the map as
+   the top of page focal point. */
+.track-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--green) 25%, var(--bg-raised)), var(--bg-raised));
+  border: 1px solid var(--border);
+  margin-bottom: var(--space-4);
+}
+
+.track-hero-headline {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.track-hero-window {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-hero-window .to {
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-dim);
+  text-transform: lowercase;
+  margin: 0 8px;
+}
+
+.track-hero-window.delivered {
+  font-size: 22px;
+}
+
+.track-hero-gate-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sub);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+}
+
+/* Three plain checkpoints, horizontal. Reuses .timeline-dot / .check-draw
+   as is (see components/StatusTimeline.tsx, HeroCheckpoints), only this
+   layout wrapper and the connecting line between dots are new. */
+.checkpoints {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.checkpoint {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkpoint-connector {
+  position: absolute;
+  top: 10px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border-strong);
+  z-index: 0;
+}
+
+.checkpoint-connector.done {
+  background: var(--accent);
+}
+
+.checkpoint .timeline-dot {
+  position: relative;
+  z-index: 1;
+}
+
+.checkpoint-label {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.checkpoint-label.reached {
+  color: var(--text-dim);
+}
+
+.checkpoint-label.active {
+  color: var(--accent);
+}
+
+/* ---------- Delivery point card ---------- */
+.delivery-address-plot {
+  font-family: var(--font-sub);
+  font-weight: 800;
+  font-size: 19px;
+  overflow-wrap: break-word;
+}
+
+.delivery-address-landmark {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  overflow-wrap: break-word;
+}
+
+.address-confirm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.address-confirm-question {
+  font-family: var(--font-sub);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.address-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.address-confirmed-tick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent);
+}
+
+/* ---------- Rider card ---------- */
+.rider-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Page CSS is bundled ahead of app.css in this app's actual load order
+   (Track.tsx is imported eagerly by App.tsx, which main.tsx imports before
+   its own app.css line), so a same-specificity override here would lose to
+   .courier-avatar. Chaining both classes on the selector raises specificity
+   instead, which wins regardless of load order. */
+.courier-avatar.rider-avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 18px;
+}
+
+.rider-info {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.rider-name {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rider-rating {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.rider-tel {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 10px;
+}
+
+.rider-finding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sub);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.map-toggle-btn {
+  margin-bottom: 4px;
+}
+
+/* Craft director's amendment, ambient: while the map is still tucked away,
+   the toggle itself invites the tap with a slow orange radar ping, a soft
+   box-shadow expanding and fading on a 3s loop. Stops once the map is
+   open (see Track.tsx), the invitation has done its job by then. */
+.map-toggle-radar {
+  animation: mapToggleRadar 3s ease-in-out infinite;
+}
+
+@keyframes mapToggleRadar {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--orange) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--orange) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--orange) 0%, transparent);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   THE PULSE - Track page choreography.
+
+   Uses the shared spring/timing tokens from pulse.css. Everything here is
+   either a one-shot "this just happened" moment (hero sweep, checkpoint
+   draw-in, status celebrations) or a genuinely ambient loop explicitly
+   disabled under prefers-reduced-motion by pulse.css's blanket rule.
+   --------------------------------------------------------------------- */
+
+/* ---------- Hero: first-load sweep + ambient grain ---------- */
+
+.track-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint drifting light, not a texture: two soft radial washes that slowly
+   shift position so the hero never sits perfectly still, without ever
+   competing with the headline or the arrival window on top of it. */
+.track-hero::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--white) 7%, transparent), transparent 60%),
+    radial-gradient(circle at 80% 85%, color-mix(in srgb, var(--green-bright) 12%, transparent), transparent 55%);
+  animation: heroGrainDrift 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroGrainDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-3%, 2%) scale(1.05);
+  }
+}
+
+/* One-shot green light sweep across the hero on first mount (~700ms). The
+   hero only ever mounts once per order (the 2s poll refetches data, it
+   does not remount the element), so a plain animation with a single
+   iteration is enough, no JS trigger needed. */
+.hero-sweep {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.hero-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--green-bright) 55%, transparent),
+    transparent
+  );
+  animation: heroSweep 700ms ease-out both;
+}
+
+@keyframes heroSweep {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* The arrival window breathes gently while live; the delivered stamp gets
+   its own scale-thud entrance instead (see .stamp-in below), so breathing
+   is scoped away from it. Rest colour is --text (bone in the dark theme,
+   ink in light), not the green accent, so the strike below has somewhere
+   honest to settle to (see .strike-in). */
+.track-hero-window:not(.delivered) {
+  color: var(--text);
+  animation: heroWindowBreathe 3s ease-in-out infinite;
+}
+
+@keyframes heroWindowBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Craft director's amendment, "first load strike": the arrival window
+   never fades in, it is already full size the instant it mounts (no
+   opacity/scale entrance is applied to it at all). What marks its arrival
+   instead is a 150ms bright green flash that immediately settles to the
+   resting bone colour above, like a game mission-objective banner
+   stamping into place. One shot, on first mount only (see Track.tsx,
+   the strikeIn state), then the class is removed so it never replays on
+   the 2s poll re-render. Layered as a second, independent animation
+   alongside the breathe loop so the two never fight over the transform
+   vs colour properties. */
+.track-hero-window:not(.delivered).strike-in {
+  animation: heroWindowBreathe 3s ease-in-out infinite, arrivalStrike 150ms ease-out both;
+}
+
+@keyframes arrivalStrike {
+  0% {
+    color: var(--green);
+  }
+  100% {
+    color: var(--text);
+  }
+}
+
+/* Delivered stamp: scale-thud spring entrance, played once when the
+   celebration fires (see Track.tsx, celebration === 'delivered'). */
+.track-hero-window.delivered.stamp-in {
+  animation: stampThud 550ms var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
+
+@keyframes stampThud {
+  0% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.97);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ---------- Checkpoints: draw-in, streak, ambient rail ---------- */
+
+.checkpoints {
+  position: relative;
+}
+
+/* Craft director's amendment: the checkpoints no longer drift in, they
+   cascade, sharp and mechanical, one after another at an 80ms stagger,
+   each one snapping to a tiny overshoot on landing rather than a soft
+   spring settle. Reads as a mission-objective checklist ticking itself
+   off, not a decorative float-in. */
+.checkpoints .checkpoint {
+  animation: checkpointCascade 220ms cubic-bezier(0.16, 0.9, 0.3, 1) both;
+}
+
+.checkpoints .checkpoint:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.checkpoints .checkpoint:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.checkpoints .checkpoint:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+@keyframes checkpointCascade {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* One-shot travelling light streak that crosses the rail as the
+   checkpoints draw in on first load. */
+.checkpoints::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: -12px;
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--green-bright), transparent);
+  filter: blur(1px);
+  opacity: 0;
+  animation: checkpointStreak 900ms ease-out 150ms both;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes checkpointStreak {
+  0% {
+    left: -12px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 10px);
+    opacity: 0;
+  }
+}
+
+/* Ambient: a thin shimmer that loops continuously along each connector
+   line between checkpoints, ~4s per pass. */
+.checkpoint-connector {
+  overflow: hidden;
+}
+
+.checkpoint-connector::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--green-bright) 70%, transparent),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: connectorShimmer 4s linear infinite;
+}
+
+@keyframes connectorShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Ambient: the small branded rider token, a green glowing dot standing in
+   for the courier, patrolling the checkpoint rail continuously. Purely
+   decorative (see the aria-hidden span in StatusTimeline.tsx), never the
+   source of truth for progress. */
+.rider-token {
+  position: absolute;
+  top: 5px;
+  left: 4%;
+  width: 12px;
+  height: 12px;
+  z-index: 1;
+  pointer-events: none;
+  animation: riderTravel 7s ease-in-out infinite;
+}
+
+.rider-token-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--green-bright), var(--green-deep));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green-bright) 25%, transparent),
+    0 0 10px 2px color-mix(in srgb, var(--green-bright) 55%, transparent);
+}
+
+@keyframes riderTravel {
+  0%,
+  100% {
+    left: 4%;
+  }
+  50% {
+    left: 90%;
+  }
+}
+
+/* Checkpoint dot radial burst ring: fires once when "collected" arrives
+   over the socket (see Track.tsx / HeroCheckpoints burstIndex prop). */
+.checkpoint .timeline-dot.radial-burst {
+  position: relative;
+}
+
+.checkpoint .timeline-dot.radial-burst::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: radialBurstRing 650ms ease-out;
+}
+
+@keyframes radialBurstRing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Craft director's amendment, "status change stamp": whichever checkpoint
+   just completed stamps down, a brief 1.06 to 0.98 to 1.0 scale on the
+   heavy 400ms lock-in curve, the same one every status change uses. Plays
+   on the whole checkpoint column (dot and label move together), see
+   StatusTimeline.tsx, HeroCheckpoints. */
+.checkpoint.checkpoint-stamp {
+  animation: checkpointStamp var(--dur-status-lock, 400ms) var(--ease-status-lock, cubic-bezier(0.25, 1, 0.5, 1));
+}
+
+@keyframes checkpointStamp {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.06);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Orange micro-burst a completing checkpoint throws, 6 small dots fading
+   over 600ms. Reuses the .particle-dot/.particle-burst primitives below
+   (rider-assigned wake), only recoloured and re-timed. */
+.particle-dot.orange {
+  background: var(--orange);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--orange) 65%, transparent);
+  animation: checkpointStampFade 600ms ease-out both;
+}
+
+@keyframes checkpointStampFade {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-20px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* ---------- Status moments: hit-stop, rider flip, particle wake ---------- */
+
+/* A 120ms freeze-frame on the whole main column right before a status
+   celebration releases: everything ambient pauses and the frame flashes
+   brighter for a beat, then the specific celebration below plays. */
+.hitstop {
+  animation: hitStopFlash 120ms ease-out;
+}
+
+.hitstop * {
+  animation-play-state: paused;
+}
+
+@keyframes hitStopFlash {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  40% {
+    filter: brightness(1.3) saturate(1.25);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+.rider-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Rider card flip-in: plays once when a courier is assigned. Craft
+   director's amendment: physical cards (this one, the delivery point
+   card) get the tighter 300ms spring, not the page's default 450ms. */
+.rider-card-flip-in {
+  animation: riderFlipIn var(--dur-card-spring, 300ms) var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  transform-origin: 50% 0%;
+}
+
+@keyframes riderFlipIn {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateX(-85deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(700px) rotateX(0deg);
+  }
+}
+
+/* Small particle burst, reused for the rider-assigned wake and (bigger,
+   two-colour) the delivered celebration below. */
+.particle-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.particle-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 70%, transparent);
+  transform: translate(-50%, -50%);
+  animation: particleWake 650ms ease-out both;
+}
+
+@keyframes particleWake {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-30px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* ---------- Delivered: the big one ---------- */
+
+.celebration-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  animation: celebrationFly 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.celebration-particle.green {
+  background: var(--green-bright);
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--green) 60%, transparent);
+}
+
+.celebration-particle.orange {
+  background: var(--orange);
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--orange) 60%, transparent);
+}
+
+@keyframes celebrationFly {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translate(0, calc(var(--dist, 90px) * -1)) scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* Craft director's amendment: delivered gets a heavier hit than the other
+   two celebrations. A brief 2 to 3px screen shake on the whole page
+   container (see Track.tsx, .app-main.delivered-shake), on the same
+   400ms lock-in curve as every other status change, so it reads as one
+   more deliberate stamp rather than a wobble. */
+.app-main.delivered-shake {
+  animation: deliveredShake 250ms var(--ease-status-lock, cubic-bezier(0.25, 1, 0.5, 1));
+}
+
+@keyframes deliveredShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+/* Geometric shard sweep, the transition into the delivered banner. 3 to 5
+   angular green shards cross the top third of the screen (position:fixed,
+   independent of scroll, pointer-events:none so it never blocks a tap),
+   each one a skewed clip-path polygon sweeping left to right on a short
+   stagger. Whole sweep resolves in under a second, well inside the 1.5s
+   budget, and settles right as the "Delivered at HH:MM" banner's own
+   scale-thud (.stamp-in / stampThud above) lands. See Track.tsx,
+   DeliveredShards, rendered only while celebration === 'delivered'. */
+.delivered-shards {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 33vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.shard {
+  position: absolute;
+  top: -15%;
+  bottom: -15%;
+  width: 24%;
+  background: linear-gradient(120deg, var(--green-bright), var(--green));
+  clip-path: polygon(32% 0%, 100% 0%, 68% 100%, 0% 100%);
+  opacity: 0;
+  animation: shardSweep 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shardSweep {
+  0% {
+    transform: translateX(-160%) skewX(-8deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(420%) skewX(-8deg);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,2198 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html,
+body {
+  /* Safety net: no single element (long name, long merchant title, a
+     fallback-font width spike) should ever be able to widen the page past
+     the viewport and drag other content off the right edge with it. */
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.skew {
+  display: inline-block;
+  transform: skewX(-12deg);
+}
+
+.skew > * {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+/* ---------- App shell ---------- */
+
+.app-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) calc(var(--space-4) + env(safe-area-inset-right)) var(--space-3)
+    calc(var(--space-4) + env(safe-area-inset-left));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  /* .app-header is a flex ITEM of .app-shell (a column flex container), so
+     without this it defaults to min-width: auto and its own min-content
+     width (driven by the user chip / icon buttons below, which do not
+     wrap) can force .app-shell - and the whole page - wider than the
+     viewport under a wider fallback font, dragging every other row's
+     right edge off-canvas along with it. */
+  min-width: 0;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: 22px;
+  color: var(--text);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-mark .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sub);
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.user-chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100px;
+}
+
+.user-chip-role {
+  /* Was flex-shrink: 0 with no width cap: unlike every other fixed-size
+     control in the header (the 38px icon buttons), this holds real text
+     ("· customer") that grows with role name and font metrics. Left
+     unshrinkable, it forced the chip - and the icon button sitting right
+     after it - past the header's available width under a wider fallback
+     font, which is what clipped the second header pill in half. It now
+     shrinks and ellipsizes like the name does. */
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 72px;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.icon-btn:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  padding-right: calc(var(--space-4) + env(safe-area-inset-right));
+  padding-left: calc(var(--space-4) + env(safe-area-inset-left));
+  padding-bottom: var(--space-8);
+  /* Same flex-item-of-.app-shell reasoning as .app-header above: without
+     this, a stray min-content spike anywhere inside main (an unwrapped
+     row deep in the page) can widen the whole shell past the viewport. */
+  min-width: 0;
+}
+
+.app-main.wide {
+  max-width: 1200px;
+}
+
+.app-main.flush {
+  padding: 0;
+  max-width: none;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: transform 0.12s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--green-bright), var(--green-deep));
+  color: var(--white);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--green) 35%, transparent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.btn-secondary {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Cards / surfaces ---------- */
+
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.section-label {
+  font-family: var(--font-sub);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.section-label.accent {
+  color: var(--accent-contrast);
+}
+
+.section-label-chip {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 4px 10px 4px 14px;
+  border-radius: 3px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: 34px;
+  line-height: 1.02;
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.page-sub {
+  font-family: var(--font-sub);
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0 0 var(--space-5);
+  overflow-wrap: break-word;
+}
+
+/* ---------- Badges / chips ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  background: var(--bg-raised-2);
+}
+
+.badge-food {
+  color: var(--green-bright);
+  border-color: color-mix(in srgb, var(--green) 45%, transparent);
+  background: color-mix(in srgb, var(--green) 14%, transparent);
+}
+
+.badge-grocery {
+  color: var(--text-dim);
+  border-color: var(--border-strong);
+  background: var(--bg-raised-2);
+}
+
+.badge-vape {
+  color: var(--orange);
+  border-color: color-mix(in srgb, var(--orange) 45%, transparent);
+  background: color-mix(in srgb, var(--orange) 14%, transparent);
+}
+
+.badge-pharmacy {
+  color: var(--cat-pharmacy);
+  border-color: color-mix(in srgb, var(--cat-pharmacy) 45%, transparent);
+  background: color-mix(in srgb, var(--cat-pharmacy) 14%, transparent);
+}
+
+.badge-age {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 50%, transparent);
+}
+
+/* ---------- Login ---------- */
+
+.login-screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--green) 20%, transparent), transparent 55%),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--orange) 12%, transparent), transparent 45%),
+    var(--bg);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-accent-bar {
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--orange));
+  transform: skewX(-12deg);
+  transform-origin: left center;
+  margin-bottom: var(--space-4);
+  opacity: 0.9;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.login-logo img {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.login-logo-text {
+  min-width: 0;
+}
+
+.login-logo .word {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 38px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.login-logo .tag {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+.field {
+  margin-bottom: var(--space-4);
+}
+
+.field label {
+  display: block;
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  background: var(--bg-raised-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 13px 14px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 var(--space-5);
+}
+
+.quick-chip {
+  border: 1px solid var(--border-strong);
+  background: var(--bg-raised);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.15s ease, transform 0.12s ease;
+}
+
+.quick-chip:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.quick-chip .role-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.login-error {
+  color: var(--warn);
+  font-size: 13px;
+  font-family: var(--font-sub);
+  margin: -6px 0 var(--space-4);
+}
+
+/* ---------- Merchant list ---------- */
+
+.merchant-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.merchant-card {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.merchant-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-4px);
+}
+
+/* Centrepiece hero: full-width 16:9 photography, never text-on-gradient
+   placeholders. .smart-image (defined below, under "Smart image") supplies
+   the skeleton-to-photo swap; this just fixes its box. */
+.merchant-card-hero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.merchant-card-hero .smart-image {
+  width: 100%;
+  height: 100%;
+}
+
+.merchant-card-age-badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+}
+
+.merchant-card-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.merchant-name {
+  font-family: var(--font-sub);
+  font-weight: 800;
+  font-size: 17px;
+  margin: 0 0 6px;
+  overflow-wrap: break-word;
+}
+
+.merchant-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.merchant-rating {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.merchant-rating .star {
+  color: var(--orange);
+  font-weight: 400;
+}
+
+.merchant-rating .count {
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.merchant-fee-badge {
+  background: var(--bg-raised-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  font-size: 12px;
+}
+
+.merchant-promo-pill {
+  align-self: flex-start;
+  margin-top: 2px;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  width: fit-content;
+}
+
+/* ---------- Smart image: skeleton -> photo, one timing site-wide ---------- */
+
+.smart-image {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-raised-2);
+}
+
+.smart-image-skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+.smart-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.smart-image-img.loaded {
+  opacity: 1;
+}
+
+/* ---------- Item list / cart ---------- */
+
+.merchant-hero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-bottom: var(--space-2);
+}
+
+.merchant-hero .smart-image {
+  width: 100%;
+  height: 100%;
+}
+
+.merchant-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.75) 100%);
+  pointer-events: none;
+}
+
+.merchant-hero-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-4);
+  color: var(--white);
+}
+
+.merchant-hero-content .page-title {
+  color: var(--white);
+  margin: 6px 0 8px;
+  font-size: 28px;
+}
+
+.merchant-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.merchant-hero-meta .merchant-rating {
+  color: var(--white);
+}
+
+.merchant-hero-meta .merchant-fee-badge {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--white);
+}
+
+/* The menu content that follows a full-bleed hero on .app-main.flush: same
+   520px reading width and safe-area handling as the normal .app-main, just
+   scoped to its own class so it does not fight that class's own padding
+   rules by being nested inside one. */
+.merchant-menu-wrap {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--space-4) calc(var(--space-4) + env(safe-area-inset-right)) var(--space-4)
+    calc(var(--space-4) + env(safe-area-inset-left));
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-info {
+  min-width: 0;
+  flex: 1;
+  padding-top: 2px;
+}
+
+.item-info .name {
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+  overflow-wrap: break-word;
+}
+
+.item-info .desc {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin: 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-info .price {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.item-photo-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
+.item-photo-wrap .smart-image {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-item);
+}
+
+.qty-stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-raised-2);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  border: 1px solid var(--border-strong);
+  /* This is a fixed, atomic control: it must never be squeezed down to
+     show only its first button, so it never shrinks and its row's other
+     side (item name/price) absorbs any width pressure instead. */
+  flex-shrink: 0;
+}
+
+.qty-stepper button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-stepper button.primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.qty-stepper .count {
+  min-width: 18px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* On-photo variant: the corner-anchored control that sits over the item
+   thumbnail, Uber-row style, instead of a separate text button beside it. */
+.qty-stepper.on-photo {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  gap: 0;
+  padding: 3px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.32), 0 0 0 3px var(--bg-raised);
+  animation: chipSpring 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.qty-stepper.on-photo button {
+  width: 24px;
+  height: 24px;
+  font-size: 13px;
+}
+
+.qty-stepper.on-photo .count {
+  min-width: 16px;
+  font-size: 12px;
+}
+
+.add-btn {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.32), 0 0 0 3px var(--bg-raised);
+  transition: transform 0.12s ease;
+}
+
+.add-btn:active {
+  transform: scale(0.9);
+}
+
+.cart-fab {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 488px;
+  z-index: 30;
+}
+
+/* Full-bleed variant: edge to edge, no floating pill margins, a heavier
+   green glow. Used on the merchant menu's sticky "View cart" bar. */
+.cart-fab.cart-fab-bleed {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: none;
+  width: 100%;
+  max-width: none;
+  padding: var(--space-3) calc(var(--space-4) + env(safe-area-inset-right)) calc(
+      var(--space-3) + env(safe-area-inset-bottom)
+    )
+    calc(var(--space-4) + env(safe-area-inset-left));
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border);
+}
+
+.cart-fab-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: linear-gradient(135deg, var(--green-bright), var(--green-deep));
+  color: var(--white);
+  border-radius: var(--radius-pill);
+  padding: 14px 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  font-family: var(--font-sub);
+}
+
+.cart-fab-bleed .cart-fab-inner {
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--green) 45%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--green-bright) 30%, transparent);
+}
+
+/* Sits on the Home page, above the sticky bottom tab bar rather than the
+   screen edge. */
+.cart-fab.above-tabbar {
+  bottom: calc(var(--tabbar-h, 64px) + var(--space-3));
+}
+
+.cart-fab-count {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.cart-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 40;
+  animation: fadeIn 0.15s ease;
+}
+
+.cart-drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  background: var(--bg-raised);
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid var(--border-strong);
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  max-height: 82vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease;
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.cart-drawer-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-strong);
+  margin: 0 auto var(--space-4);
+}
+
+.cart-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-line-info {
+  min-width: 0;
+}
+
+.cart-total-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  margin-top: var(--space-2);
+  font-family: var(--font-sub);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.cart-total-row > span:first-child {
+  flex-shrink: 0;
+}
+
+.cart-total-row > span:last-child {
+  flex-shrink: 0;
+  white-space: nowrap;
+  /* Belt and suspenders alongside space-between: if this row ever gets
+     squeezed enough to wrap (flex-wrap above), margin-left: auto still
+     pins the amount to the right on its own line instead of it landing
+     flush against the label or, worse, off the end of a row that never
+     wrapped it into view. */
+  margin-left: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- Age gate modal ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: var(--space-4);
+  animation: fadeIn 0.15s ease;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--bg-raised);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  padding: var(--space-5);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--orange) 18%, transparent);
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin: 0 auto var(--space-3);
+}
+
+.modal-card h2 {
+  font-family: var(--font-sub);
+  font-weight: 800;
+  margin: 0 0 var(--space-2);
+}
+
+.modal-card p {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0 0 var(--space-4);
+}
+
+/* ---------- Checkout ---------- */
+
+.pay-grid {
+  display: grid;
+  /* minmax(0, 1fr), not bare 1fr: a bare 1fr track still floors at its
+     content's min-content width, so a long label/rail string (e.g. "Cash /
+     Demo rail, pay on delivery") can force both columns wider than the
+     frame. minmax(0, ...) lets the track (and the pay-chip inside it) actually
+     shrink to the allotted share and wrap its text instead. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.pay-chip {
+  border: 1px solid var(--border-strong);
+  background: var(--bg-raised);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, transform 0.12s ease;
+}
+
+.pay-chip.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-raised));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  animation: chipSpring 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes chipSpring {
+  0% {
+    transform: scale(0.94);
+  }
+  60% {
+    transform: scale(1.035);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.checkout-total-roll {
+  display: inline-block;
+  animation: totalRoll 0.32s ease;
+}
+
+@keyframes totalRoll {
+  0% {
+    transform: translateY(-40%);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.pay-chip .pay-name {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.pay-chip .demo-rail {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  font-family: var(--font-sub);
+  font-weight: 600;
+}
+
+.summary-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.summary-line > span:first-child {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.summary-line > span:last-child {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.summary-line.total {
+  color: var(--text);
+  font-weight: 800;
+  font-size: 17px;
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+}
+
+/* ---------- Status timeline ---------- */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-step {
+  display: flex;
+  gap: var(--space-3);
+  position: relative;
+  padding-bottom: var(--space-5);
+}
+
+.timeline-step:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-raised-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  /* Craft director's amendment: status transitions lock in on a heavy,
+     deliberate 400ms curve, not a linear/ease tween, so "done"/"current"
+     reads as a settled fact rather than a soft fade. Falls back to the
+     literal values if pulse.css has not loaded yet. */
+  transition: all var(--dur-status-lock, 400ms) var(--ease-status-lock, cubic-bezier(0.25, 1, 0.5, 1));
+}
+
+.timeline-dot.done {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.timeline-dot.current {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  animation: timelineGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes timelineGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+}
+
+.check-draw {
+  display: inline-block;
+  animation: checkDraw 0.32s ease;
+}
+
+@keyframes checkDraw {
+  from {
+    transform: scale(0.2) rotate(-20deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.timeline-line {
+  width: 2px;
+  flex: 1;
+  background: var(--border-strong);
+  margin: 2px 0;
+}
+
+.timeline-line.done {
+  background: var(--accent);
+}
+
+.timeline-body .label {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.timeline-body .label.pending {
+  color: var(--text-faint);
+}
+
+.timeline-body .at {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+/* ---------- Track page ---------- */
+
+.track-headline {
+  font-size: 28px;
+}
+
+.track-order-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  margin: 2px 0 4px;
+}
+
+.eta-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--green) 25%, var(--bg-raised)), var(--bg-raised));
+  border: 1px solid var(--border);
+  margin-bottom: var(--space-4);
+}
+
+.stops-away {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.eta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.eta-row > *:first-child {
+  min-width: 0;
+}
+
+.eta-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  background: var(--bg-raised-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+}
+
+.eta-pill .eta-pill-num {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.eta-pill .eta-pill-note {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.map-frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 4 / 5;
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+
+.courier-mini {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  /* Unlike qty-stepper below, this card holds a variable-length name, so it
+     must be allowed to shrink (and let its text ellipsize) rather than hold
+     its full intrinsic width and push past the frame edge. */
+  min-width: 0;
+  max-width: 60%;
+  flex-shrink: 1;
+}
+
+.courier-mini-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.courier-mini-info > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.courier-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-bright), var(--green-deep));
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sub);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.courier-status-word {
+  font-size: 12px;
+  color: var(--accent);
+  font-family: var(--font-sub);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Horizontal milestone stage bar, the endowed-progress summary at the top
+   of the tracking hero. The detailed vertical StatusTimeline below still
+   carries timestamps. */
+.stage-bar {
+  display: flex;
+  gap: 4px;
+}
+
+.stage-seg {
+  flex: 1;
+  min-width: 0;
+}
+
+.stage-seg .stage-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-raised-2);
+  overflow: hidden;
+}
+
+.stage-seg .stage-fill-bar {
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.stage-seg.filled .stage-fill-bar {
+  transform: scaleX(1);
+}
+
+.stage-seg .stage-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  overflow-wrap: anywhere;
+}
+
+.stage-seg.current .stage-label {
+  color: var(--accent);
+}
+
+.stage-seg.filled .stage-label {
+  color: var(--text-dim);
+}
+
+.split-rows .split-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  font-size: 13px;
+}
+
+.split-rows.reveal .split-row {
+  animation: splitIn 0.4s ease both;
+}
+
+.split-rows.reveal .split-row:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.split-rows.reveal .split-row:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@keyframes splitIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.split-row .who {
+  color: var(--text-dim);
+}
+
+.split-row .amt {
+  font-weight: 700;
+}
+
+/* ---------- Courier ---------- */
+
+.offer-card {
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.offer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.score-row {
+  margin-bottom: var(--space-3);
+}
+
+.score-row .score-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+  font-family: var(--font-sub);
+}
+
+.score-track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-raised-2);
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  transition: width 0.4s ease;
+  position: relative;
+  transform-origin: left center;
+  animation: scoreFillIn 0.4s ease both;
+}
+
+.score-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -3px;
+  bottom: 0;
+  width: 6px;
+  background: var(--accent);
+  transform: skewX(-12deg);
+}
+
+@keyframes scoreFillIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.job-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised-2);
+  margin-bottom: var(--space-3);
+}
+
+.job-step .num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.offer-accept-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-accept-btn::after {
+  content: '›';
+  margin-left: 6px;
+  display: inline-block;
+  animation: chevronDrift 1.4s ease-in-out infinite;
+}
+
+@keyframes chevronDrift {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-dim);
+}
+
+.empty-state .glyph {
+  font-size: 40px;
+  margin-bottom: var(--space-3);
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+  animation: pulseDot 1.6s infinite;
+}
+
+@keyframes pulseDot {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* ---------- Ops ---------- */
+
+.ops-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  height: calc(100vh - 62px);
+}
+
+@media (min-width: 960px) {
+  .ops-layout {
+    grid-template-columns: 1fr 380px;
+    grid-template-rows: auto 1fr;
+  }
+  .ops-map-wrap {
+    grid-row: 1 / span 2;
+  }
+}
+
+.ops-stats {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  grid-column: 1 / -1;
+  /* Grid items default to min-width: auto, so a long, unbreakable string
+     deep inside a sibling grid cell (a courier name in the dispatch table
+     or an order badge) can force this whole track wider than the frame,
+     dragging this row's own right edge past the visible canvas along with
+     it. min-width: 0 lets the track actually honor its 1fr allotment. */
+  min-width: 0;
+}
+
+.stat-chip {
+  /* Grows to share the row evenly so the default 3 chips always fit inside
+     one phone-width screen with no scroll needed; the 84px floor plus the
+     row's own overflow-x: auto still lets it scroll gracefully if more
+     chips are ever added. overflow: hidden is a hard backstop so a chip's
+     own content can never bleed past its own rounded edge. */
+  flex: 1 1 84px;
+  min-width: 84px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  overflow: hidden;
+}
+
+.stat-chip .num {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-chip .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.trend-arrow {
+  font-size: 11px;
+  margin-left: 5px;
+  font-family: var(--font-mono);
+  animation: trendPop 0.5s ease;
+}
+
+.trend-arrow.up {
+  color: var(--accent);
+}
+
+.trend-arrow.down {
+  color: var(--warn);
+}
+
+@keyframes trendPop {
+  0% {
+    transform: translateY(3px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ops-map-wrap {
+  position: relative;
+  min-height: 320px;
+  /* See the note on .ops-stats: keeps this grid item from being stretched
+     past the frame by an oversized sibling elsewhere in the layout. */
+  min-width: 0;
+}
+
+.ops-side {
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-4);
+  background: var(--bg);
+  /* See the note on .ops-stats: this is the column that actually holds the
+     dispatch table and order rows, so it is the most exposed to the
+     min-width: auto grid pitfall. */
+  min-width: 0;
+}
+
+.ops-side h3 {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+.ops-side h3:first-child {
+  margin-top: 0;
+}
+
+.order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  margin-bottom: var(--space-2);
+  font-size: 13px;
+}
+
+.order-row-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.order-row-info > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-row-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.order-row .oid {
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+.status-pill {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-raised-2);
+  color: var(--text-dim);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.dispatch-match-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  white-space: nowrap;
+  /* A long courier name here must never be the thing that forces this row
+     (and its siblings, see the .ops-side note) wider than the frame; it
+     truncates gracefully instead. The full match is still in the title
+     attribute. */
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-pill.live {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.status-pill.done {
+  color: var(--text-faint);
+}
+
+.dispatch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.dispatch-table th {
+  text-align: left;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  color: var(--text-faint);
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.dispatch-table td {
+  padding: 7px 4px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  transition: background-color 0.3s ease;
+}
+
+.dispatch-table.flash td {
+  background-color: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.mini-bar-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mini-bar-track {
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-raised-2);
+  width: 44px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.mini-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  /* Diagonal texture so the fill reads without relying on hue alone. */
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.22) 0,
+    rgba(255, 255, 255, 0.22) 2px,
+    transparent 2px,
+    transparent 5px
+  );
+}
+
+.mini-bar-value {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  min-width: 26px;
+}
+
+/* ---------- Map component ---------- */
+
+.gmap-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* CSS transform on the outermost svg element is unreliable across
+   renderers, so the delivered zoom lives on this inner group instead. */
+.gmap-zoom-wrap {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transition: transform 900ms ease-out;
+}
+
+.gmap-zoom-wrap.gmap-delivered {
+  transform: scale(1.12);
+  transform-origin: var(--zoom-origin-x, 50%) var(--zoom-origin-y, 50%);
+}
+
+.gmap-ground {
+  animation: mapDayPulse 12s ease-in-out infinite;
+}
+
+.gmap-ground-paused {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gmap-ground {
+    animation: none;
+  }
+}
+
+@keyframes mapDayPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.gmap-block-hi {
+  stroke: var(--map-block-hi);
+  stroke-width: 1;
+}
+
+.gmap-block-lo {
+  stroke: var(--map-block-lo);
+  stroke-width: 1;
+}
+
+.gmap-road-strong {
+  fill: none;
+}
+
+.gmap-road-strong-outer {
+  stroke: color-mix(in srgb, var(--accent) 12%, transparent);
+  stroke-width: 10;
+}
+
+.gmap-road-strong-mid {
+  stroke: color-mix(in srgb, var(--accent) 40%, transparent);
+  stroke-width: 5;
+}
+
+.gmap-road-strong-core {
+  stroke: color-mix(in srgb, var(--accent) 90%, transparent);
+  stroke-width: 2;
+}
+
+.gmap-label {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  fill: var(--text-faint);
+  paint-order: stroke;
+  stroke: var(--map-ground);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+.gmap-courier-wrap {
+  transform-origin: 0 0;
+}
+
+.gmap-heading-wedge {
+  fill: var(--accent);
+  opacity: 0.85;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.gmap-courier {
+  fill: var(--green-bright);
+  stroke: var(--white);
+  stroke-width: 1.5;
+}
+
+/* The focal courier (the one a dispatch is being matched to) needs a cue
+   that reads in a single frozen frame, not just an animation that a still
+   capture might catch mid-fade. A bigger, brighter dot with a heavier
+   ring does that on its own, with no dependency on animation timing. */
+.gmap-courier.active {
+  r: 9;
+  stroke-width: 2.5;
+}
+
+.gmap-courier-halo {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
+.gmap-courier-pulse {
+  fill: none;
+  stroke: var(--green-bright);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.gmap-courier-pulse.active {
+  opacity: 0.6;
+  animation: mapPulse 1.8s ease-out infinite;
+}
+
+@keyframes mapPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.gmap-pin {
+  fill: var(--orange);
+  stroke: var(--white);
+  stroke-width: 1.2;
+}
+
+.gmap-route {
+  fill: none;
+  stroke: var(--orange);
+  /* Thicker and fully opaque so this reads unmistakably as the delivery
+     route, distinct from the thin, low-opacity grey ring-road boundary and
+     from the green arterial roads. */
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 1;
+  transition: opacity 600ms ease;
+}
+
+.gmap-route.gmap-route-flow {
+  stroke-dasharray: 7 6;
+  animation: dashFlow 1s linear infinite;
+}
+
+.gmap-route.gmap-route-delivered {
+  opacity: 0;
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+/* ---------- Loading / misc ---------- */
+
+.loading-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  color: var(--text-dim);
+  font-family: var(--font-sub);
+  font-size: 13px;
+  gap: var(--space-2);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Skeleton shimmer ---------- */
+
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--bg-raised-2) 30%,
+    color-mix(in srgb, var(--bg-raised-2) 40%, var(--text) 8%) 45%,
+    var(--bg-raised-2) 60%
+  );
+  background-size: 250% 100%;
+  animation: shimmer 1.5s ease infinite;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -20% 0;
+  }
+}
+
+.skeleton-merchant-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+
+.skeleton-merchant-card .skeleton-top {
+  /* Matches .merchant-card-hero's real aspect ratio so the pre-fetch
+     placeholder does not jump in height once the catalog actually loads. */
+  aspect-ratio: 16 / 9;
+}
+
+.skeleton-merchant-card .skeleton-body {
+  padding: var(--space-4);
+}
+
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 8px;
+}
+
+.skeleton-line.wide {
+  width: 60%;
+}
+
+.skeleton-line.narrow {
+  width: 34%;
+}
+
+.skeleton-hero .skeleton-line {
+  height: 16px;
+}
+
+.skeleton-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.skeleton-item-row .skeleton-chip {
+  width: 64px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+}
+
+.skeleton-map {
+  width: 100%;
+  height: 100%;
+}
+
+.skeleton-timeline-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.skeleton-timeline-row .skeleton-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-timeline-row .skeleton-line {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
+}

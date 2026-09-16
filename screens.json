@@ -1,0 +1,214 @@
+{
+  "project": "Sprint Couriers",
+  "theme": {
+    "accent": "#3AAA35",
+    "accent2": "#F7941D",
+    "bg_a": "#E3F3E1",
+    "bg_b": "#FDEBD6",
+    "ink": "#111111",
+    "_source": "green and orange from remotion-video/src/sprint/brand.ts and Sprint-OS/apps/shared/sprint-theme.css; one orange element per screen per sprint-leads/brand-rules.md rule 14; tints derived"
+  },
+  "logo": "logo-mark.png",
+  "_rule": "Every value that is a fact carries a source. Anything unknown is a labelled blank with an empty source. Nothing is invented.",
+  "screens": [
+    {
+      "type": "welcome",
+      "headline": {
+        "value": "Sprint Couriers",
+        "source": "COMPANY-DOCS/CIPA Documents.pdf, company name"
+      },
+      "sub": {
+        "value": "53 offices and service points across Botswana",
+        "source": "LAB_0341_Compliance_Pack/11_TECHNICAL_PROPOSAL_MASTER.html section 1.4, counted 13 Sep 2026"
+      },
+      "cta": "Get started"
+    },
+    {
+      "type": "home",
+      "greeting": "Good morning",
+      "next": {
+        "label": "Your next collection",
+        "title": {
+          "value": "collection: to confirm",
+          "source": ""
+        },
+        "when": {
+          "value": "time: to confirm",
+          "source": ""
+        },
+        "cta": "Reschedule"
+      },
+      "quick_actions": [
+        "Book collection",
+        "Track parcel",
+        "Get a quote",
+        "Call us"
+      ],
+      "score": {
+        "label": "This month",
+        "value": {
+          "value": "deliveries: to confirm",
+          "source": ""
+        },
+        "caption": "Figures appear here once the account is live."
+      }
+    },
+    {
+      "type": "list",
+      "heading": "Services",
+      "filters": [
+        "All",
+        "Domestic",
+        "International"
+      ],
+      "items": [
+        {
+          "name": {
+            "value": "Priority, intra city",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "blurb": {
+            "value": "Gaborone and surrounds, within 1 hour of collection",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "price": {
+            "value": "price: to confirm",
+            "source": ""
+          }
+        },
+        {
+          "name": {
+            "value": "Same day",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "blurb": {
+            "value": "Within 500 km road radius, same working day",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "price": {
+            "value": "price: to confirm",
+            "source": ""
+          }
+        },
+        {
+          "name": {
+            "value": "Next day domestic",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "blurb": {
+            "value": "Entire national network, next working day",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1"
+          },
+          "price": {
+            "value": "price: to confirm",
+            "source": ""
+          }
+        },
+        {
+          "name": {
+            "value": "International",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.1, Aramex network"
+          },
+          "blurb": "Through the Aramex network",
+          "price": {
+            "value": "price: to confirm",
+            "source": ""
+          }
+        }
+      ]
+    },
+    {
+      "type": "booking",
+      "heading": "Book a collection",
+      "month": {
+        "value": "September 2026",
+        "source": "system clock at build, 13 Sep 2026"
+      },
+      "days_on": [
+        15
+      ],
+      "slots": [
+        {
+          "value": "slot: to confirm",
+          "source": ""
+        },
+        {
+          "value": "slot: to confirm",
+          "source": ""
+        },
+        {
+          "value": "slot: to confirm",
+          "source": ""
+        }
+      ],
+      "person": {
+        "label": "Your courier",
+        "name": {
+          "value": "assigned at booking",
+          "source": ""
+        },
+        "role": ""
+      },
+      "cta": "Confirm collection"
+    },
+    {
+      "type": "status",
+      "heading": "Delivery performance",
+      "overall": {
+        "label": "Service targets",
+        "value": {
+          "value": "On time delivery target 97%",
+          "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.4, proposed commitment"
+        }
+      },
+      "stats": [
+        {
+          "label": "Proof of delivery",
+          "value": {
+            "value": "99% target",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.4"
+          }
+        },
+        {
+          "label": "Loss or damage",
+          "value": {
+            "value": "below 0.1% target",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.4"
+          }
+        },
+        {
+          "label": "Complaints closed",
+          "value": {
+            "value": "95% target",
+            "source": "11_TECHNICAL_PROPOSAL_MASTER.html section 4.4"
+          }
+        }
+      ],
+      "cta": "View full report"
+    },
+    {
+      "type": "profile",
+      "heading": "My account",
+      "name": {
+        "value": "name: to confirm",
+        "source": ""
+      },
+      "email": {
+        "value": "email: to confirm",
+        "source": ""
+      },
+      "phone": {
+        "value": "Sprint Couriers 390 3300",
+        "source": "LAB_0341_Compliance_Pack/ATTACHMENTS/25_Acknowledgement_of_Receipt.html letterhead"
+      },
+      "rows": [
+        "Addresses",
+        "Invoices",
+        "Payment methods",
+        "Delivery history",
+        "Reminders",
+        "Help and support"
+      ]
+    }
+  ]
+}
